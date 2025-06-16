@@ -45,35 +45,45 @@ router.post('/login', (req, res) => {
 });
 
 // Get all users
-router.get('/users', (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {
-    if (err) res.status(401).json({ error: err.message });
+    if (err) return res.json({ error: err.message });
 
-    if (rows.length == 0)
-      res.status(200).json({ message: 'No user entries in database' });
+    if (rows.length == 0) {
+      return res.status(200).json({ message: 'No user entries in database' });
+    }
 
     res.json(rows);
   });
 });
 
 // Get user by username
-router.get('/users/:username', (req, res) => {
-  const { username } = req.params;
+function getUserByUsername(username) {
   const sql = `SELECT * FROM users where username = ?`;
-
-  db.get(sql, [username], (err, row) => {
-    if (err) res.status(401).json({ error: err.message });
-
-    if (!row) res.status(404).json({ error: 'No user found' });
-
-    res.json(row);
+  return new Promise((resolve, reject) => {
+    db.get(sql, [username], (err, row) => {
+      if (err) return reject(err);
+      if (!row) return reject(new Error('User not found'));
+      resolve(row);
+    });
   });
+}
+
+router.get('/:username', async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await getUserByUsername(username);
+    res.json(user);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
 });
 
 // Update user data (username/password)
-router.put('/:username/update', (req, res) => {
+router.put('/:username', (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
@@ -114,6 +124,31 @@ router.put('/:username/update', (req, res) => {
       }
     );
   });
+});
+
+// delete user
+router.delete('/:username', async (req, res) => {
+  const { username } = req.params;
+  const { password } = req.body;
+
+  const sql = `DELETE FROM users WHERE id = ? `;
+
+  try {
+    const user = await getUserByUsername(username);
+    if (!password) return res.json({ error: 'Password required for deletion' });
+    if (password !== user.password) {
+      return res.json({ error: 'Incorrect password' });
+    }
+
+    db.run(sql, [user.id], (err) => {
+      if (err) return res.json({ error: err.message });
+      return res.json({
+        message: `Successfully deleted userID: ${user.id}, username: ${user.username}`,
+      });
+    });
+  } catch (err) {
+    return res.json({ error: err.message });
+  }
 });
 
 module.exports = router;
