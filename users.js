@@ -3,6 +3,9 @@ const router = express.Router();
 const db = require('./db');
 const { checkKeys } = require('./functions');
 
+// middleware
+const checkApiKey = require('./middleware/checkApiKey');
+
 // User register
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
@@ -45,7 +48,7 @@ router.post('/login', (req, res) => {
 });
 
 // Get all users
-router.get('/', (req, res) => {
+router.get('/', checkApiKey, (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {
@@ -71,7 +74,7 @@ function getUserByUsername(username) {
   });
 }
 
-router.get('/:username', async (req, res) => {
+router.get('/:username', checkApiKey, async (req, res) => {
   const { username } = req.params;
 
   try {
@@ -83,7 +86,7 @@ router.get('/:username', async (req, res) => {
 });
 
 // Update user data (username/password)
-router.put('/:username', (req, res) => {
+router.put('/:username', checkApiKey, (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
@@ -127,7 +130,7 @@ router.put('/:username', (req, res) => {
 });
 
 // delete user
-router.delete('/:username', async (req, res) => {
+router.delete('/:username', checkApiKey, async (req, res) => {
   const { username } = req.params;
   const { password } = req.body;
 
