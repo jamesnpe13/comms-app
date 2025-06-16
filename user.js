@@ -73,7 +73,7 @@ router.get('/users/:username', (req, res) => {
 });
 
 // Update user data (username/password)
-router.put('/users/:username/update', (req, res) => {
+router.put('/:username/update', (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
