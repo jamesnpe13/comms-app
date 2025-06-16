@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('./db');
+const { checkKeys } = require('./functions');
 
-router.get('/', (req, res) => {
-  res.send('user route');
-});
-
+// User register
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
 
@@ -22,6 +20,7 @@ router.post('/register', (req, res) => {
   });
 });
 
+// User login
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
   const sql = `SELECT * FROM users WHERE username = ?`;
@@ -45,6 +44,7 @@ router.post('/login', (req, res) => {
   });
 });
 
+// Get all users
 router.get('/users', (req, res) => {
   const sql = `SELECT * FROM users`;
 
@@ -58,6 +58,7 @@ router.get('/users', (req, res) => {
   });
 });
 
+// Get user by username
 router.get('/users/:username', (req, res) => {
   const { username } = req.params;
   const sql = `SELECT * FROM users where username = ?`;
@@ -68,6 +69,50 @@ router.get('/users/:username', (req, res) => {
     if (!row) res.status(404).json({ error: 'No user found' });
 
     res.json(row);
+  });
+});
+
+// Update user data (username/password)
+router.put('/users/:username/update', (req, res) => {
+  const targetUser = req.params.username;
+  const { username, password } = req.body;
+
+  const sqlGetUser = `SELECT * FROM users WHERE username = ?`;
+  const sqlUpdateUser = `UPDATE users SET username = ?, password = ? WHERE id = ?`;
+
+  db.get(sqlGetUser, [targetUser], (err, row) => {
+    if (err) return res.json({ error: err.message });
+
+    if (!row) return res.json({ error: 'User not found' });
+
+    const user = row;
+    const updatedUser = { ...user };
+
+    if (username) updatedUser.username = username;
+    if (password) updatedUser.password = password;
+
+    if (checkKeys(user, updatedUser)) {
+      return res.json({ message: 'Nothing to update' });
+    }
+
+    db.run(
+      sqlUpdateUser,
+      [updatedUser.username, updatedUser.password, updatedUser.id],
+      (err) => {
+        if (err) {
+          let message;
+          if (
+            err.message ==
+            'SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username'
+          ) {
+            message = 'Username already exist';
+          }
+          return res.json({ error: message });
+        }
+
+        return res.json({ message: 'Update success' });
+      }
+    );
   });
 });
 
