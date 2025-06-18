@@ -64,8 +64,7 @@ function issueSessionTokens(userId, userObject, res) {
 
   // return a new access token to res.json
   return res.status(200).json({
-    message: 'Login success',
-    user: { username: userObject.username, id: userId },
+    message: 'Session tokens issued',
     accessToken: accessToken, // attach access token to res - this goes to client memory
   });
 }

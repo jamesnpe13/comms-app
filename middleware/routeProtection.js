@@ -1,14 +1,11 @@
-function adminProtect(req, res, next) {
-  const { role } = req.user;
-  console.log(role);
-  if (role !== 'admin') return res.json({ error: 'Access denied' });
-  next();
+// RBAC - route protection
+function checkRole(...allowedRoles) {
+  return (req, res, next) => {
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+    next();
+  };
 }
 
-function memberProtect(req, res, next) {
-  const { role } = req.user;
-  if (role !== 'member') return res.json({ error: 'Access denied' });
-  next();
-}
-
-module.exports = { adminProtect, memberProtect };
+module.exports = { checkRole };

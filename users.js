@@ -3,16 +3,17 @@ const db = require('./db');
 const { checkKeys } = require('./functions');
 const { authenticateToken } = require('./middleware/authenticateToken');
 const { hashPassword } = require('./middleware/hashPassword');
+const { checkRole } = require('./middleware/routeProtection');
 
 const router = express.Router();
 
 // User register
 router.post('/register', hashPassword, (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
-  const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
+  const sql = `INSERT INTO users (username, password, role) VALUES (?, ?, ?)`;
 
-  db.run(sql, [username, password], (err) => {
+  db.run(sql, [username, password, role], (err) => {
     if (err) {
       console.log(err.message);
       return res
@@ -25,7 +26,7 @@ router.post('/register', hashPassword, (req, res) => {
 });
 
 // Get all users
-router.get('/', (req, res) => {
+router.get('/', authenticateToken, (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {
@@ -51,7 +52,7 @@ function getUserById(id) {
   });
 }
 
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -86,7 +87,7 @@ router.get('/username/:username', async (req, res) => {
 });
 
 // Update user data (username/password)
-router.put('/username/:username', (req, res) => {
+router.put('/username/:username', authenticateToken, (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
@@ -130,7 +131,7 @@ router.put('/username/:username', (req, res) => {
 });
 
 // delete user
-router.delete('/username/:username', async (req, res) => {
+router.delete('/username/:username', authenticateToken, async (req, res) => {
   const { username } = req.params;
   const { password } = req.body;
 
