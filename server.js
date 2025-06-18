@@ -18,7 +18,7 @@ const port = process.env.SERVER_PORT || process.env.PORT;
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.use('/users', authenticateToken, userRoutes);
+app.use('/users', userRoutes);
 
 console.log();
 

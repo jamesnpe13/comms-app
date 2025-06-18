@@ -2,13 +2,9 @@ const express = require('express');
 const router = express.Router();
 const db = require('./db');
 const { checkKeys } = require('./functions');
+const { authenticateToken } = require('./middleware/authenticateToken');
 
 // middleware
-
-//test
-router.get('/test', (req, res) => {
-  res.json(req.user);
-});
 
 // User register
 router.post('/register', (req, res) => {

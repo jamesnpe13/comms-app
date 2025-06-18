@@ -19,14 +19,6 @@ function authenticateToken(req, res, next) {
       next();
     })
   );
-
-  //  jwt verify against secret key
-  //   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-  //     if (err) return res.json({ error: err.message });
-
-  //     console.log(user);
-  //     next();
-  //   });
 }
 
 module.exports = { authenticateToken };
