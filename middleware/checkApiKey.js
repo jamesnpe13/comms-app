@@ -9,4 +9,4 @@ function checkApiKey(req, res, next) {
     res.status(403).json({ error: 'Invalid API key' });
   }
 }
-module.exports = checkApiKey;
+module.exports = { checkApiKey };

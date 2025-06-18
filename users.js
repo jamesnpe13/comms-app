@@ -3,9 +3,10 @@ const router = express.Router();
 const db = require('./db');
 const { checkKeys } = require('./functions');
 const { authenticateToken } = require('./middleware/authenticateToken');
+const { hashPassword } = require('./middleware/hashPassword');
 
 // User register
-router.post('/register', (req, res) => {
+router.post('/register', hashPassword, (req, res) => {
   const { username, password } = req.body;
 
   const sql = `INSERT INTO users (username, password) VALUES (?, ?)`;
