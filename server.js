@@ -8,20 +8,18 @@ const authRoutes = require('./auth');
 const userRoutes = require('./users');
 
 const app = express();
-
-// middleware
-app.use(cors());
-app.use(cookieParser());
-
 const port = process.env.SERVER_PORT || process.env.PORT;
 
+// global middlewares
 app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 
+// express middleware mount points
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 
-console.log();
-
+// server listen
 app.listen(port, (err) => {
   if (err) console.log(err);
   console.log(`Main_server running on port ${port}`);

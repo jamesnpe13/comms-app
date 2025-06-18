@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const db = require('./db');
 const { checkKeys } = require('./functions');
 const { authenticateToken } = require('./middleware/authenticateToken');
 const { hashPassword } = require('./middleware/hashPassword');
+
+const router = express.Router();
 
 // User register
 router.post('/register', hashPassword, (req, res) => {
@@ -24,7 +25,7 @@ router.post('/register', hashPassword, (req, res) => {
 });
 
 // Get all users
-router.get('/', authenticateToken, (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {
