@@ -4,7 +4,6 @@ const db = require('./db');
 const { checkKeys } = require('./functions');
 
 // middleware
-const checkApiKey = require('./middleware/checkApiKey');
 
 // User register
 router.post('/register', (req, res) => {
@@ -19,36 +18,13 @@ router.post('/register', (req, res) => {
         .status(500)
         .json({ error: 'Failed to register user', message: err.message });
     }
+
     res.status(201).json({ message: 'User registered', userId: this.lastID });
   });
 });
 
-// User login
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  const sql = `SELECT * FROM users WHERE username = ?`;
-
-  db.get(sql, [username], (err, row) => {
-    if (err) {
-      console.error(err.message);
-      return res
-        .status(500)
-        .json({ error: 'Database error', message: err.message });
-    }
-    if (!row) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    if (password === row.password) {
-      res.status(200).json({ message: 'Login success', user: row });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
-    }
-  });
-});
-
 // Get all users
-router.get('/', checkApiKey, (req, res) => {
+router.get('/', (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {
@@ -74,7 +50,7 @@ function getUserByUsername(username) {
   });
 }
 
-router.get('/:username', checkApiKey, async (req, res) => {
+router.get('/:username', async (req, res) => {
   const { username } = req.params;
 
   try {
@@ -86,7 +62,7 @@ router.get('/:username', checkApiKey, async (req, res) => {
 });
 
 // Update user data (username/password)
-router.put('/:username', checkApiKey, (req, res) => {
+router.put('/:username', (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
@@ -130,7 +106,7 @@ router.put('/:username', checkApiKey, (req, res) => {
 });
 
 // delete user
-router.delete('/:username', checkApiKey, async (req, res) => {
+router.delete('/:username', async (req, res) => {
   const { username } = req.params;
   const { password } = req.body;
 
@@ -138,6 +114,8 @@ router.delete('/:username', checkApiKey, async (req, res) => {
 
   try {
     const user = await getUserByUsername(username);
+
+    if (password == null) return res.json({ error: 'Password cannot be null' });
     if (!password) return res.json({ error: 'Password required for deletion' });
     if (password !== user.password) {
       return res.json({ error: 'Incorrect password' });

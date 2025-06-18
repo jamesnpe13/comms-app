@@ -13,11 +13,13 @@ const initUsersTable = `
 	PRIMARY KEY("id" AUTOINCREMENT)
 )`;
 
-const initAccessTokensTable = `
-	CREATE TABLE IF NOT EXISTS access_tokens (
+const initRefreshTokensTable = `
+	CREATE TABLE IF NOT EXISTS refresh_tokens (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	user_id INTEGER NOT NULL,
-	token TEXT NOT NULL
+	user_id INTEGER NOT NULL UNIQUE,
+	token TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )`;
 
 const initMessagesTable = `
@@ -31,7 +33,7 @@ const initMessagesTable = `
 
 db.serialize(() => {
   db.run(initUsersTable);
-  db.run(initAccessTokensTable);
+  db.run(initRefreshTokensTable);
   db.run(initMessagesTable);
 });
 

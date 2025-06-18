@@ -1,23 +1,25 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const cookieParser = require('cookie-parser');
+const { db } = require('./db');
 const authRoutes = require('./auth');
 const userRoutes = require('./users');
-const { db } = require('./db');
 
-app.use(cors());
+const app = express();
 
 // middleware
-const checkApiKey = require('./middleware/checkApiKey');
+app.use(cors());
+app.use(cookieParser());
 
 const port = process.env.SERVER_PORT || process.env.PORT;
 
 app.use(express.json());
 
-// app.use(checkApiKey);
-app.use('/auth', checkApiKey, authRoutes);
+app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
+
+console.log();
 
 app.listen(port, (err) => {
   if (err) console.log(err);
