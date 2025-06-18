@@ -4,8 +4,6 @@ const db = require('./db');
 const { checkKeys } = require('./functions');
 const { authenticateToken } = require('./middleware/authenticateToken');
 
-// middleware
-
 // User register
 router.post('/register', (req, res) => {
   const { username, password } = req.body;
@@ -25,7 +23,7 @@ router.post('/register', (req, res) => {
 });
 
 // Get all users
-router.get('/', (req, res) => {
+router.get('/', authenticateToken, (req, res) => {
   const sql = `SELECT * FROM users`;
 
   db.all(sql, [], (err, rows) => {

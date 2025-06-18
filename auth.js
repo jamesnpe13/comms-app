@@ -4,7 +4,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
 const { issueSessionTokens } = require('./functions');
-const cookieParser = require('cookie-parser');
+const { authenticateToken } = require('./middleware/authenticateToken');
 
 const router = express.Router();
 
