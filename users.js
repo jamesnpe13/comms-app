@@ -38,6 +38,29 @@ router.get('/', (req, res) => {
   });
 });
 
+// Get user by id
+function getUserById(id) {
+  const sql = `SELECT * FROM users where id = ?`;
+  return new Promise((resolve, reject) => {
+    db.get(sql, [id], (err, row) => {
+      if (err) return reject(err);
+      if (!row) return reject(new Error('User not found'));
+      resolve(row);
+    });
+  });
+}
+
+router.get('/id/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await getUserById(id);
+    res.json(user);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
+
 // Get user by username
 function getUserByUsername(username) {
   const sql = `SELECT * FROM users where username = ?`;
@@ -50,7 +73,7 @@ function getUserByUsername(username) {
   });
 }
 
-router.get('/:username', async (req, res) => {
+router.get('/username/:username', async (req, res) => {
   const { username } = req.params;
 
   try {
@@ -62,7 +85,7 @@ router.get('/:username', async (req, res) => {
 });
 
 // Update user data (username/password)
-router.put('/:username', (req, res) => {
+router.put('/username/:username', (req, res) => {
   const targetUser = req.params.username;
   const { username, password } = req.body;
 
@@ -106,7 +129,7 @@ router.put('/:username', (req, res) => {
 });
 
 // delete user
-router.delete('/:username', async (req, res) => {
+router.delete('/username/:username', async (req, res) => {
   const { username } = req.params;
   const { password } = req.body;
 

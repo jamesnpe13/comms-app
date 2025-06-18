@@ -4,6 +4,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
 const { generateSessionTokens } = require('./functions');
+const cookieParser = require('cookie-parser');
 
 const router = express.Router();
 
@@ -26,15 +27,44 @@ router.post('/login', (req, res) => {
 
     if (password === row.password) {
       // issue access token and refresh token
-      const id = row.id;
 
-      generateSessionTokens(id, row, res);
+      generateSessionTokens(row.id, row, res);
     } else {
       res.status(401).json({ message: 'Incorrect password' });
     }
   });
 });
 
-router.post('/token', (req, res) => {});
+router.post('/refresh', async (req, res) => {
+  // get refresh token from cookie
+  const cookieRefreshToken = req.cookies.refreshToken;
+
+  const sqlGetRefreshToken = `SELECT token FROM refresh_tokens WHERE user_id = ?`;
+  const sqlGetUserById = `SELECT * FROM users WHERE id = ?`;
+  let decoded;
+
+  if (cookieRefreshToken == null) return res.sendStatus(401);
+
+  try {
+    decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+  } catch (err) {
+    console.log(err.message);
+  }
+
+  // get the user
+  if (decoded == null) return res.json({ error: 'Token invalid' });
+
+  db.get(sqlGetUserById, [decoded.id], (err, row) => {
+    if (err) return res.json({ error: err.message });
+    const userId = decoded.id;
+    const user = row;
+
+    try {
+      generateSessionTokens(userId, user, res);
+    } catch (err) {
+      res.json({ error: err.message });
+    }
+  });
+});
 
 module.exports = router;

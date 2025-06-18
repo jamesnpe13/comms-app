@@ -33,9 +33,9 @@ function generateRefreshToken(user) {
 /*
 generate session tokens (save new refresh token to db, save new refresh token to client cookie, issue new access token and send to res.json )
 */
-function generateSessionTokens(id, row, res) {
-  const accessToken = generateAccessToken(row);
-  const refreshToken = generateRefreshToken(row);
+function generateSessionTokens(userId, userObject, res) {
+  const accessToken = generateAccessToken(userObject);
+  const refreshToken = generateRefreshToken(userObject);
 
   const sqlRefreshTokenToDB = `
       INSERT INTO refresh_tokens (user_id, token) 
@@ -45,7 +45,7 @@ function generateSessionTokens(id, row, res) {
       `;
 
   // save refresh token with id to database
-  db.run(sqlRefreshTokenToDB, [id, refreshToken], (err) => {
+  db.run(sqlRefreshTokenToDB, [userId, refreshToken], (err) => {
     if (err) {
       return res.status(500).json({
         error: 'Failed to save refresh token to database',
@@ -65,7 +65,7 @@ function generateSessionTokens(id, row, res) {
   // return a new access token to res.json
   return res.status(200).json({
     message: 'Login success',
-    user: { username: row.username, id: id },
+    user: { username: userObject.username, id: userId },
     accessToken: accessToken, // attach access token to res - this goes to client memory
   });
 }
