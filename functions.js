@@ -33,7 +33,7 @@ function generateRefreshToken(user) {
 /*
 generate session tokens (save new refresh token to db, save new refresh token to client cookie, issue new access token and send to res.json )
 */
-function generateSessionTokens(userId, userObject, res) {
+function issueSessionTokens(userId, userObject, res) {
   const accessToken = generateAccessToken(userObject);
   const refreshToken = generateRefreshToken(userObject);
 
@@ -74,5 +74,5 @@ module.exports = {
   checkKeys,
   generateAccessToken,
   generateRefreshToken,
-  generateSessionTokens,
+  issueSessionTokens,
 };

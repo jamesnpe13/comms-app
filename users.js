@@ -5,6 +5,11 @@ const { checkKeys } = require('./functions');
 
 // middleware
 
+//test
+router.get('/test', (req, res) => {
+  res.json(req.user);
+});
+
 // User register
 router.post('/register', (req, res) => {
   const { username, password } = req.body;

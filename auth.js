@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
-const { generateSessionTokens } = require('./functions');
+const { issueSessionTokens } = require('./functions');
 const cookieParser = require('cookie-parser');
 
 const router = express.Router();
@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
     if (password === row.password) {
       // issue access token and refresh token
 
-      generateSessionTokens(row.id, row, res);
+      issueSessionTokens(row.id, row, res);
     } else {
       res.status(401).json({ message: 'Incorrect password' });
     }
@@ -60,7 +60,7 @@ router.post('/refresh', async (req, res) => {
     const user = row;
 
     try {
-      generateSessionTokens(userId, user, res);
+      issueSessionTokens(userId, user, res);
     } catch (err) {
       res.json({ error: err.message });
     }

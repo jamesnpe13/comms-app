@@ -1,5 +1,4 @@
 require('dotenv').config();
-// const express = require('express');
 
 function checkApiKey(req, res, next) {
   const userKey = req.headers['x-api-key'];
