@@ -6,6 +6,7 @@ const { authenticateToken } = require('./middleware/authenticateToken');
 const { db } = require('./db');
 const authRoutes = require('./auth');
 const userRoutes = require('./users');
+const testRoutes = require('./test');
 
 const app = express();
 const port = process.env.SERVER_PORT || process.env.PORT;
@@ -18,6 +19,7 @@ app.use(cors());
 // express middleware mount points
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
+app.use('/test', testRoutes);
 
 // server listen
 app.listen(port, (err) => {
