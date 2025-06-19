@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { authenticateToken } = require('./middleware/authenticateToken');
-const { db } = require('./db');
+
 const authRoutes = require('./auth');
 const userRoutes = require('./users');
 const testRoutes = require('./test');

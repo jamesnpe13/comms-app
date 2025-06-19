@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('./db');
+// const db = require('./db');
 const { checkKeys } = require('./functions');
 const { authenticateToken } = require('./middleware/authenticateToken');
 const { hashPassword } = require('./middleware/hashPassword');
