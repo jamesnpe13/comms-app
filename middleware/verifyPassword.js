@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const bcrypt = require('bcrypt');
-const db = require('../db');
+const db = require('../database/connection');
 
 async function verifyPassword(req, res, next) {
   const { username, password } = req.body;

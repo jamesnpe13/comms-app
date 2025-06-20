@@ -1,12 +1,50 @@
-const express = require('express');
-// const db = require('./db');
-const { checkKeys } = require('./functions');
-const { authenticateToken } = require('./middleware/authenticateToken');
-const { hashPassword } = require('./middleware/hashPassword');
-const { checkRole } = require('./middleware/routeProtection');
+const db = require('../database/connection');
 
-const router = express.Router();
+// POST
+exports.registerUser = async (req, res) => {
+  const { username, password, first_name, last_name, email } = req.body;
+  const sql = `INSERT INTO users (
+  username, 
+  password, 
+  first_name, 
+  last_name, email) 
+  VALUES (?,?,?,?,?)`;
 
+  try {
+    await db.execute(sql, [username, password, first_name, last_name, email]);
+    res.json({ message: 'User created' });
+  } catch (error) {
+    res.json({ error: error });
+  }
+};
+
+// GET
+exports.getAllUsers = async (req, res) => {
+  const sql = `SELECT * FROM users`;
+
+  try {
+    const [users] = await db.execute(sql);
+    res.json({ users: users });
+  } catch (error) {
+    res.json({ error: error });
+  }
+};
+
+exports.getUserById = (req, res) => {
+  res.send('get user by id');
+};
+
+// PUT
+exports.updateUser = (req, res) => {
+  res.send('update user');
+};
+
+// DELETE
+exports.deleteUser = (req, res) => {
+  res.send('delete user');
+};
+
+/*
 // User register
 router.post('/register', hashPassword, (req, res) => {
   const { username, password, role } = req.body;
@@ -156,5 +194,4 @@ router.delete('/username/:username', authenticateToken, async (req, res) => {
     return res.json({ error: err.message });
   }
 });
-
-module.exports = router;
+*/

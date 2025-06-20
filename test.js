@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./createDb');
+const db = require('./database/connection');
 
 router.get('/', (req, res) => {
   res.send('test');

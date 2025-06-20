@@ -1,13 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const db = require('./db');
-const { issueSessionTokens } = require('./functions');
-const { authenticateToken } = require('./middleware/authenticateToken');
-const { verifyPassword } = require('./middleware/verifyPassword');
+exports.userLogin = (req, res) => {
+  res.send('User login');
+};
 
-const router = express.Router();
+exports.refreshSessionTokens = (req, res) => {
+  res.send('Refresh session token');
+};
 
+/*
 // User login
 router.post('/login', verifyPassword, (req, res) => {
   const { id } = req.user;
@@ -48,5 +47,4 @@ router.post('/refresh', async (req, res) => {
     }
   });
 });
-
-module.exports = router;
+*/
