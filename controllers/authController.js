@@ -1,5 +1,9 @@
-exports.userLogin = (req, res) => {
-  res.send('User login');
+const { issueSessionTokens } = require('../functions');
+exports.userLogin = async (req, res) => {
+  const { id } = req.user;
+  const { user } = req;
+
+  issueSessionTokens(id, user, res);
 };
 
 exports.refreshSessionTokens = (req, res) => {

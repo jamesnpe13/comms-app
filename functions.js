@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const ms = require('ms');
-const db = require('./db');
+const db = require('./database/connection');
 
 // Compare function object A and object B keys
 function checkKeys(a, b) {
@@ -33,26 +33,25 @@ function generateRefreshToken(user) {
 /*
 generate session tokens (save new refresh token to db, save new refresh token to client cookie, issue new access token and send to res.json )
 */
-function issueSessionTokens(userId, userObject, res) {
+async function issueSessionTokens(userId, userObject, res) {
   const accessToken = generateAccessToken(userObject);
   const refreshToken = generateRefreshToken(userObject);
 
   const sqlRefreshTokenToDB = `
-      INSERT INTO refresh_tokens (user_id, token) 
-      VALUES (?, ?) 
-      ON CONFLICT(user_id) 
-      DO UPDATE SET token = excluded.token, created_at = CURRENT_TIMESTAMP;
-      `;
+    INSERT INTO refresh_tokens (user_id, token)
+    VALUES (?, ?)
+    ON DUPLICATE KEY UPDATE
+    token = VALUES(token)
+  `;
 
-  // save refresh token with id to database
-  db.run(sqlRefreshTokenToDB, [userId, refreshToken], (err) => {
-    if (err) {
-      return res.status(500).json({
-        error: 'Failed to save refresh token to database',
-        message: err.message,
-      });
-    }
-  });
+  try {
+    await db.execute(sqlRefreshTokenToDB, [userId, refreshToken]);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Failed to save refresh token to database',
+      message: error.message,
+    });
+  }
 
   // save refresh token to cookie
   res.cookie('refreshToken', refreshToken, {
