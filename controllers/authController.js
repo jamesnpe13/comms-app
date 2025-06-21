@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const db = require('../database/connection');
 const { issueSessionTokens } = require('../functions');
 exports.userLogin = async (req, res) => {
   const { id } = req.user;
@@ -6,21 +8,7 @@ exports.userLogin = async (req, res) => {
   issueSessionTokens(id, user, res);
 };
 
-exports.refreshSessionTokens = (req, res) => {
-  res.send('Refresh session token');
-};
-
-/*
-// User login
-router.post('/login', verifyPassword, (req, res) => {
-  const { id } = req.user;
-  const { user } = req;
-
-  // issue access token and refresh token
-  issueSessionTokens(id, user, res);
-});
-
-router.post('/refresh', async (req, res) => {
+exports.refreshSessionTokens = async (req, res) => {
   // get refresh token from cookie
   const cookieRefreshToken = req.cookies.refreshToken;
 
@@ -32,23 +20,17 @@ router.post('/refresh', async (req, res) => {
 
   try {
     decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+    console.log(decoded);
   } catch (err) {
     console.log(err.message);
   }
 
-  // get the user
   if (decoded == null) return res.json({ error: 'Token invalid' });
 
-  db.get(sqlGetUserById, [decoded.id], (err, row) => {
-    if (err) return res.json({ error: err.message });
-    const userId = decoded.id;
-    const user = row;
-
-    try {
-      issueSessionTokens(userId, user, res);
-    } catch (err) {
-      res.json({ error: err.message });
-    }
-  });
-});
-*/
+  try {
+    const [user] = await db.execute(sqlGetUserById, [decoded.id]);
+    issueSessionTokens(decoded.id, user[0], res);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+};

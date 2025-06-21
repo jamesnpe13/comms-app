@@ -14,8 +14,7 @@ const authController = require('../controllers/authController');
 
 // User routes
 router.post('/users/', hashPassword, usersController.registerUser);
-// router.get('/users/', authenticateToken, usersController.getAllUsers);
-router.get('/users/', usersController.getAllUsers);
+router.get('/users/', authenticateToken, usersController.getAllUsers);
 router.get('/users/:id', authenticateToken, usersController.getUserById);
 router.put('/users/:id', usersController.updateUser);
 router.delete('/users/:id', usersController.deleteUser);
