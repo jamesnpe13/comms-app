@@ -22,6 +22,8 @@ exports.registerUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   const sql = `SELECT * FROM users`;
 
+  const [rows] = await db.execute('SELECT id, username FROM users');
+
   try {
     const [users] = await db.execute(sql);
     res.json({ users: users });
