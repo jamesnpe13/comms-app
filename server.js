@@ -22,7 +22,7 @@ app.use('/', routes);
 app.use(errorHandler);
 
 // server start
-startServer = async () => {
+async function startServer() {
   try {
     console.log('running migrations');
     await runMigrations();
@@ -30,13 +30,13 @@ startServer = async () => {
   } catch (error) {
     console.log('Failed to start server due to migration error');
   }
-};
+}
 
-serverListen = () => {
+function serverListen() {
   app.listen(port, (err) => {
     if (err) console.log(err);
     console.log(`Main_server running on port ${port}`);
   });
-};
+}
 
 startServer();
