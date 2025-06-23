@@ -25,18 +25,25 @@ function generateAccessToken(user) {
 }
 
 // generate refresh token
-function generateRefreshToken(user) {
-  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
-  });
+function generateRefreshToken(user, isSessionOnly) {
+  const options = isSessionOnly
+    ? {}
+    : { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN };
+
+  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, options);
 }
 
 /*
 generate session tokens (save new refresh token to db, save new refresh token to client cookie, issue new access token and send to res.json )
 */
-async function issueSessionTokens(userId, userObject, res) {
+async function issueSessionTokens(
+  userId,
+  userObject,
+  res,
+  isSessionOnly = true
+) {
   const accessToken = generateAccessToken(userObject);
-  const refreshToken = generateRefreshToken(userObject);
+  const refreshToken = generateRefreshToken(userObject, isSessionOnly);
 
   const sqlRefreshTokenToDB = `
     INSERT INTO refresh_tokens (user_id, token)
@@ -48,7 +55,7 @@ async function issueSessionTokens(userId, userObject, res) {
   try {
     await db.execute(sqlRefreshTokenToDB, [userId, refreshToken]);
   } catch (error) {
-    next(err);
+    return res.json({ error: error });
   }
 
   // save refresh token to cookie
@@ -56,7 +63,7 @@ async function issueSessionTokens(userId, userObject, res) {
     httpOnly: true,
     secure: true,
     sameSite: 'Strict',
-    maxAge: ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
+    maxAge: isSessionOnly ? null : ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
   });
 
   // return a new access token to res.json
