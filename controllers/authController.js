@@ -1,11 +1,32 @@
 const jwt = require('jsonwebtoken');
 const db = require('../database/connection');
-const { issueSessionTokens, newError } = require('../functions');
+const {
+  issueSessionTokens,
+  newError,
+  setError,
+  clearRefreshTokenCookie,
+} = require('../functions');
+
 exports.userLogin = async (req, res, next) => {
   const { id } = req.user;
   const { user } = req;
 
+  clearRefreshTokenCookie(res);
   issueSessionTokens(id, user, res);
+};
+
+exports.userLogout = async (req, res, next) => {
+  const sql = `DELETE FROM refresh_tokens WHERE user_id = ?`;
+  try {
+    const [result] = await db.execute(sql, [req.user.id]);
+    if (result.affectedRows === 0) {
+      throw new Error('No refresh tokens in database');
+    }
+    clearRefreshTokenCookie(res);
+    res.json({ message: 'User logged out' });
+  } catch (err) {
+    return next(err);
+  }
 };
 
 exports.refreshSessionTokens = async (req, res, next) => {

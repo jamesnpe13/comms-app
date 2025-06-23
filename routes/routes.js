@@ -37,6 +37,12 @@ router.delete(
 
 // Authentication routes
 router.post('/auth/login', verifyPassword, authController.userLogin);
+router.post(
+  '/auth/logout/',
+  authenticateToken,
+
+  authController.userLogout
+);
 router.post('/auth/refresh', authController.refreshSessionTokens);
 
 module.exports = router;

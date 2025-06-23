@@ -1,5 +1,4 @@
 const { newError } = require('../functions');
-const { param } = require('../routes/routes');
 
 async function authorizeUser(req, res, next) {
   const userId = String(req.user.id);

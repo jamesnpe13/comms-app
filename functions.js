@@ -1,3 +1,4 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const ms = require('ms');
 const db = require('./database/connection');
@@ -76,6 +77,15 @@ function setError(err, message, status = null) {
   err.status = status;
 }
 
+function clearRefreshTokenCookie(res) {
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // set secure flag only in production
+    sameSite: 'Strict', // adjust as needed (e.g. 'Lax' or 'None' if cross-site)
+    path: '/', // ensure the path matches the cookie path when set
+  });
+}
+
 module.exports = {
   checkKeys,
   generateAccessToken,
@@ -83,4 +93,5 @@ module.exports = {
   issueSessionTokens,
   newError,
   setError,
+  clearRefreshTokenCookie,
 };
