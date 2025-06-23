@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 const db = require('../database/connection');
-const { issueSessionTokens } = require('../functions');
-exports.userLogin = async (req, res) => {
+const { issueSessionTokens, newError } = require('../functions');
+exports.userLogin = async (req, res, next) => {
   const { id } = req.user;
   const { user } = req;
 
   issueSessionTokens(id, user, res);
 };
 
-exports.refreshSessionTokens = async (req, res) => {
+exports.refreshSessionTokens = async (req, res, next) => {
   // get refresh token from cookie
   const cookieRefreshToken = req.cookies.refreshToken;
 
@@ -20,17 +20,21 @@ exports.refreshSessionTokens = async (req, res) => {
 
   try {
     decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+
     console.log(decoded);
-  } catch (err) {
-    console.log(err.message);
-  }
 
-  if (decoded == null) return res.json({ error: 'Token invalid' });
+    if (decoded == null) return res.json({ error: 'Token invalid' });
 
-  try {
+    const [dbTokenResult] = await db.execute(sqlGetRefreshToken, [decoded.id]);
+    const dbToken = dbTokenResult[0]?.token;
+
+    if (!dbToken || dbToken !== cookieRefreshToken) {
+      return next(newError('Refresh token mismatch', 403));
+    }
+
     const [user] = await db.execute(sqlGetUserById, [decoded.id]);
     issueSessionTokens(decoded.id, user[0], res);
-  } catch (error) {
-    res.json({ error: error.message });
+  } catch (err) {
+    next(err);
   }
 };

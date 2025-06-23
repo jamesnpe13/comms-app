@@ -1,7 +1,7 @@
 const db = require('../database/connection');
 
 // POST
-exports.registerUser = async (req, res) => {
+exports.registerUser = async (req, res, next) => {
   const { username, password, first_name, last_name, email } = req.body;
   const sql = `INSERT INTO users (
   username, 
@@ -13,187 +13,98 @@ exports.registerUser = async (req, res) => {
   try {
     await db.execute(sql, [username, password, first_name, last_name, email]);
     res.json({ message: 'User created' });
-  } catch (error) {
-    res.json({ error: error });
+  } catch (err) {
+    next(err);
   }
 };
 
 // GET
-exports.getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req, res, next) => {
   const sql = `SELECT * FROM users`;
-
-  const [rows] = await db.execute('SELECT id, username FROM users');
 
   try {
     const [users] = await db.execute(sql);
     res.json({ users: users });
-  } catch (error) {
-    res.json({ error: error });
+  } catch (err) {
+    next(err);
   }
 };
 
-exports.getUserById = (req, res) => {
-  res.send('get user by id');
-};
-
-// PUT
-exports.updateUser = (req, res) => {
-  res.send('update user');
-};
-
-// DELETE
-exports.deleteUser = (req, res) => {
-  res.send('delete user');
-};
-
-/*
-// User register
-router.post('/register', hashPassword, (req, res) => {
-  const { username, password, role } = req.body;
-
-  const sql = `INSERT INTO users (username, password, role) VALUES (?, ?, ?)`;
-
-  db.run(sql, [username, password, role], (err) => {
-    if (err) {
-      console.log(err.message);
-      return res
-        .status(500)
-        .json({ error: 'Failed to register user', message: err.message });
-    }
-
-    res.status(201).json({ message: 'User registered', userId: this.lastID });
-  });
-});
-
-// Get all users
-router.get('/', authenticateToken, (req, res) => {
-  const sql = `SELECT * FROM users`;
-
-  db.all(sql, [], (err, rows) => {
-    if (err) return res.json({ error: err.message });
-
-    if (rows.length == 0) {
-      return res.status(200).json({ message: 'No user entries in database' });
-    }
-
-    res.json(rows);
-  });
-});
-
-// Get user by id
-function getUserById(id) {
-  const sql = `SELECT * FROM users where id = ?`;
-  return new Promise((resolve, reject) => {
-    db.get(sql, [id], (err, row) => {
-      if (err) return reject(err);
-      if (!row) return reject(new Error('User not found'));
-      resolve(row);
-    });
-  });
-}
-
-router.get('/id/:id', authenticateToken, async (req, res) => {
+exports.getUserById = async (req, res, next) => {
+  const sql = `SELECT * FROM users WHERE id = ?`;
   const { id } = req.params;
 
   try {
-    const user = await getUserById(id);
-    res.json(user);
+    const [users] = await db.execute(sql, [id]);
+    if (users.length === 0) throw new Error('No users found');
+
+    res.json({ user: users[0] });
   } catch (err) {
-    res.json({ error: err.message });
+    next(err);
   }
-});
+};
 
-// Get user by username
-function getUserByUsername(username) {
-  const sql = `SELECT * FROM users where username = ?`;
-  return new Promise((resolve, reject) => {
-    db.get(sql, [username], (err, row) => {
-      if (err) return reject(err);
-      if (!row) return reject(new Error('User not found'));
-      resolve(row);
-    });
-  });
-}
-
-router.get('/username/:username', async (req, res) => {
+exports.getUserByUsername = async (req, res, next) => {
+  const sql = `SELECT * FROM users WHERE username = ?`;
   const { username } = req.params;
 
   try {
-    const user = await getUserByUsername(username);
-    res.json(user);
+    const [users] = await db.execute(sql, [username]);
+    if (users.length === 0) throw new Error('No users found');
+
+    res.json({ user: users[0] });
   } catch (err) {
-    res.json({ error: err.message });
+    next(err);
   }
-});
+};
 
-// Update user data (username/password)
-router.put('/username/:username', authenticateToken, (req, res) => {
-  const targetUser = req.params.username;
-  const { username, password } = req.body;
-
-  const sqlGetUser = `SELECT * FROM users WHERE username = ?`;
-  const sqlUpdateUser = `UPDATE users SET username = ?, password = ? WHERE id = ?`;
-
-  db.get(sqlGetUser, [targetUser], (err, row) => {
-    if (err) return res.json({ error: err.message });
-
-    if (!row) return res.json({ error: 'User not found' });
-
-    const user = row;
-    const updatedUser = { ...user };
-
-    if (username) updatedUser.username = username;
-    if (password) updatedUser.password = password;
-
-    if (checkKeys(user, updatedUser)) {
-      return res.json({ message: 'Nothing to update' });
-    }
-
-    db.run(
-      sqlUpdateUser,
-      [updatedUser.username, updatedUser.password, updatedUser.id],
-      (err) => {
-        if (err) {
-          let message;
-          if (
-            err.message ==
-            'SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username'
-          ) {
-            message = 'Username already exist';
-          }
-          return res.json({ error: message });
-        }
-
-        return res.json({ message: 'Update success' });
-      }
-    );
-  });
-});
-
-// delete user
-router.delete('/username/:username', authenticateToken, async (req, res) => {
-  const { username } = req.params;
-  const { password } = req.body;
-
-  const sql = `DELETE FROM users WHERE id = ? `;
+// PUT
+exports.updateUser = async (req, res, next) => {
+  const sql = `
+    UPDATE users
+    SET
+    username = ?,
+    password = ?,
+    first_name = ?,
+    last_name = ?,
+    email = ?
+    WHERE id = ?
+  `;
+  const { id } = req.params;
+  const { username, password, first_name, last_name, email } = req.body;
 
   try {
-    const user = await getUserByUsername(username);
+    const [result] = await db.execute(sql, [
+      username,
+      password, // needs bcrypt hashing middleware
+      first_name,
+      last_name,
+      email,
+      id,
+    ]);
 
-    if (password == null) return res.json({ error: 'Password cannot be null' });
-    if (!password) return res.json({ error: 'Password required for deletion' });
-    if (password !== user.password) {
-      return res.json({ error: 'Incorrect password' });
-    }
+    // if there is matching user
+    if (result.affectedRows === 0) throw new Error('No users found');
+    // if there are changes detected
+    if (result.changedRows === 0) throw new Error('No changes made');
 
-    db.run(sql, [user.id], (err) => {
-      if (err) return res.json({ error: err.message });
-      return res.json({
-        message: `Successfully deleted userID: ${user.id}, username: ${user.username}`,
-      });
-    });
+    res.json({ message: 'User updated' });
   } catch (err) {
-    return res.json({ error: err.message });
+    next(err);
   }
-});
-*/
+};
+
+// DELETE
+exports.deleteUserById = async (req, res, next) => {
+  const sql = `DELETE FROM users WHERE id = ?`;
+  const { id } = req.params;
+
+  try {
+    const [result] = await db.execute(sql, [id]);
+
+    if (result.affectedRows === 0) throw new Error('No users found');
+    res.json({ message: 'User deleted' });
+  } catch (err) {
+    next(err);
+  }
+};

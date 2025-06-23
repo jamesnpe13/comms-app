@@ -6,7 +6,9 @@ function checkApiKey(req, res, next) {
   if (userKey && userKey === process.env.API_KEY) {
     next();
   } else {
-    res.status(403).json({ error: 'Invalid API key' });
+    const err = new Error('Invalid API key');
+    err.status = 403;
+    next(err);
   }
 }
 module.exports = { checkApiKey };

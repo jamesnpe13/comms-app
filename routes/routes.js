@@ -6,6 +6,7 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/authenticateToken');
 const { hashPassword } = require('../middleware/hashPassword');
 const { verifyPassword } = require('../middleware/verifyPassword');
+const { authorizeUser } = require('../middleware/authorizeUser');
 const { checkRole } = require('../middleware/routeProtection');
 
 // Route controller
@@ -15,9 +16,24 @@ const authController = require('../controllers/authController');
 // User routes
 router.post('/users/', hashPassword, usersController.registerUser);
 router.get('/users/', authenticateToken, usersController.getAllUsers);
-router.get('/users/:id', authenticateToken, usersController.getUserById);
-router.put('/users/:id', usersController.updateUser);
-router.delete('/users/:id', usersController.deleteUser);
+router.get('/users/id/:id', authenticateToken, usersController.getUserById);
+router.get(
+  '/users/username/:username',
+  authenticateToken,
+  usersController.getUserByUsername
+);
+router.put(
+  '/users/update/:id',
+  authenticateToken,
+  authorizeUser,
+  usersController.updateUser
+);
+router.delete(
+  '/users/delete/:id',
+  authenticateToken,
+  authorizeUser,
+  usersController.deleteUserById
+);
 
 // Authentication routes
 router.post('/auth/login', verifyPassword, authController.userLogin);

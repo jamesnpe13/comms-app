@@ -15,7 +15,8 @@ async function hashPassword(req, res, next) {
 
     next();
   } catch (err) {
-    res.status(500).json({ error: 'Failed to hash password' });
+    err.message = 'Failed to hash password';
+    next(err);
   }
 }
 

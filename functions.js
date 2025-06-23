@@ -47,10 +47,7 @@ async function issueSessionTokens(userId, userObject, res) {
   try {
     await db.execute(sqlRefreshTokenToDB, [userId, refreshToken]);
   } catch (error) {
-    return res.status(500).json({
-      error: 'Failed to save refresh token to database',
-      message: error.message,
-    });
+    next(err);
   }
 
   // save refresh token to cookie
@@ -68,9 +65,22 @@ async function issueSessionTokens(userId, userObject, res) {
   });
 }
 
+function newError(message, status = null) {
+  const err = new Error(message);
+  err.status = status;
+  return err;
+}
+
+function setError(err, message, status = null) {
+  err.message = message;
+  err.status = status;
+}
+
 module.exports = {
   checkKeys,
   generateAccessToken,
   generateRefreshToken,
   issueSessionTokens,
+  newError,
+  setError,
 };

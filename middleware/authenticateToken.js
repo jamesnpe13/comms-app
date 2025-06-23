@@ -11,7 +11,7 @@ function authenticateToken(req, res, next) {
 
   // verify access token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.json({ error: err.message });
+    if (err) return next(err);
 
     // attaches decoded user to req.body
     req.user = user;
