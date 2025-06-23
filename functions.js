@@ -44,16 +44,22 @@ async function issueSessionTokens(
 ) {
   const accessToken = generateAccessToken(userObject);
   const refreshToken = generateRefreshToken(userObject, isSessionOnly);
+  const sessionOnlyTinyInt = isSessionOnly ? 1 : 0;
 
   const sqlRefreshTokenToDB = `
-    INSERT INTO refresh_tokens (user_id, token)
-    VALUES (?, ?)
+    INSERT INTO refresh_tokens (user_id, token, session_only)
+    VALUES (?, ?, ?)
     ON DUPLICATE KEY UPDATE
-    token = VALUES(token)
+    token = VALUES(token),
+    session_only = VALUES(session_only);
   `;
 
   try {
-    await db.execute(sqlRefreshTokenToDB, [userId, refreshToken]);
+    await db.execute(sqlRefreshTokenToDB, [
+      userId,
+      refreshToken,
+      sessionOnlyTinyInt,
+    ]);
   } catch (error) {
     return res.json({ error: error });
   }

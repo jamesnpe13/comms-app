@@ -10,9 +10,10 @@ const {
 exports.userLogin = async (req, res, next) => {
   const { id } = req.user;
   const { user } = req;
+  const { session_only } = req.body;
 
   clearRefreshTokenCookie(res);
-  issueSessionTokens(id, user, res);
+  issueSessionTokens(id, user, res, session_only);
 };
 
 exports.userLogout = async (req, res, next) => {
