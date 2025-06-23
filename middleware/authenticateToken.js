@@ -13,7 +13,7 @@ function authenticateToken(req, res, next) {
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     if (err) return next(err);
 
-    // attaches decoded user to req.body
+    // attaches decoded user to req.user
     req.user = user;
     next();
   });
