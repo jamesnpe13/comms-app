@@ -20,39 +20,56 @@ exports.registerUser = async (req, res, next) => {
 
 // GET
 exports.getAllUsers = async (req, res, next) => {
-  const sql = `SELECT * FROM users`;
+  // return non-sensitive data
+  const sql = `SELECT id, username, first_name, last_name FROM users`;
 
   try {
     const [users] = await db.execute(sql);
-    res.json({ users: users });
+    res.json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getCurrentUser = async (req, res, next) => {
+  // return all user data
+  const sql = `SELECT * FROM users WHERE id = ?`;
+
+  try {
+    const [rows] = await db.execute(sql, [req.user.id]);
+    const user = rows[0];
+
+    res.json({ user });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getUserById = async (req, res, next) => {
-  const sql = `SELECT * FROM users WHERE id = ?`;
+  const sql = `SELECT id, username, first_name, last_name FROM users WHERE id = ?`;
   const { id } = req.params;
 
   try {
-    const [users] = await db.execute(sql, [id]);
-    if (users.length === 0) throw new Error('No users found');
+    const [rows] = await db.execute(sql, [id]);
+    const user = rows[0];
+    if (rows.length === 0) throw new Error('No users found');
 
-    res.json({ user: users[0] });
+    res.json({ user });
   } catch (err) {
     next(err);
   }
 };
 
 exports.getUserByUsername = async (req, res, next) => {
-  const sql = `SELECT * FROM users WHERE username = ?`;
+  const sql = `SELECT id, username, first_name, last_name FROM users WHERE username = ?`;
   const { username } = req.params;
 
   try {
-    const [users] = await db.execute(sql, [username]);
-    if (users.length === 0) throw new Error('No users found');
+    const [rows] = await db.execute(sql, [username]);
+    const user = rows[0];
+    if (rows.length === 0) throw new Error('No users found');
 
-    res.json({ user: users[0] });
+    res.json({ user });
   } catch (err) {
     next(err);
   }

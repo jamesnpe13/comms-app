@@ -22,6 +22,7 @@ router.get(
   authenticateToken,
   usersController.getUserByUsername
 );
+router.get('/users/me', authenticateToken, usersController.getCurrentUser);
 router.put(
   '/users/update/:id',
   authenticateToken,
@@ -37,12 +38,7 @@ router.delete(
 
 // Authentication routes
 router.post('/auth/login', verifyPassword, authController.userLogin);
-router.post(
-  '/auth/logout/',
-  authenticateToken,
-
-  authController.userLogout
-);
+router.post('/auth/logout/', authenticateToken, authController.userLogout);
 router.post('/auth/refresh', authController.refreshSessionTokens);
 
 module.exports = router;
