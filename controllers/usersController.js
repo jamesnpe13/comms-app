@@ -1,4 +1,5 @@
 const db = require('../database/connection');
+const { newError } = require('../functions');
 
 // POST
 exports.registerUser = async (req, res, next) => {
@@ -25,6 +26,27 @@ exports.getAllUsers = async (req, res, next) => {
 
   try {
     const [users] = await db.execute(sql);
+    res.json({ users });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.searchUsers = async (req, res, next) => {
+  const { q } = req.query;
+  const kw = `%${q}%`; // partial search
+  const sql = `
+    SELECT id, username, first_name, last_name
+    FROM users
+    WHERE username LIKE ?
+    OR first_name LIKE ?
+    OR last_name LIKE ?
+  `;
+
+  if (!q) return next(newError('Search query is required'));
+
+  try {
+    const [users] = await db.execute(sql, [kw, kw, kw]);
     res.json({ users });
   } catch (err) {
     next(err);

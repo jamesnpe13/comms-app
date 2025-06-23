@@ -14,15 +14,16 @@ const usersController = require('../controllers/usersController');
 const authController = require('../controllers/authController');
 
 // User routes
+router.get('/users/id/:id', authenticateToken, usersController.getUserById);
+router.get('/users/search', authenticateToken, usersController.searchUsers);
 router.post('/users/', hashPassword, usersController.registerUser);
 router.get('/users/', authenticateToken, usersController.getAllUsers);
-router.get('/users/id/:id', authenticateToken, usersController.getUserById);
+router.get('/users/me', authenticateToken, usersController.getCurrentUser);
 router.get(
   '/users/username/:username',
   authenticateToken,
   usersController.getUserByUsername
 );
-router.get('/users/me', authenticateToken, usersController.getCurrentUser);
 router.put(
   '/users/update/:id',
   authenticateToken,
