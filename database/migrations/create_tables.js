@@ -17,6 +17,7 @@ const refreshTokens = `
 		id INT AUTO_INCREMENT PRIMARY KEY,
 		user_id INT NOT NULL UNIQUE,
 		token TEXT NOT NULL,
+		session_only TINYINT(1),
 		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 	)
