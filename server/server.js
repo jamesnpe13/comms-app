@@ -10,6 +10,8 @@ const { errorHandler } = require('./middleware/errorHandler');
 const port = process.env.SERVER_PORT || process.env.PORT;
 const app = express();
 
+//note
+
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());

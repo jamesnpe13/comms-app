@@ -1,0 +1,7 @@
+@use './typography' as *;
+@use './colours' as *;
+
+body {
+  @include font-set_default();
+  background-color: $background-color_default;
+}

@@ -1,0 +1,18 @@
+@use 'sass:color';
+
+$color_primary: rgb(79, 192, 48);
+$color_secondary: rgb(48, 125, 192);
+$color_destructive: rgb(203, 30, 30);
+$color_warning: rgb(222, 197, 82);
+$color_success: $color_secondary;
+
+$color_white: rgb(241, 241, 241);
+$color_offwhite: rgb(208, 208, 208);
+$color_black: rgb(24, 24, 24);
+
+$color_grey20: color.mix($color_black, $color_white, 20%);
+$color_grey40: color.mix($color_black, $color_white, 40%);
+$color_grey60: color.mix($color_black, $color_white, 60%);
+$color_grey80: color.mix($color_black, $color_white, 80%);
+
+$background-color_default: $color_black;

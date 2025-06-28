@@ -1,5 +1,14 @@
-# Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,visualstudiocode
+# vscode desktop shortcut for repo 
+*.lnk
+
+# docs folder
+docs/
+
+# Created by https://www.toptal.com/developers/gitignore/api/dotenv,react,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=dotenv,react,node
+
+### dotenv ###
+.env
 
 ### Node ###
 # Logs
@@ -10,12 +19,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-
-#database
-*.db
-/databases/
-/data/
-
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -83,7 +86,6 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -147,23 +149,17 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-!.vscode/*.code-snippets
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
 
-# Local History for Visual Studio Code
-.history/
+node_modules
 
-# Built Visual Studio Code Extensions
-*.vsix
+*.sublime*
 
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-.ionide
+psd
+thumb
+sketch
 
-# End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
+# End of https://www.toptal.com/developers/gitignore/api/dotenv,react,node

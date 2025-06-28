@@ -1,0 +1,71 @@
+@use './colours' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+$font-scale-factor: 1rem;
+
+$font-size_xs: $font-scale-factor * 0.8;
+$font-size_s: $font-scale-factor * 0.9;
+$font-size_m: $font-scale-factor * 1;
+$font-size_l: $font-scale-factor * 1.2;
+$font-size_xl: $font-scale-factor * 1.5;
+$font-size_xxl: $font-scale-factor * 1.8;
+$font-size_xxxl: $font-scale-factor * 2;
+
+$font-family_default: 'Roboto', sans-serif;
+$font-weight_default: 400;
+$font-size_default: $font-size_m;
+
+@mixin font-set_default() {
+  font-family: $font-family_default;
+  font-weight: $font-weight_default;
+  font-size: $font-size_default;
+  color: $color_offwhite;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:visited {
+    color: inherit;
+  }
+}
+
+h1 {
+  font-size: $font-size_xxxl;
+}
+h2 {
+  font-size: $font-size_xxl;
+}
+h3 {
+  font-size: $font-size_xl;
+}
+h4 {
+  font-size: $font-size_l;
+}
+p {
+  font-size: $font-size_m;
+}
+p.sub {
+  font-size: $font-size_s;
+}
+p.tiny {
+  font-size: $font-size_xs;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.lowercase {
+  text-transform: lowercase;
+}
