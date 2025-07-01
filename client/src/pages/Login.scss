@@ -1,0 +1,23 @@
+form {
+  border: 1px solid white;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  align-items: start;
+
+  span {
+    margin-inline: 8px;
+  }
+
+  input,
+  button {
+    width: 100%;
+  }
+  input[type='checkbox'] {
+    width: auto;
+  }
+}

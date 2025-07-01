@@ -1,6 +1,9 @@
 # vscode desktop shortcut for repo 
 *.lnk
 
+# .vscode
+.vscode/
+
 # docs folder
 docs/
 

@@ -15,7 +15,12 @@ const app = express();
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN,
+    credentials: true,
+  })
+);
 
 // express middleware mount points
 app.use('/', routes);

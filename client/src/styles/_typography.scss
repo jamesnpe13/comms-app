@@ -4,8 +4,8 @@
 
 $font-scale-factor: 1rem;
 
-$font-size_xs: $font-scale-factor * 0.8;
-$font-size_s: $font-scale-factor * 0.9;
+$font-size_xs: $font-scale-factor * 0.6;
+$font-size_s: $font-scale-factor * 0.8;
 $font-size_m: $font-scale-factor * 1;
 $font-size_l: $font-scale-factor * 1.2;
 $font-size_xl: $font-scale-factor * 1.5;
@@ -44,13 +44,14 @@ h3 {
 h4 {
   font-size: $font-size_l;
 }
-p {
+p,
+span {
   font-size: $font-size_m;
 }
-p.sub {
+.sub {
   font-size: $font-size_s;
 }
-p.tiny {
+.tiny {
   font-size: $font-size_xs;
 }
 

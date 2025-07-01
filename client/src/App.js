@@ -1,7 +1,23 @@
 import './styles/main.scss';
-import { Container, Spinner } from 'react-bootstrap';
+import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuth } from './context/AuthContext';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+
 function App() {
-  return <></>;
+  const { restoreSession } = useAuth();
+  useEffect(() => {
+    console.log('checking session');
+    restoreSession();
+  }, []);
+
+  return (
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path='/' element={<Dashboard />} />
+    </Routes>
+  );
 }
 
 export default App;
