@@ -6,7 +6,7 @@ const { newError, setError } = require('../functions');
 
 async function verifyPassword(req, res, next) {
   const { username, password } = req.body;
-  const sql = `SELECT * FROM users WHERE username = ?`;
+  const sql = `SELECT * FROM users WHERE BINARY username = ?`;
 
   // check for existence of username and password
   if (!username || !password) {
