@@ -93,16 +93,14 @@ export function AuthProvider({ children }) {
     startSession(localStorage_accessToken);
   };
 
-  const requireAuth = () => {
+  const isAuth = () => {
     const localStorage_accessToken = getLocalStorage('accessToken');
-    console.log('requiring auth');
     // check valid token
     if (!isTokenValid(localStorage_accessToken)) {
-      console.log('Denied access. Please log in');
-      navigate('/login');
-      return;
+      return false;
     }
-    console.log('authorized');
+
+    return true;
   };
 
   const refreshToken = async () => {
@@ -128,7 +126,7 @@ export function AuthProvider({ children }) {
         endSession,
         logout,
         login,
-        requireAuth,
+        isAuth,
       }}
     >
       {children}

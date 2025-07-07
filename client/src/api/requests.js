@@ -11,6 +11,15 @@ export const login = async (data) => {
   }
 };
 
+export const register = async (data) => {
+  try {
+    const res = await api.post('/users', data);
+    return res;
+  } catch (error) {
+    throw new Error(handleError(error, 'User Registration'));
+  }
+};
+
 // Auth API functions
 export const logout = async () => {
   try {
