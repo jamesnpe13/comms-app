@@ -1,8 +1,10 @@
 import './Login.scss';
 import { useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+  const navigate = useNavigate();
   const formData = useRef({});
   const { login, user, endSession } = useAuth();
 
@@ -54,10 +56,8 @@ export default function Login() {
       </label>
       <button type='submit'>Log in</button>
 
-      <p className='tiny italic'>
-        {user
-          ? `User: ${user.first_name} ${user.last_name}`
-          : 'No user logged in'}{' '}
+      <p className='tiny register-btn' onClick={() => navigate('/register')}>
+        No account? Create one now.
       </p>
     </form>
   );
