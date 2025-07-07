@@ -8,7 +8,6 @@ import Dashboard from './pages/Dashboard';
 function App() {
   const { restoreSession } = useAuth();
   useEffect(() => {
-    console.log('checking session');
     restoreSession();
   }, []);
 

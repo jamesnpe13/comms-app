@@ -40,7 +40,7 @@ async function issueSessionTokens(
   userId,
   userObject,
   res,
-  isSessionOnly = true
+  isSessionOnly = false
 ) {
   const accessToken = generateAccessToken(userObject);
   const refreshToken = generateRefreshToken(userObject, isSessionOnly);

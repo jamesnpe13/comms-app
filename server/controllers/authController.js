@@ -38,7 +38,7 @@ exports.refreshSessionTokens = async (req, res, next) => {
   const sqlGetUserById = `SELECT * FROM users WHERE id = ?`;
   let decoded;
 
-  if (cookieRefreshToken == null) return res.sendStatus(401);
+  if (cookieRefreshToken == null) return next(newError('Session expired', 401));
 
   try {
     decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);

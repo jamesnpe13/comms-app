@@ -1,13 +1,8 @@
 import './Login.scss';
 import { useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { ApiFunctions } from '../api/requests';
-
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export default function Login() {
-  const navigate = useNavigate();
   const formData = useRef({});
   const { login, user, endSession } = useAuth();
 
@@ -27,20 +22,6 @@ export default function Login() {
     document.getElementById('password').value = '';
     login(formData.current);
   };
-
-  // const handleRequest = async () => {
-  //   try {
-  //     const res = await ApiFunctions.login(formData.current);
-  //     const token = res.data.accessToken;
-
-  //     // set access token and call login in auth
-  //     startSession(token);
-  //     // navigate to dashboard
-  //     navigate('/');
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   useEffect(() => {
     // clear session on login page load

@@ -4,7 +4,6 @@ import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import { ApiFunctions } from '../api/requests';
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -42,13 +41,12 @@ export function AuthProvider({ children }) {
     try {
       const res = await ApiFunctions.login(data);
       const token = res.data.accessToken;
-
       // set access token and call login in auth
       startSession(token);
       // navigate to dashboard
       navigate('/');
     } catch (error) {
-      console.log(error);
+      alert(error.message);
     }
   };
 
@@ -56,9 +54,10 @@ export function AuthProvider({ children }) {
     // call logout in api
     try {
       const res = await ApiFunctions.logout();
-      console.log(res.data);
-    } catch (error) {}
-    console.log('Session ended');
+      console.log(res);
+    } catch (error) {
+      alert(error.message);
+    }
     endSession();
     navigate('/login');
   };
@@ -112,7 +111,8 @@ export function AuthProvider({ children }) {
       const res = await ApiFunctions.refreshToken();
       startSession(res.data.accessToken);
     } catch (error) {
-      console.log(error);
+      alert(error.message);
+      endSession();
     }
   };
 

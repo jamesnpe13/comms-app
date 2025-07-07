@@ -1,20 +1,33 @@
+import { handleError } from '../utils/errorhandler';
 import { authApi, api } from './axiosInstance';
-
-// Auth API functions
-export const logout = async () => {
-  const res = await authApi.post('/auth/logout');
-  return res;
-};
-
-export const refreshToken = async () => {
-  const res = await authApi.post('/auth/refresh');
-  return res;
-};
 
 // Pubic API functions
 export const login = async (data) => {
-  const res = await api.post('/auth/login', data);
-  return res;
+  try {
+    const res = await api.post('/auth/login', data);
+    return res;
+  } catch (error) {
+    throw new Error(handleError(error, 'User Login'));
+  }
+};
+
+// Auth API functions
+export const logout = async () => {
+  try {
+    const res = await authApi.post('/auth/logout');
+    return res;
+  } catch (error) {
+    throw new Error(handleError(error, 'User Logout'));
+  }
+};
+
+export const refreshToken = async () => {
+  try {
+    const res = await authApi.post('/auth/refresh');
+    return res;
+  } catch (error) {
+    throw new Error(handleError(error, 'Refresh Token'));
+  }
 };
 
 // namespaced
