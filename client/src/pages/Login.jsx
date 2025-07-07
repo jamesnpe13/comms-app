@@ -1,6 +1,5 @@
 import './Login.scss';
 import { useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ApiFunctions } from '../api/requests';
@@ -10,7 +9,7 @@ const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 export default function Login() {
   const navigate = useNavigate();
   const formData = useRef({});
-  const { startSession, user, endSession } = useAuth();
+  const { login, user, endSession } = useAuth();
 
   const handleInputChange = (e) => {
     let obj;
@@ -24,25 +23,24 @@ export default function Login() {
   };
 
   const handleSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
     document.getElementById('password').value = '';
-    handleRequest();
+    login(formData.current);
   };
 
-  const handleRequest = async () => {
-    try {
-      const res = await ApiFunctions.login(formData.current);
-      const token = res.data.accessToken;
+  // const handleRequest = async () => {
+  //   try {
+  //     const res = await ApiFunctions.login(formData.current);
+  //     const token = res.data.accessToken;
 
-      // set access token and call login in auth
-      startSession(token);
-      // navigate to dashboard
-      navigate('/');
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     // set access token and call login in auth
+  //     startSession(token);
+  //     // navigate to dashboard
+  //     navigate('/');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     // clear session on login page load

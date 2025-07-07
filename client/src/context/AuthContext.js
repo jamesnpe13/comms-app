@@ -3,7 +3,6 @@ import { getLocalStorage, storeLocalStorage } from '../utils/browserStorage';
 import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
-import axios from 'axios';
 import { ApiFunctions } from '../api/requests';
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const AuthContext = createContext();
@@ -37,6 +36,20 @@ export function AuthProvider({ children }) {
     // clear memory
     setAccessToken(null);
     setUser(null);
+  };
+
+  const login = async (data) => {
+    try {
+      const res = await ApiFunctions.login(data);
+      const token = res.data.accessToken;
+
+      // set access token and call login in auth
+      startSession(token);
+      // navigate to dashboard
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const logout = async () => {
@@ -114,6 +127,7 @@ export function AuthProvider({ children }) {
         restoreSession,
         endSession,
         logout,
+        login,
         requireAuth,
       }}
     >
