@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ApiFunctions } from '../api/requests';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -31,13 +32,7 @@ export default function Login() {
 
   const handleRequest = async () => {
     try {
-      const res = await axios.post(
-        `${apiBaseUrl}/auth/login`,
-        formData.current,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await ApiFunctions.login(formData.current);
       const token = res.data.accessToken;
 
       // set access token and call login in auth

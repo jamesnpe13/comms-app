@@ -4,6 +4,7 @@ import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import axios from 'axios';
+import { ApiFunctions } from '../api/requests';
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 const AuthContext = createContext();
 
@@ -41,17 +42,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
     // call logout in api
     try {
-      const res = await axios.post(
-        `${apiBaseUrl}/auth/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          withCredentials: true,
-        }
-      );
-
+      const res = await ApiFunctions.logout();
       console.log(res.data);
     } catch (error) {}
     console.log('Session ended');
@@ -105,11 +96,7 @@ export function AuthProvider({ children }) {
   const refreshToken = async () => {
     console.log('Refreshing token');
     try {
-      const res = await axios.post(
-        `${apiBaseUrl}/auth/refresh`,
-        {},
-        { withCredentials: true }
-      );
+      const res = await ApiFunctions.refreshToken();
       startSession(res.data.accessToken);
     } catch (error) {
       console.log(error);

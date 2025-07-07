@@ -7,8 +7,8 @@ export default function useAutoRefreshToken(token, refreshTokenFunction) {
 
     const { exp } = decodeToken(token);
     const timeDiff = exp * 1000 - Date.now();
-    const timeAdvance = 0; // 1 minute in advance
-    const timeUntillRefresh = timeDiff - timeAdvance;
+    const timeAdvance = 1; //  minutes ahead
+    const timeUntillRefresh = timeDiff - timeAdvance * 60000;
 
     const timeoutId = setTimeout(() => {
       refreshTokenFunction();
