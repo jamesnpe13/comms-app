@@ -2,6 +2,7 @@ import './Login.scss';
 import { useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import ROUTES from '../routes';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -56,7 +57,10 @@ export default function Login() {
       </label>
       <button type='submit'>Log in</button>
 
-      <p className='tiny register-btn' onClick={() => navigate('/register')}>
+      <p
+        className='tiny register-btn'
+        onClick={() => navigate(ROUTES.register.path)}
+      >
         No account? Create one now.
       </p>
     </form>

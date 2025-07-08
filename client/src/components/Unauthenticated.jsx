@@ -1,6 +1,7 @@
 import React from 'react';
 import './Unauthenticated.scss';
 import { useNavigate } from 'react-router-dom';
+import ROUTES from '../routes';
 
 export default function Unauthenticated() {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function Unauthenticated() {
       <br />
       <p>Unable to access this page.</p>
       <br />
-      <button onClick={() => navigate('/login')}>Log in</button>
+      <button onClick={() => navigate(ROUTES.login.path)}>Log in</button>
     </div>
   );
 }

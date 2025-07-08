@@ -2,10 +2,7 @@ import './styles/main.scss';
 import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Registration from './pages/Registration';
-import NotFound from './pages/NotFound';
+import ROUTES from './routes';
 
 function App() {
   const { restoreSession } = useAuth();
@@ -15,12 +12,10 @@ function App() {
 
   return (
     <Routes>
-      {/* catch all */}
-      <Route path='*' element={<NotFound />} />
-
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Registration />} />
-      <Route path='/' element={<Dashboard />} />
+      <Route path={ROUTES.dashboard.path} element={ROUTES.dashboard.element} />
+      <Route path={ROUTES.catchAll.path} element={ROUTES.catchAll.element} />
+      <Route path={ROUTES.register.path} element={ROUTES.register.element} />
+      <Route path={ROUTES.login.path} element={ROUTES.login.element} />
     </Routes>
   );
 }

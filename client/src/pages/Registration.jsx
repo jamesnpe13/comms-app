@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { register } from '../api/requests';
 import { useNavigate } from 'react-router-dom';
+import ROUTES from '../routes';
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function Registration() {
       const res = await register(formData.current);
       console.log(res);
       alert('User created');
-      navigate('/login');
+      navigate(ROUTES.login.path);
     } catch (error) {
       alert(error.message);
     }
