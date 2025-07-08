@@ -1,7 +1,7 @@
 import React from 'react';
 import './Unauthenticated.scss';
 import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes';
+import ROUTES from '../routeConfig';
 
 export default function Unauthenticated() {
   const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import { ApiFunctions } from '../api/requests';
-import ROUTES from '../routes';
+import ROUTES from '../routeConfig';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {

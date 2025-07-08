@@ -2,7 +2,7 @@ import './styles/main.scss';
 import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
-import ROUTES from './routes';
+import ROUTES from './routeConfig';
 
 function App() {
   const { restoreSession } = useAuth();
