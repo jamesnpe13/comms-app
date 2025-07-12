@@ -61,3 +61,7 @@ Create a `.env` file in the `server/` directory using the following template:
 | DB_PATH                  | Database name                             | `'[dbname]'`            |
 | DB_USER                  | Database username                         | `'root'`                |
 | DB_PASSWORD              | Database password                         | `'[password]'`          |
+
+## Documentation 📚
+
+[Click here for index ⬅️](docs/README.md)

@@ -1,3 +1,5 @@
+[⬅️ Back to cover page](../README.md)
+
 # Documentation Index
 
 - [Application Overview](application-overview.md)

@@ -1,3 +1,3 @@
-[⬅️ Back to Documentation Index](../README.md)
+[⬅️ Back to Documentation Index](README.md)
 
 # User Guide
