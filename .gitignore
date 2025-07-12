@@ -4,8 +4,8 @@
 # .vscode
 .vscode/
 
-# docs folder
-docs/
+# vscode counter
+.VSCodeCounter
 
 # Created by https://www.toptal.com/developers/gitignore/api/dotenv,react,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=dotenv,react,node
