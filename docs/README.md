@@ -1,6 +1,8 @@
 [⬅️ Back to cover page](../README.md)
 
-# Documentation Index
+# Documentation Index 🎯
+
+Below is an index of technical documentations for client, server, database, and app usage.
 
 - [Application Overview](application-overview.md)
 - [ReactJS Frontend Docs](react-frontend.md)
