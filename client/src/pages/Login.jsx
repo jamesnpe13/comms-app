@@ -4,11 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
 import RequireAuth from '../components/useRequireAuth';
+import { useNotif } from '../context/NotifContext';
 
 export default function Login() {
   const navigate = useNavigate();
   const formData = useRef({});
   const { login, user, endSession } = useAuth();
+  const { toastStack, addToast } = useNotif();
 
   const handleInputChange = (e) => {
     let obj;
@@ -25,6 +27,13 @@ export default function Login() {
     e.preventDefault();
     document.getElementById('password').value = '';
     login(formData.current);
+  };
+
+  const handleAddToast = (e) => {
+    e.preventDefault();
+
+    const messageValue = document.getElementById('toast-message').value;
+    addToast(messageValue);
   };
 
   useEffect(() => {
@@ -65,6 +74,13 @@ export default function Login() {
         >
           No account? Create one now.
         </p>
+
+        <input
+          type='text'
+          placeholder='Toast notification message'
+          id='toast-message'
+        />
+        <button onClick={handleAddToast}>Add toast</button>
       </form>
     </RequireAuth>
   );
