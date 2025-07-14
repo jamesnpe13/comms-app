@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { register } from '../api/requests';
 import { useNavigate } from 'react-router-dom';
+import ROUTES from '../routeConfig';
+import RequireAuth from '../components/useRequireAuth';
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function Registration() {
       const res = await register(formData.current);
       console.log(res);
       alert('User created');
-      navigate('/login');
+      navigate(ROUTES.login.path);
     } catch (error) {
       alert(error.message);
     }
@@ -48,54 +50,56 @@ export default function Registration() {
 
   return (
     <>
-      <form action='register' onSubmit={handleSubmit} autoComplete='off'>
-        <h4>Create new user</h4>
-        <input
-          required={true}
-          type='text'
-          name='first_name'
-          placeholder='First name'
-          onChange={handleOnInputChange}
-        />
-        <input
-          required={true}
-          type='text'
-          name='last_name'
-          placeholder='Last name'
-          onChange={handleOnInputChange}
-        />
-        <input
-          required={true}
-          type='email'
-          name='email'
-          placeholder='Email'
-          onChange={handleOnInputChange}
-        />
-        <input
-          required={true}
-          type='text'
-          name='username'
-          placeholder='Username'
-          onChange={handleOnInputChange}
-        />
-        <input
-          required={true}
-          type='password'
-          name='password1'
-          placeholder='Password'
-          ref={password1Input}
-          onChange={handleOnInputChange}
-        />
-        <input
-          required={true}
-          type='password'
-          name='password2'
-          placeholder='Confirm password'
-          ref={password2Input}
-          onChange={handleOnInputChange}
-        />
-        <button type='submit'>Submit</button>
-      </form>
+      <RequireAuth thisRoute={ROUTES.register}>
+        <form action='register' onSubmit={handleSubmit} autoComplete='off'>
+          <h4>Create new user</h4>
+          <input
+            required={true}
+            type='text'
+            name='first_name'
+            placeholder='First name'
+            onChange={handleOnInputChange}
+          />
+          <input
+            required={true}
+            type='text'
+            name='last_name'
+            placeholder='Last name'
+            onChange={handleOnInputChange}
+          />
+          <input
+            required={true}
+            type='email'
+            name='email'
+            placeholder='Email'
+            onChange={handleOnInputChange}
+          />
+          <input
+            required={true}
+            type='text'
+            name='username'
+            placeholder='Username'
+            onChange={handleOnInputChange}
+          />
+          <input
+            required={true}
+            type='password'
+            name='password1'
+            placeholder='Password'
+            ref={password1Input}
+            onChange={handleOnInputChange}
+          />
+          <input
+            required={true}
+            type='password'
+            name='password2'
+            placeholder='Confirm password'
+            ref={password2Input}
+            onChange={handleOnInputChange}
+          />
+          <button type='submit'>Submit</button>
+        </form>
+      </RequireAuth>
     </>
   );
 }

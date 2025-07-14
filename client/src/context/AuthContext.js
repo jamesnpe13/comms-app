@@ -4,6 +4,7 @@ import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import { ApiFunctions } from '../api/requests';
+import ROUTES from '../routeConfig';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -44,7 +45,7 @@ export function AuthProvider({ children }) {
       // set access token and call login in auth
       startSession(token);
       // navigate to dashboard
-      navigate('/');
+      navigate(ROUTES.dashboard.path);
     } catch (error) {
       alert(error.message);
     }
@@ -59,7 +60,7 @@ export function AuthProvider({ children }) {
       alert(error.message);
     }
     endSession();
-    navigate('/login');
+    navigate(ROUTES.login.path);
   };
 
   const isTokenValid = (token) => {
