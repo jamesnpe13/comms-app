@@ -24,10 +24,6 @@ export function NotifProvider({ children }) {
     }, toastDuration * 1000);
   };
 
-  useEffect(() => {
-    console.log(toastStack);
-  }, [toastStack]);
-
   return (
     <NotifContext.Provider value={{ toastStack, addToast }}>
       {children}
