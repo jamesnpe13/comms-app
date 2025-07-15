@@ -5,7 +5,8 @@ import { useAuth } from './context/AuthContext';
 import ROUTES from './routeConfig';
 
 function App() {
-  const { restoreSession } = useAuth();
+  const { restoreSession, isAuth } = useAuth();
+
   useEffect(() => {
     restoreSession();
   }, []);
@@ -15,7 +16,9 @@ function App() {
       <Routes>
         <Route
           path={ROUTES.rootRedirect.path}
-          element={ROUTES.rootRedirect.element}
+          element={
+            isAuth() ? ROUTES.dashboard.element : ROUTES.rootRedirect.element
+          }
         />
         <Route
           path={ROUTES.dashboard.path}
