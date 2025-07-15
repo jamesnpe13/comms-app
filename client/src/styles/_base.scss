@@ -115,15 +115,25 @@ form {
 }
 
 .gutter {
-  padding: $gutter_l;
+  &_l {
+    padding: $gutter_l;
 
-  &_inline {
-    padding-block: 0;
-    padding-inline: $gutter_l;
+    &_inline {
+      padding-inline: $gutter_l;
+    }
+    &_block {
+      padding-block: $gutter_l;
+    }
   }
-  &_block {
-    padding-block: $gutter_l;
-    padding-inline: 0;
+  &_s {
+    padding: $gutter_s;
+
+    &_inline {
+      padding-inline: $gutter_s;
+    }
+    &_block {
+      padding-block: $gutter_s;
+    }
   }
 }
 
@@ -137,4 +147,15 @@ form {
   &_bottom {
     margin-bottom: 20px;
   }
+}
+
+.bg-image {
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
+  position: absolute;
+  opacity: 0.6;
+  filter: grayscale(1) brightness(0.2);
 }

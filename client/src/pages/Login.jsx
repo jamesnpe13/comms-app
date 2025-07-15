@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
 import RequireAuth from '../components/useRequireAuth';
 import { useNotif } from '../context/NotifContext';
+import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -43,12 +44,13 @@ export default function Login() {
 
   return (
     <RequireAuth thisRoute={ROUTES.login}>
+      <img className='bg-image' src={BG} alt='' />
       <div id='login-page' className='page'>
         <form
           action='login'
           autoComplete='off'
           onSubmit={handleSubmit}
-          className='gutter'
+          className='gutter_l'
         >
           <h1 className='text-white weight'>CommsApp</h1>
           <p>Centralized comms platform for your team.</p>

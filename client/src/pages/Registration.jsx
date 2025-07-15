@@ -4,6 +4,7 @@ import { register } from '../api/requests';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
 import RequireAuth from '../components/useRequireAuth';
+import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -51,7 +52,8 @@ export default function Registration() {
 
   return (
     <RequireAuth thisRoute={ROUTES.register}>
-      <div id='registration-page' className='page'>
+      <img className='bg-image' src={BG} alt='' />
+      <div id='registration-page' className='page gutter_l'>
         <form action='register' onSubmit={handleSubmit} className='gutter'>
           <h1 className='text-white weight'>CommsApp</h1>
           <p>Centralized comms platform for your team.</p>

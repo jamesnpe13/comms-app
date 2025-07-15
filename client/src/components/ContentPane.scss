@@ -1,0 +1,29 @@
+@use '../styles/variables' as *;
+@use '../styles/colours' as *;
+
+.layout-grid-container {
+  .content {
+    height: 100%;
+    width: 100%;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: $gap;
+
+    .header {
+      height: $header-height;
+      background-color: $color_shade6;
+    }
+
+    .main {
+      flex: 1 1 auto;
+      background-color: $color_shade7;
+    }
+
+    .message-input {
+      height: $message-input-height;
+      background-color: $color_shade6;
+    }
+  }
+}

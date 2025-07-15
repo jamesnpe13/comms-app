@@ -2,6 +2,9 @@ import './Dashboard.scss';
 import RequireAuth from '../components/useRequireAuth';
 import { useAuth } from '../context/AuthContext';
 import ROUTES from '../routeConfig';
+import LeftSideBar from '../components/LeftSideBar';
+import ContentPane from '../components/ContentPane';
+import Footer from '../components/Footer';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -15,19 +18,9 @@ export default function Dashboard() {
       <div id='dashboard-page' className='page'>
         {/* grid container - desktop component */}
         <div className='layout-grid-container'>
-          <div className='left-sidebar'>
-            <div className='header'>Sidebar header</div>
-            <div className='main'>Sidebar main</div>
-            <div className='footer'>Sidebar footer</div>
-          </div>
-
-          <div className='content'>
-            <div className='header'>Content header</div>
-            <div className='main'>Content main</div>
-            <div className='message-input'>Content message input</div>
-          </div>
-
-          <div className='footer'>footer</div>
+          <LeftSideBar onLogout={handleLogout} />
+          <ContentPane />
+          <Footer />
         </div>
       </div>
     </RequireAuth>
