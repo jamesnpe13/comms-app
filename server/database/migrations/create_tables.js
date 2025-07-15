@@ -12,6 +12,37 @@ const users = `
 	)
 `;
 
+const convos = `
+	CREATE TABLE IF NOT EXISTS convos (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		type VARCHAR(100) NOT NULL,
+		created_by INT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (created_by) REFERENCES users(id)
+	)
+`;
+
+const participants = `
+	CREATE TABLE IF NOT EXISTS participants (
+		id INT AUTO_INCREMENT PRIMARY KEY,	
+		convo_id INT NOT NULL UNIQUE,
+		role VARCHAR(100) NOT NULL,
+		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE
+	)
+`;
+
+const messages = `
+	CREATE TABLE IF NOT EXISTS messages (
+		id INT AUTO_INCREMENT PRIMARY KEY,	
+		convo_id INT NOT NULL UNIQUE,
+		sender_id INT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE,
+		FOREIGN KEY (sender_id) REFERENCES users(id)
+	)
+`;
+
 const refreshTokens = `
 	CREATE TABLE IF NOT EXISTS refresh_tokens (
 		id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +57,9 @@ const refreshTokens = `
 async function createTables() {
   try {
     await db.execute(users);
+    await db.execute(convos);
+    await db.execute(participants);
+    await db.execute(messages);
     await db.execute(refreshTokens);
     // add more tables here
     console.log('Users table checked/created');
