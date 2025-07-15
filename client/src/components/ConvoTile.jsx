@@ -6,7 +6,7 @@ export default function ConvoTile({ data }) {
 
   return (
     <div className='convo-tile'>
-      <h5>{name}</h5>
+      <h6>{name}</h6>
       <p className='sub'>{preview}</p>
     </div>
   );
