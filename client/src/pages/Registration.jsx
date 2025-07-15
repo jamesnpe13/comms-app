@@ -1,3 +1,4 @@
+import './Registration.scss';
 import { useRef } from 'react';
 import { register } from '../api/requests';
 import { useNavigate } from 'react-router-dom';
@@ -49,30 +50,36 @@ export default function Registration() {
   };
 
   return (
-    <>
-      <RequireAuth thisRoute={ROUTES.register}>
-        <form action='register' onSubmit={handleSubmit} autoComplete='off'>
-          <h4>Create new user</h4>
-          <input
-            required={true}
-            type='text'
-            name='first_name'
-            placeholder='First name'
-            onChange={handleOnInputChange}
-          />
-          <input
-            required={true}
-            type='text'
-            name='last_name'
-            placeholder='Last name'
-            onChange={handleOnInputChange}
-          />
+    <RequireAuth thisRoute={ROUTES.register}>
+      <div id='registration-page' className='page'>
+        <form action='register' onSubmit={handleSubmit} className='gutter'>
+          <h1 className='text-white weight'>CommsApp</h1>
+          <p>Centralized comms platform for your team.</p>
+          <h4 className='margin_block'>Create new user</h4>
+
+          <div className='container'>
+            <input
+              required={true}
+              type='text'
+              name='first_name'
+              placeholder='First name'
+              onChange={handleOnInputChange}
+            />
+            <input
+              required={true}
+              type='text'
+              name='last_name'
+              placeholder='Last name'
+              onChange={handleOnInputChange}
+            />
+          </div>
           <input
             required={true}
             type='email'
             name='email'
             placeholder='Email'
             onChange={handleOnInputChange}
+            className='margin_top'
           />
           <input
             required={true}
@@ -88,6 +95,7 @@ export default function Registration() {
             placeholder='Password'
             ref={password1Input}
             onChange={handleOnInputChange}
+            className='margin_top'
           />
           <input
             required={true}
@@ -97,9 +105,19 @@ export default function Registration() {
             ref={password2Input}
             onChange={handleOnInputChange}
           />
-          <button type='submit'>Submit</button>
+          <button type='submit' className='margin_block primary'>
+            Submit
+          </button>
+
+          <span
+            className='text-button sub'
+            id='login-btn'
+            onClick={() => navigate(ROUTES.login.path)}
+          >
+            Return to login
+          </span>
         </form>
-      </RequireAuth>
-    </>
+      </div>
+    </RequireAuth>
   );
 }

@@ -1,3 +1,4 @@
+import './Dashboard.scss';
 import RequireAuth from '../components/useRequireAuth';
 import { useAuth } from '../context/AuthContext';
 import ROUTES from '../routeConfig';
@@ -11,14 +12,24 @@ export default function Dashboard() {
 
   return (
     <RequireAuth thisRoute={ROUTES.dashboard}>
-      <h4>First name: {user?.first_name}</h4>
-      <h4>Last name: {user?.last_name}</h4>
-      <br />
-      <p className='sub'>Username: {user?.username}</p>
-      <p className='sub'>Email: {user?.email}</p>
-      <br />
-      <p className='tiny italic'>Account created: {user?.created_at}</p>
-      <button onClick={handleLogout}>Logout</button>
+      <div id='dashboard-page' className='page'>
+        {/* grid container - desktop component */}
+        <div className='layout-grid-container'>
+          <div className='left-sidebar'>
+            <div className='header'>Sidebar header</div>
+            <div className='main'>Sidebar main</div>
+            <div className='footer'>Sidebar footer</div>
+          </div>
+
+          <div className='content'>
+            <div className='header'>Content header</div>
+            <div className='main'>Content main</div>
+            <div className='message-input'>Content message input</div>
+          </div>
+
+          <div className='footer'>footer</div>
+        </div>
+      </div>
     </RequireAuth>
   );
 }

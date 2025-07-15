@@ -11,12 +11,21 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path={ROUTES.dashboard.path} element={ROUTES.dashboard.element} />
-      <Route path={ROUTES.catchAll.path} element={ROUTES.catchAll.element} />
-      <Route path={ROUTES.register.path} element={ROUTES.register.element} />
-      <Route path={ROUTES.login.path} element={ROUTES.login.element} />
-    </Routes>
+    <div className='page-container'>
+      <Routes>
+        <Route
+          path={ROUTES.rootRedirect.path}
+          element={ROUTES.rootRedirect.element}
+        />
+        <Route
+          path={ROUTES.dashboard.path}
+          element={ROUTES.dashboard.element}
+        />
+        <Route path={ROUTES.catchAll.path} element={ROUTES.catchAll.element} />
+        <Route path={ROUTES.register.path} element={ROUTES.register.element} />
+        <Route path={ROUTES.login.path} element={ROUTES.login.element} />
+      </Routes>
+    </div>
   );
 }
 

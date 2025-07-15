@@ -1,0 +1,12 @@
+.page-container {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.page {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

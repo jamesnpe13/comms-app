@@ -1,7 +1,140 @@
 @use './typography' as *;
+@use './variables' as *;
 @use './colours' as *;
 
 body {
   @include font-set_default();
   background-color: $background-color_default;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  &-primary {
+    background-color: $color_primary;
+  }
+  &-secondary {
+    background-color: $color_secondary;
+  }
+  &-destructive {
+    background-color: $color_destructive;
+  }
+  &-warning {
+    background-color: $color_warning;
+  }
+  &-success {
+    background-color: $color_success;
+  }
+  &-white {
+    background-color: $color_white;
+  }
+  &-offwhite {
+    background-color: $color_offwhite;
+  }
+  &-black {
+    background-color: $color_black;
+  }
+}
+
+.text {
+  &-primary {
+    color: $color_primary;
+  }
+  &-secondary {
+    color: $color_secondary;
+  }
+  &-destructive {
+    color: $color_destructive;
+  }
+  &-warning {
+    color: $color_warning;
+  }
+  &-success {
+    color: $color_success;
+  }
+  &-white {
+    color: $color_white;
+  }
+  &-offwhite {
+    color: $color_offwhite;
+  }
+  &-black {
+    color: $color_black;
+  }
+}
+
+input {
+  all: unset;
+  box-sizing: border-box;
+  background-color: $color_shade6;
+  height: $element-height_normal;
+  padding-inline: 20px;
+  font-size: $font-size_m;
+  color: $color_white;
+  border-radius: $border-radius_s;
+  width: 100%;
+
+  &::placeholder {
+    color: $color_offwhite;
+  }
+}
+
+button {
+  all: unset;
+  box-sizing: border-box;
+  height: $element-height_normal;
+  background-color: $color_shade6;
+  padding-inline: 20px;
+  border-radius: $border-radius_s;
+  color: white;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+
+  &.primary {
+    background-color: $color_primary;
+  }
+}
+
+.text-button {
+  cursor: pointer;
+  user-select: none;
+  width: max-content;
+}
+
+form {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+}
+
+.gutter {
+  padding: $gutter_l;
+
+  &_inline {
+    padding-block: 0;
+    padding-inline: $gutter_l;
+  }
+  &_block {
+    padding-block: $gutter_l;
+    padding-inline: 0;
+  }
+}
+
+.margin {
+  &_block {
+    margin-block: 20px;
+  }
+  &_top {
+    margin-top: 20px;
+  }
+  &_bottom {
+    margin-bottom: 20px;
+  }
 }

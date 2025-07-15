@@ -9,7 +9,7 @@ export default function Unauthenticated() {
 
   return (
     <RequireAuth thisRoute={ROUTES.catchAll}>
-      <div className='not-found'>
+      <div id='not-found'>
         <h1>404 Page not found</h1>
         <br />
         <p>Oops! You wont find anything here.</p>

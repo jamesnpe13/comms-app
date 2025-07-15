@@ -43,45 +43,50 @@ export default function Login() {
 
   return (
     <RequireAuth thisRoute={ROUTES.login}>
-      <form action='login' onSubmit={handleSubmit}>
-        <h4>User Login</h4>
-        <input
-          type='text'
-          name='username'
-          placeholder='Username'
-          onChange={handleInputChange}
-        />
-        <input
-          type='password'
-          name='password'
-          placeholder='Password'
-          id='password'
-          onChange={handleInputChange}
-        />
-        <label>
+      <div id='login-page' className='page'>
+        <form
+          action='login'
+          autoComplete='off'
+          onSubmit={handleSubmit}
+          className='gutter'
+        >
+          <h1 className='text-white weight'>CommsApp</h1>
+          <p>Centralized comms platform for your team.</p>
+
+          <h4 className='margin_block'>User Login</h4>
           <input
-            type='checkbox'
-            name='session_only'
+            type='text'
+            name='username'
+            placeholder='Username'
             onChange={handleInputChange}
           />
-          <span className='sub'>Session only</span>
-        </label>
-        <button type='submit'>Log in</button>
+          <input
+            type='password'
+            name='password'
+            placeholder='Password'
+            id='password'
+            onChange={handleInputChange}
+          />
+          {/* <label>
+            <input
+              type='checkbox'
+              name='session_only'
+              onChange={handleInputChange}
+            />
+            <span className='sub'>Session only</span>
+          </label> */}
+          <button className='margin_block primary' type='submit'>
+            Log in
+          </button>
 
-        <p
-          className='tiny register-btn'
-          onClick={() => navigate(ROUTES.register.path)}
-        >
-          No account? Create one now.
-        </p>
-
-        <input
-          type='text'
-          placeholder='Toast notification message'
-          id='toast-message'
-        />
-        <button onClick={handleAddToast}>Add toast</button>
-      </form>
+          <span
+            className='sub register-btn text-button'
+            onClick={() => navigate(ROUTES.register.path)}
+          >
+            No account? Create one now.
+          </span>
+        </form>
+      </div>
     </RequireAuth>
   );
 }
