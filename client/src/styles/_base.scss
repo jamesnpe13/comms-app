@@ -83,6 +83,17 @@ input {
   }
 }
 
+textarea {
+  all: unset;
+  box-sizing: border-box;
+  background-color: $color_shade6;
+  width: 100%;
+  word-wrap: break-word;
+  padding: $gutter_l;
+  border-radius: $border-radius_s;
+  height: $element-height_double;
+}
+
 button {
   all: unset;
   box-sizing: border-box;

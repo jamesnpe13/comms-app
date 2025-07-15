@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './LeftSideBar.scss';
+import ConvoTile from './ConvoTile';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -22,24 +23,7 @@ export default function LeftSideBar({ onLogout }) {
         </div>
       </div>
 
-      <div className='main'>
-        <div className='convo-tile'>
-          <h5>Firstname Lastname</h5>
-          <p className='sub'>Firstname Lastname</p>
-        </div>
-        <div className='convo-tile'>
-          <h5>Firstname Lastname</h5>
-          <p className='sub'>Firstname Lastname</p>
-        </div>
-        <div className='convo-tile'>
-          <h5>Firstname Lastname</h5>
-          <p className='sub'>Firstname Lastname</p>
-        </div>
-        <div className='convo-tile'>
-          <h5>Firstname Lastname</h5>
-          <p className='sub'>Firstname Lastname</p>
-        </div>
-      </div>
+      <div className='main'></div>
       <div className='footer'></div>
     </div>
   );

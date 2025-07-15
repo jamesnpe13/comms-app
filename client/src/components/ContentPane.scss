@@ -13,7 +13,7 @@
 
     .header {
       height: $header-height;
-      background-color: $color_shade6;
+      background-color: $color_shade8;
     }
 
     .main {
@@ -22,8 +22,24 @@
     }
 
     .message-input {
-      height: $message-input-height;
-      background-color: $color_shade6;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: max-content;
+      background-color: $color_shade8;
+      gap: 10px;
+
+      #send-message-btn {
+        width: max-content;
+        align-self: flex-end;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        svg {
+          font-size: 1.2rem;
+        }
+      }
     }
   }
 }

@@ -1,0 +1,10 @@
+@use '../styles/variables.scss' as *;
+@use '../styles/colours.scss' as *;
+
+.convo-tile {
+  background-color: $color_shade6;
+  border: 1px solid $color_shade3;
+  margin: 10px;
+  padding: $gutter_s $gutter_l;
+  border-radius: $border-radius_m;
+}
