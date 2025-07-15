@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import './ContentPane.scss';
+import { useMessaging } from '../context/MessagingContext';
 
 export default function ContentPane() {
   const currentMessage = useRef('');
@@ -10,9 +11,8 @@ export default function ContentPane() {
     currentMessage.current = document.getElementById(
       'message-input-field'
     ).value;
-
-    console.log(currentMessage.current);
   };
+
   return (
     <div className='content'>
       <div className='header'></div>

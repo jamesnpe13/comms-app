@@ -5,16 +5,19 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { NotifProvider } from './context/NotifContext';
+import { MessagingProvider } from './context/MessagingContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <BrowserRouter>
-    <AuthProvider>
-      <NotifProvider>
-        <App />
-      </NotifProvider>
-    </AuthProvider>
+    <NotifProvider>
+      <AuthProvider>
+        <MessagingProvider>
+          <App />
+        </MessagingProvider>
+      </AuthProvider>
+    </NotifProvider>
   </BrowserRouter>
   // </React.StrictMode>
 );
