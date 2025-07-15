@@ -12,6 +12,7 @@ const { checkRole } = require('../middleware/routeProtection');
 // Route controller
 const usersController = require('../controllers/usersController');
 const authController = require('../controllers/authController');
+const messagingController = require('../controllers/messagingController');
 
 // User routes
 router.get('/users/id/:id', authenticateToken, usersController.getUserById);
@@ -35,6 +36,73 @@ router.delete(
   authenticateToken,
   authorizeUser,
   usersController.deleteUserById
+);
+
+// Messaging routes
+router.post(
+  '/messaging/convos',
+  authenticateToken,
+  messagingController.createConvo
+);
+router.get(
+  '/messaging/convos',
+  authenticateToken,
+  messagingController.getAllConvos
+);
+// router.get(
+//   '/messaging/convos/partof',
+//   authenticateToken,
+//   messagingController.getConvosPartOf
+// );
+router.get(
+  '/messaging/convos/created',
+  authenticateToken,
+  messagingController.getConvosCreated
+);
+router.put(
+  '/messaging/convos',
+  authenticateToken,
+  messagingController.updateConvo
+);
+router.delete(
+  '/messaging/convos',
+  authenticateToken,
+  messagingController.deleteConvo
+);
+router.post(
+  '/messaging/participants',
+  authenticateToken,
+  messagingController.createParticipant
+);
+router.get(
+  '/messaging/participants',
+  authenticateToken,
+  messagingController.getParticipants
+);
+router.delete(
+  '/messaging/participants',
+  authenticateToken,
+  messagingController.deleteParticipant
+);
+router.post(
+  '/messaging/messages',
+  authenticateToken,
+  messagingController.createMessage
+);
+router.get(
+  '/messaging/messages',
+  authenticateToken,
+  messagingController.getMessages
+);
+router.put(
+  '/messaging/messages',
+  authenticateToken,
+  messagingController.updateMessages
+);
+router.delete(
+  '/messaging/messages',
+  authenticateToken,
+  messagingController.deleteMessages
 );
 
 // Authentication routes

@@ -15,7 +15,7 @@ export default function LeftSideBar({ onLogout }) {
             <div className='profile-pic'>
               <h5>DP</h5>
             </div>
-            <h5 className='profile-name'>{`${user?.first_name} ${user?.last_name}`}</h5>
+            <p className='profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
           </div>
           <div className='logout-button' onClick={onLogout}>
             {<LogoutIcon />}
