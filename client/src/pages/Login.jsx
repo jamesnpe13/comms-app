@@ -53,7 +53,7 @@ export default function Login() {
           className='gutter_l'
         >
           <h1 className='text-white weight'>CommsApp</h1>
-          <p>Centralized comms platform for your team.</p>
+          <p>A centralized comms platform for your team.</p>
 
           <h4 className='margin_block'>User Login</h4>
           <input

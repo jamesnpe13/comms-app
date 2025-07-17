@@ -102,6 +102,10 @@ textarea {
 button {
   all: unset;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   height: $element-height_normal;
   background-color: $color_shade6;
   padding: 10px 15px;
@@ -176,4 +180,9 @@ form {
   opacity: 0.6;
   position: absolute;
   filter: grayscale(1) brightness(0.2);
+}
+
+svg.MuiSvgIcon-root {
+  font-size: $font-size_xl;
+  color: $color_white;
 }

@@ -7,11 +7,13 @@ export default function NewConvo() {
   const { createConvo } = useMessaging();
 
   return (
-    <div className='new-convo-tile' onClick={createConvo}>
-      <div className='button-container'>
-        New conversation
-        <ForumIcon />
-      </div>
-    </div>
+    <button
+      onClick={createConvo}
+      className='primary new-convo-btn'
+      title='Start a new conversation'
+    >
+      New conversation
+      <ForumIcon />
+    </button>
   );
 }

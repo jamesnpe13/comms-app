@@ -42,6 +42,10 @@
           flex-direction: column;
           gap: 3px;
 
+          .profile-name {
+            color: $color_white;
+          }
+
           .profile-name,
           .profile-email {
             white-space: nowrap;
@@ -58,18 +62,14 @@
         display: grid;
         place-content: center;
         cursor: pointer;
-
-        svg {
-          font-size: $font-size_xl;
-          color: $color_white;
-        }
       }
     }
   }
 
   .search-container {
+    all: unset;
+    padding: $gutter_s;
     background-color: $color_shade8;
-
     display: flex;
     align-items: center;
     gap: 10px;
@@ -80,10 +80,6 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-
-      svg {
-        font-size: $font-size_xl;
-      }
     }
   }
 
