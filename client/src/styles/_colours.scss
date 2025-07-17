@@ -6,10 +6,10 @@ $color_destructive: rgb(171, 56, 56);
 $color_warning: rgb(222, 197, 82);
 $color_success: $color_secondary;
 
-$color_tint: rgb(0, 5, 79);
-$color_tint-percentage: 5%;
+$color_tint: rgb(3, 0, 45);
+$color_tint-percentage: 15%;
 $color_white: rgb(255, 255, 255);
-$color_offwhite: rgb(199, 199, 199);
+$color_offwhite: rgb(175, 175, 175);
 $color_black: color.mix($color_tint, rgb(12, 12, 12), $color_tint-percentage);
 $color_dark: $color_black;
 $color_light: color.mix($color_tint, rgb(77, 77, 77), $color_tint-percentage);

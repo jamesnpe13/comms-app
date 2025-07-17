@@ -1,6 +1,6 @@
-@use '../styles/variables' as *;
-@use '../styles/colours' as *;
-@use '../styles/typography' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
+@use '../../styles/typography' as *;
 
 .new-convo-tile {
   background-color: $color_shade3;

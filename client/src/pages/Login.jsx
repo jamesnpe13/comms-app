@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
-import RequireAuth from '../components/useRequireAuth';
+import RequireAuth from '../hooks/useRequireAuth';
 import { useNotif } from '../context/NotifContext';
 import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 

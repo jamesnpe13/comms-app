@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { register } from '../api/requests';
 import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
-import RequireAuth from '../components/useRequireAuth';
+import RequireAuth from '../hooks/useRequireAuth';
 import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 
 export default function Registration() {

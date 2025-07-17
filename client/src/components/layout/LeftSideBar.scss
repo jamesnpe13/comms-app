@@ -1,5 +1,6 @@
-@use '../styles/variables' as *;
-@use '../styles/colours' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
+@use '../../styles/typography' as *;
 
 .left-sidebar {
   width: $sidebar-width;
@@ -9,7 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: $color_shade9;
+    background-color: $color_shade8;
     width: 100%;
 
     .container {
@@ -20,8 +21,8 @@
 
       .profile-container {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 20px;
         height: 100%;
         padding: $gutter_s;
         width: 100%;
@@ -30,7 +31,7 @@
           height: 100%;
           aspect-ratio: 1 / 1;
           border-radius: 100%;
-          border: 1px solid white;
+          background-color: $color_shade6;
           display: grid;
           place-content: center;
         }
@@ -51,11 +52,37 @@
       }
 
       .logout-button {
+        background-color: $color_shade8;
         height: 100%;
         aspect-ratio: 1 / 1;
         display: grid;
         place-content: center;
         cursor: pointer;
+
+        svg {
+          font-size: $font-size_xl;
+          color: $color_white;
+        }
+      }
+    }
+  }
+
+  .search-container {
+    background-color: $color_shade8;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    button {
+      width: max-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      svg {
+        font-size: $font-size_xl;
       }
     }
   }
@@ -75,7 +102,6 @@
   }
 
   .footer {
-    height: $header-height;
     width: 100%;
     background-color: $color_shade8;
     display: flex;

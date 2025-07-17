@@ -1,7 +1,7 @@
 import React from 'react';
 import './NotFound.scss';
 import { useNavigate } from 'react-router-dom';
-import RequireAuth from '../components/useRequireAuth';
+import RequireAuth from '../hooks/useRequireAuth';
 import ROUTES from '../routeConfig';
 import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 

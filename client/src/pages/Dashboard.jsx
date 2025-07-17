@@ -1,10 +1,9 @@
 import './Dashboard.scss';
-import RequireAuth from '../components/useRequireAuth';
+import RequireAuth from '../hooks/useRequireAuth';
 import { useAuth } from '../context/AuthContext';
 import ROUTES from '../routeConfig';
-import LeftSideBar from '../components/LeftSideBar';
-import ContentPane from '../components/ContentPane';
-import Footer from '../components/Footer';
+import LeftSideBar from '../components/layout/LeftSideBar';
+import ContentPane from '../components/panes/ContentPane';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();

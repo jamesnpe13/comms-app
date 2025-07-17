@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import './ContentPane.scss';
-import { useMessaging } from '../context/MessagingContext';
+import { useMessaging } from '../../context/MessagingContext';
 
 export default function ContentPane() {
   const currentMessage = useRef('');

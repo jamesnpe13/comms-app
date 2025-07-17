@@ -92,6 +92,11 @@ textarea {
   padding: $gutter_l;
   border-radius: $border-radius_s;
   height: $element-height_double;
+  color: $color_white;
+
+  &::placeholder {
+    color: $color_offwhite;
+  }
 }
 
 button {
@@ -99,7 +104,7 @@ button {
   box-sizing: border-box;
   height: $element-height_normal;
   background-color: $color_shade6;
-  padding-inline: 20px;
+  padding: 10px 15px;
   border-radius: $border-radius_s;
   color: white;
   text-align: center;
@@ -108,6 +113,10 @@ button {
 
   &.primary {
     background-color: $color_primary;
+  }
+
+  &.transparent {
+    background-color: transparent;
   }
 }
 
