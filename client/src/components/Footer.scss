@@ -2,12 +2,12 @@
 @use '../styles/colours' as *;
 
 .layout-grid-container {
-  .footer {
+  & > .footer {
     height: $footer-height;
     width: 100%;
     grid-row: 2 / 3;
     grid-column: 1 / -1;
     background-color: $color_shade9;
-    gap: $gap;
+    gap: $layout-gap;
   }
 }

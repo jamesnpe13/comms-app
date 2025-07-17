@@ -3,22 +3,12 @@ import { useAuth } from '../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './LeftSideBar.scss';
 import ConvoTile from './ConvoTile';
-import { authApi } from '../api/axiosInstance';
-import { handleError } from '../utils/errorhandler';
+import NewConvo from './NewConvo';
+import { useMessaging } from '../context/MessagingContext';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
-  const [convos, setConvos] = useState([]);
-
-  const loadConvos = async () => {
-    try {
-      const res = await authApi.get('/messaging/convos/created');
-      console.log(res);
-      setConvos(res.data.convos);
-    } catch (error) {
-      throw new Error(handleError(error, 'Messaging'));
-    }
-  };
+  const { convos, loadConvos } = useMessaging();
 
   useEffect(() => {
     loadConvos();
@@ -30,9 +20,9 @@ export default function LeftSideBar({ onLogout }) {
         <div className='container'>
           <div className='profile-container'>
             <div className='profile-pic'>
-              <h5>DP</h5>
+              <p className='tiny'>DP</p>
             </div>
-            <p className='profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
+            <p className='sub profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
           </div>
           <div className='logout-button' onClick={onLogout}>
             {<LogoutIcon />}
@@ -40,10 +30,13 @@ export default function LeftSideBar({ onLogout }) {
         </div>
       </div>
 
-      <div className='main'>
+      <div className='main gutter_s'>
         {convos && convos.map((convo) => <ConvoTile data={convo} />)}
       </div>
-      <div className='footer'></div>
+
+      <div className='footer gutter_s'>
+        <NewConvo />
+      </div>
     </div>
   );
 }

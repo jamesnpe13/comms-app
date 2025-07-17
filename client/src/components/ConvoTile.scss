@@ -1,15 +1,56 @@
 @use '../styles/variables.scss' as *;
 @use '../styles/colours.scss' as *;
+@use '../styles/typography.scss' as *;
 
 .convo-tile {
   background-color: $color_shade6;
   border: 1px solid $color_shade3;
-  margin: 10px;
-  padding: $gutter_s $gutter_l;
+  padding: $gutter_s;
   border-radius: $border-radius_s;
-  min-height: 50px;
+  height: max-content;
   display: flex;
+  gap: 10px;
   align-items: center;
   user-select: none;
   cursor: pointer;
+  color: $color_white;
+
+  svg {
+    font-size: $font-size_xxl;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+
+    p {
+      white-space: nowrap; /* prevent line break */
+      overflow: hidden; /* hide overflow */
+      text-overflow: ellipsis; /* add ... */
+    }
+  }
+
+  .label-container {
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+    padding: 4px 10px;
+    color: $color_offwhite;
+    background-color: $color_shade7;
+    border-radius: $border-radius_s;
+    border: 1px solid $color_shade4;
+
+    svg {
+      font-size: $font-size_m;
+    }
+  }
+
+  .type-label {
+    color: $color_secondary;
+  }
 }

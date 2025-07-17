@@ -17,10 +17,10 @@ export default function Dashboard() {
     <RequireAuth thisRoute={ROUTES.dashboard}>
       <div id='dashboard-page' className='page'>
         {/* grid container - desktop component */}
-        <div className='layout-grid-container'>
+        <div className='layout-grid'>
           <LeftSideBar onLogout={handleLogout} />
           <ContentPane />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </RequireAuth>

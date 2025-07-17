@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import { ApiFunctions } from '../api/requests';
 import ROUTES from '../routeConfig';
+import { useMessaging } from './MessagingContext';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
+  const { resetMessagingContext } = useMessaging();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState(null);
@@ -36,6 +38,7 @@ export function AuthProvider({ children }) {
     // clear memory
     setAccessToken(null);
     setUser(null);
+    resetMessagingContext();
   };
 
   const login = async (data) => {

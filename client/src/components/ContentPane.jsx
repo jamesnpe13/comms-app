@@ -14,7 +14,7 @@ export default function ContentPane() {
   };
 
   return (
-    <div className='content'>
+    <div className='content-pane'>
       <div className='header'></div>
       <div className='main'></div>
       <form className='message-input gutter_l' onSubmit={handleSendMessage}>

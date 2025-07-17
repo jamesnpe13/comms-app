@@ -1,15 +1,15 @@
 @use 'sass:color';
 
 $color_primary: rgb(37, 97, 227);
-$color_secondary: rgb(48, 125, 192);
+$color_secondary: rgb(189, 111, 52);
 $color_destructive: rgb(171, 56, 56);
 $color_warning: rgb(222, 197, 82);
 $color_success: $color_secondary;
 
-$color_tint: rgb(0, 60, 255);
+$color_tint: rgb(0, 5, 79);
 $color_tint-percentage: 5%;
 $color_white: rgb(255, 255, 255);
-$color_offwhite: rgb(208, 208, 208);
+$color_offwhite: rgb(153, 153, 153);
 $color_black: color.mix($color_tint, rgb(12, 12, 12), $color_tint-percentage);
 $color_dark: $color_black;
 $color_light: color.mix($color_tint, rgb(77, 77, 77), $color_tint-percentage);

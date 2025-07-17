@@ -1,12 +1,64 @@
+@use './variables' as *;
+@use './colours' as *;
+@use './typography' as *;
+
 .page-container {
-  width: 100dvw;
   height: 100dvh;
-  display: flex;
-  justify-content: center;
+  width: 100dvw;
+
   overflow: hidden;
+  position: relative;
+
+  // border: 5px solid red;
+
+  .page {
+    height: 100%;
+    overflow: auto;
+
+    // border: 5px solid blue;
+  }
 }
 
-.page {
-  overflow-x: hidden;
-  overflow-y: auto;
+#dashboard-page > .layout-grid {
+  height: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: $layout-gap;
+
+  .left-sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    gap: $layout-gap;
+
+    .header {
+    }
+
+    .main {
+      flex: 1;
+      height: 100%;
+    }
+
+    .footer {
+    }
+  }
+
+  .content-pane {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      height: $header-height;
+    }
+
+    .main {
+      flex: 1;
+    }
+
+    .message-input {
+      height: max-content;
+      max-width: 100%;
+    }
+  }
 }

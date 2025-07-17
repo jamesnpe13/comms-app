@@ -2,16 +2,5 @@
 @use '../styles/colours' as *;
 
 #dashboard-page {
-  width: 100%;
-  height: 100%;
-  background-color: $color_shade6;
-
-  .layout-grid-container {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: 1fr auto;
-    gap: $gap;
-  }
+  background-color: $color_shade5;
 }

@@ -1,64 +1,69 @@
 @use '../styles/variables' as *;
 @use '../styles/colours' as *;
 
-.layout-grid-container {
-  .left-sidebar {
-    width: $sidebar-width;
-    height: 100%;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
+.left-sidebar {
+  width: $sidebar-width;
+
+  .header {
+    height: $header-height;
     display: flex;
     flex-direction: column;
-    gap: $gap;
+    justify-content: center;
+    background-color: $color_shade9;
 
-    .header {
-      height: $header-height;
+    .container {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-color: $color_shade9;
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;
 
-      .container {
+      .profile-container {
         display: flex;
+        align-items: center;
+        gap: 20px;
         height: 100%;
-        width: 100%;
-        justify-content: space-between;
+        padding: $gutter_s;
 
-        .profile-container {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-          height: 100%;
-          padding: $gutter_s;
-
-          .profile-pic {
-            height: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 100%;
-            border: 1px solid white;
-            display: grid;
-            place-content: center;
-          }
-        }
-
-        .logout-button {
+        .profile-pic {
           height: 100%;
           aspect-ratio: 1 / 1;
+          border-radius: 100%;
+          border: 1px solid white;
           display: grid;
           place-content: center;
-          cursor: pointer;
         }
       }
-    }
 
-    .main {
-      flex: 1 1 auto;
-      background-color: $color_shade8;
+      .logout-button {
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        display: grid;
+        place-content: center;
+        cursor: pointer;
+      }
     }
+  }
 
-    .footer {
-      height: $header-height;
-      background-color: $color_shade8;
+  .main {
+    overflow: auto;
+    background-color: $color_shade8;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .footer {
+    height: $header-height;
+    width: 100%;
+    background-color: $color_shade8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

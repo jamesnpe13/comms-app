@@ -1,0 +1,28 @@
+@use '../styles/variables' as *;
+@use '../styles/colours' as *;
+@use '../styles/typography' as *;
+
+.new-convo-tile {
+  background-color: $color_shade3;
+  border: 1px solid $color_shade1;
+  // margin: 10px;
+  padding: $gutter_s $gutter_l;
+  border-radius: $border-radius_s;
+  height: $element-height_normal;
+  width: 100%;
+  display: grid;
+  place-content: center;
+  user-select: none;
+  cursor: pointer;
+
+  .button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $color_offwhite;
+
+    svg {
+      font-size: $font-size_xl;
+    }
+  }
+}

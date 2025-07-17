@@ -10,14 +10,14 @@ import { MessagingProvider } from './context/MessagingContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <BrowserRouter>
-    <NotifProvider>
-      <AuthProvider>
-        <MessagingProvider>
+  <MessagingProvider>
+    <BrowserRouter>
+      <NotifProvider>
+        <AuthProvider>
           <App />
-        </MessagingProvider>
-      </AuthProvider>
-    </NotifProvider>
-  </BrowserRouter>
+        </AuthProvider>
+      </NotifProvider>
+    </BrowserRouter>
+  </MessagingProvider>
   // </React.StrictMode>
 );
