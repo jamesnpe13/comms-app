@@ -83,6 +83,37 @@
     }
   }
 
+  .title-container {
+    // padding: $gutter_s;
+    height: $header-height;
+    background-color: $color_shade8;
+    display: flex;
+
+    & > * {
+      // border: 1px solid white;
+    }
+
+    .back-button {
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .location {
+      padding: $gutter_s;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      gap: 3px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+
   .main {
     overflow: auto;
     background-color: $color_shade8;

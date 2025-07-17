@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import './LeftSideBar.scss';
 import ConvoTile from '../ui/ConvoTile';
 import NewConvo from '../ui/NewConvo';
@@ -35,6 +36,17 @@ export default function LeftSideBar({ onLogout }) {
               <p className='tiny'>DP</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className='title-container'>
+        <div className='back-button'>
+          <ArrowBackIosIcon />
+        </div>
+
+        <div className='location'>
+          <h5 className=''>City Cross Link</h5>
+          <p>Music Team</p>
         </div>
       </div>
 
