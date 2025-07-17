@@ -26,9 +26,9 @@
     width: 100%;
 
     p {
-      white-space: nowrap; /* prevent line break */
-      overflow: hidden; /* hide overflow */
-      text-overflow: ellipsis; /* add ... */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

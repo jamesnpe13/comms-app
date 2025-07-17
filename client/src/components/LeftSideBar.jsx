@@ -22,7 +22,10 @@ export default function LeftSideBar({ onLogout }) {
             <div className='profile-pic'>
               <p className='tiny'>DP</p>
             </div>
-            <p className='sub profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
+            <div className='profile-details'>
+              <p className='sub profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
+              <p className='tiny profile-email italic'>{user?.email}</p>
+            </div>
           </div>
           <div className='logout-button' onClick={onLogout}>
             {<LogoutIcon />}

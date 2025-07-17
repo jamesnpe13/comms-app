@@ -1,7 +1,6 @@
 import React from 'react';
-import './NotFound.scss';
+import './Unauthenticated.scss';
 import { useNavigate } from 'react-router-dom';
-import RequireAuth from '../components/useRequireAuth';
 import ROUTES from '../routeConfig';
 import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
 
@@ -9,13 +8,17 @@ export default function Unauthenticated() {
   const navigate = useNavigate();
 
   return (
-    <RequireAuth thisRoute={ROUTES.catchAll}>
+    <>
       <img className='bg-image' src={BG} alt='' />
-      <div id='not-found' className='page'>
-        <h1>404 Page not found</h1>
+      <div className='unauthenticated page'>
+        <h1>Please log in</h1>
         <br />
-        <p>Oops! You wont find anything here.</p>
+        <p>Unable to access this page.</p>
+        <br />
+        <button className='primary' onClick={() => navigate(ROUTES.login.path)}>
+          Log in
+        </button>
       </div>
-    </RequireAuth>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import Unauthenticated from './Unauthenticated';
+import Unauthenticated from '../pages/Unauthenticated';
 
 export default function RequireAuth({ thisRoute, children }) {
   const { isAuth } = useAuth();

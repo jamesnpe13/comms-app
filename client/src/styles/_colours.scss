@@ -9,7 +9,7 @@ $color_success: $color_secondary;
 $color_tint: rgb(0, 5, 79);
 $color_tint-percentage: 5%;
 $color_white: rgb(255, 255, 255);
-$color_offwhite: rgb(153, 153, 153);
+$color_offwhite: rgb(199, 199, 199);
 $color_black: color.mix($color_tint, rgb(12, 12, 12), $color_tint-percentage);
 $color_dark: $color_black;
 $color_light: color.mix($color_tint, rgb(77, 77, 77), $color_tint-percentage);

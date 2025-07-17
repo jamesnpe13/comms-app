@@ -19,7 +19,7 @@ export default function ConvoTile({ data }) {
     <div className='convo-tile'>
       {/* {typeIcon()} */}
       <div className='container'>
-        <p className='tiny'>{name}</p>
+        <p className='sub'>{name}</p>
         <div className='label-container'>
           <p className='type-label tiny italic'>{typeLabel()}</p>
           <p className='tiny italic'>0/10</p>

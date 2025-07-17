@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: center;
     background-color: $color_shade9;
+    width: 100%;
 
     .container {
       display: flex;
@@ -23,6 +24,7 @@
         gap: 20px;
         height: 100%;
         padding: $gutter_s;
+        width: 100%;
 
         .profile-pic {
           height: 100%;
@@ -31,6 +33,20 @@
           border: 1px solid white;
           display: grid;
           place-content: center;
+        }
+
+        .profile-details {
+          width: 150px;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+
+          .profile-name,
+          .profile-email {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
 
