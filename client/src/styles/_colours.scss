@@ -5,15 +5,13 @@ $color_secondary: rgb(189, 111, 52);
 $color_destructive: rgb(171, 56, 56);
 $color_warning: rgb(222, 197, 82);
 $color_success: $color_secondary;
-
-$color_tint: rgb(17, 17, 17);
+$color_tint: rgb(30, 29, 41);
 $color_tint-percentage: 50%;
 $color_white: rgb(255, 255, 255);
 $color_offwhite: rgb(146, 146, 146);
 $color_black: color.mix($color_tint, rgb(12, 12, 12), $color_tint-percentage);
 $color_dark: $color_black;
 $color_light: color.mix($color_tint, rgb(77, 77, 77), $color_tint-percentage);
-
 $color_shade1: color.mix($color_dark, $color_light, 10%);
 $color_shade2: color.mix($color_dark, $color_light, 20%);
 $color_shade3: color.mix($color_dark, $color_light, 30%);
@@ -24,5 +22,4 @@ $color_shade7: color.mix($color_dark, $color_light, 70%);
 $color_shade8: color.mix($color_dark, $color_light, 80%);
 $color_shade9: color.mix($color_dark, $color_light, 90%);
 $color_shade10: color.mix($color_black, $color_black, 100%);
-
 $background-color_default: $color_shade9;

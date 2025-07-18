@@ -123,8 +123,16 @@ button {
   width: 100%;
   cursor: pointer;
 
+  &:focus {
+    border: 1px solid $color_primary;
+  }
+
   &.primary {
     background-color: $color_primary;
+
+    &:focus {
+      border: 1px solid $color_white;
+    }
   }
 
   &.transparent {

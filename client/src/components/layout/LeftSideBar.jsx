@@ -51,7 +51,7 @@ export default function LeftSideBar({ onLogout }) {
         </div>
       </div>
 
-      <form className='search-container'>
+      <form className='search-container' autoComplete='off'>
         <input
           type='text'
           placeholder='Search conversation'
