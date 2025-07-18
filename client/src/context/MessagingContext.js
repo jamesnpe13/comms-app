@@ -6,6 +6,7 @@ const MessagingContext = createContext();
 
 export function MessagingProvider({ children }) {
   const [convos, setConvos] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [currentConvo, setCurrentConvo] = useState({});
 
   // reset context state
@@ -14,8 +15,19 @@ export function MessagingProvider({ children }) {
     setCurrentConvo({});
   };
 
-  // create message
-  // delete message
+  // create group
+  const createGroup = async () => {
+    const name = prompt('Group name');
+
+    if (!name || name.length === 0) return;
+
+    try {
+      const res = await authApi.post('/messaging/groups', { name: name });
+    } catch (error) {}
+  };
+
+  // load groups
+  const createGroups = async () => {};
 
   // create conversation
   const createConvo = async () => {
@@ -46,7 +58,13 @@ export function MessagingProvider({ children }) {
 
   return (
     <MessagingContext.Provider
-      value={{ convos, loadConvos, createConvo, resetMessagingContext }}
+      value={{
+        convos,
+        loadConvos,
+        createConvo,
+        createGroup,
+        resetMessagingContext,
+      }}
     >
       {children}
     </MessagingContext.Provider>

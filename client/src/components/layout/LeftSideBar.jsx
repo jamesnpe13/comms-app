@@ -7,6 +7,7 @@ import './LeftSideBar.scss';
 import ConvoTile from '../ui/ConvoTile';
 import NewConvo from '../ui/NewConvo';
 import { useMessaging } from '../../context/MessagingContext';
+import NewGroup from '../ui/NewGroup';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -63,6 +64,10 @@ export default function LeftSideBar({ onLogout }) {
       <div className='main gutter_s'>
         {convos &&
           convos.map((convo) => <ConvoTile key={convo.id} data={convo} />)}
+      </div>
+
+      <div className='gutter_s'>
+        <NewGroup />
       </div>
 
       <div className='footer gutter_s'>

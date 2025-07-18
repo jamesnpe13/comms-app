@@ -27,6 +27,13 @@ exports.createGroup = async (req, res, next) => {
 };
 
 exports.getGroups = async (req, res, next) => {
+  const cookieRefreshToken = req.cookies.refreshToken;
+  const { id } = jwt.verify(
+    cookieRefreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+  // get joined table
+
   try {
   } catch (err) {}
 };
@@ -159,7 +166,26 @@ exports.deleteConvo = async (req, res, next) => {
   }
 };
 
-// ========= PARTICIPANTS ===========
+// ========= MEMBERS =========== (group members)
+// create member
+exports.createMember = async (req, res, next) => {
+  try {
+    res.json({ message: 'create member' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// delete member
+exports.deleteMember = async (req, res, next) => {
+  try {
+    res.json({ message: 'Delete member' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// ========= PARTICIPANTS =========== (convo participants)
 // create participant
 exports.createParticipant = async (req, res, next) => {
   try {

@@ -35,6 +35,15 @@ const convos = `
 	)
 `;
 
+const members = `
+	CREATE TABLE IF NOT EXISTS members (
+		id INT AUTO_INCREMENT PRIMARY KEY,	
+		group_parent INT NOT NULL,
+		role VARCHAR(100) NOT NULL,
+		FOREIGN KEY (group_parent) REFERENCES convo_groups(id) ON DELETE CASCADE
+	)
+`;
+
 const participants = `
 	CREATE TABLE IF NOT EXISTS participants (
 		id INT AUTO_INCREMENT PRIMARY KEY,	
@@ -71,6 +80,7 @@ async function createTables() {
     await db.execute(users);
     await db.execute(convo_groups);
     await db.execute(convos);
+    await db.execute(members);
     await db.execute(participants);
     await db.execute(messages);
     await db.execute(refreshTokens);
