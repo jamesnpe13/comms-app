@@ -12,21 +12,33 @@ const users = `
 	)
 `;
 
-const convos = `
-	CREATE TABLE IF NOT EXISTS convos (
+const convo_groups = `
+	CREATE TABLE IF NOT EXISTS convo_groups (
 		id INT AUTO_INCREMENT PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
-		type VARCHAR(100) NOT NULL,
 		created_by INT NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (created_by) REFERENCES users(id)
 	)
 `;
 
+const convos = `
+	CREATE TABLE IF NOT EXISTS convos (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		type VARCHAR(100) NOT NULL,
+		group_parent INT NOT NULL,
+		created_by INT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		FOREIGN KEY (created_by) REFERENCES users(id),
+		FOREIGN KEY (group_parent) REFERENCES convo_groups(id) ON DELETE CASCADE
+	)
+`;
+
 const participants = `
 	CREATE TABLE IF NOT EXISTS participants (
 		id INT AUTO_INCREMENT PRIMARY KEY,	
-		convo_id INT NOT NULL UNIQUE,
+		convo_id INT NOT NULL,
 		role VARCHAR(100) NOT NULL,
 		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE
 	)
@@ -57,6 +69,7 @@ const refreshTokens = `
 async function createTables() {
   try {
     await db.execute(users);
+    await db.execute(convo_groups);
     await db.execute(convos);
     await db.execute(participants);
     await db.execute(messages);

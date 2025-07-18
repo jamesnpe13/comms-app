@@ -105,6 +105,23 @@ router.delete(
   messagingController.deleteMessages
 );
 
+// Group routes
+router.post(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.createGroup
+);
+router.get(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.getGroups
+);
+router.put(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.createGroup
+);
+
 // Authentication routes
 router.post('/auth/login', verifyPassword, authController.userLogin);
 router.post('/auth/logout/', authenticateToken, authController.userLogout);

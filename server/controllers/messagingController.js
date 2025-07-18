@@ -2,6 +2,45 @@ const db = require('../database/connection');
 const jwt = require('jsonwebtoken');
 const { newError } = require('../functions');
 
+// ========= GROUPS
+// create group
+exports.createGroup = async (req, res, next) => {
+  const cookieRefreshToken = req.cookies.refreshToken;
+  const { name } = req.body;
+  const { id } = jwt.verify(
+    cookieRefreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+  const sql = `
+  INSERT INTO convo_groups (name, created_by)
+  VALUES (?, ?)
+`;
+
+  if (!name) return next(newError('Please provide a group name'));
+
+  try {
+    await db.execute(sql, [name, id]);
+    res.json({ message: 'Group created' });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getGroups = async (req, res, next) => {
+  try {
+  } catch (err) {}
+};
+
+exports.updateGroup = async (req, res, next) => {
+  try {
+  } catch (err) {}
+};
+
+exports.deleteGroup = async (req, res, next) => {
+  try {
+  } catch (err) {}
+};
+
 // ========= CONVOS ===========
 // create convo
 exports.createConvo = async (req, res, next) => {
