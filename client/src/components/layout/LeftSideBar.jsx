@@ -61,7 +61,8 @@ export default function LeftSideBar({ onLogout }) {
       </form>
 
       <div className='main gutter_s'>
-        {convos && convos.map((convo) => <ConvoTile data={convo} />)}
+        {convos &&
+          convos.map((convo) => <ConvoTile key={convo.id} data={convo} />)}
       </div>
 
       <div className='footer gutter_s'>

@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: $color_shade8;
+    background-color: $color_shade9;
     width: 100%;
 
     .container {
@@ -56,7 +56,7 @@
       }
 
       .logout-button {
-        background-color: $color_shade8;
+        // background-color: $color_shade8;
         height: 100%;
         aspect-ratio: 1 / 1;
         display: grid;
@@ -66,32 +66,11 @@
     }
   }
 
-  .search-container {
-    all: unset;
-    padding: $gutter_s;
-    background-color: $color_shade8;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    button {
-      width: max-content;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-  }
-
   .title-container {
-    // padding: $gutter_s;
     height: $header-height;
     background-color: $color_shade8;
     display: flex;
-
-    & > * {
-      // border: 1px solid white;
-    }
+    display: none; // hide temprary
 
     .back-button {
       height: 100%;
@@ -114,6 +93,23 @@
     }
   }
 
+  .search-container {
+    all: unset;
+    padding: $gutter_s;
+    background-color: $color_shade8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    button {
+      width: max-content;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
   .main {
     overflow: auto;
     background-color: $color_shade8;
@@ -130,7 +126,7 @@
 
   .footer {
     width: 100%;
-    background-color: $color_shade8;
+    background-color: $color_shade9;
     display: flex;
     justify-content: center;
     align-items: center;

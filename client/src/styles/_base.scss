@@ -81,6 +81,10 @@ input {
   &::placeholder {
     color: $color_offwhite;
   }
+
+  &:focus {
+    border: 1px solid $color_primary;
+  }
 }
 
 textarea {
@@ -96,6 +100,10 @@ textarea {
 
   &::placeholder {
     color: $color_offwhite;
+  }
+
+  &:focus {
+    border: 1px solid $color_primary;
   }
 }
 
