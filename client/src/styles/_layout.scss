@@ -9,13 +9,13 @@
   overflow: hidden;
   position: relative;
 
-  // border: 5px solid red;
+  display: flex;
+  flex-direction: column;
 
-  .page {
+  & > .page {
     height: 100%;
     overflow: auto;
-
-    // border: 5px solid blue;
+    flex: 1 1;
   }
 }
 
@@ -23,7 +23,6 @@
   height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr auto;
   gap: $layout-gap;
 
   .left-sidebar {
@@ -33,17 +32,8 @@
     overflow: hidden;
     gap: $layout-gap;
 
-    .header {
-    }
-
-    .search-container {
-    }
-
     .main {
       flex: 1;
-    }
-
-    .footer {
     }
   }
 

@@ -77,6 +77,7 @@ input {
   color: $color_white;
   border-radius: $border-radius_s;
   width: 100%;
+  border: 1px solid $color_shade8;
 
   &::placeholder {
     color: $color_offwhite;
@@ -97,6 +98,7 @@ textarea {
   border-radius: $border-radius_s;
   height: $element-height_double;
   color: $color_white;
+  border: 1px solid $color_shade8;
 
   &::placeholder {
     color: $color_offwhite;
@@ -122,6 +124,7 @@ button {
   text-align: center;
   width: 100%;
   cursor: pointer;
+  border: 1px solid $color_shade8;
 
   &:focus {
     border: 1px solid $color_primary;
@@ -129,6 +132,7 @@ button {
 
   &.primary {
     background-color: $color_primary;
+    border: 1px solid none;
 
     &:focus {
       border: 1px solid $color_white;

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
 import ROUTES from './routeConfig';
+import Footer from './components/layout/Footer';
 
 function App() {
   const { restoreSession, isAuth } = useAuth();
@@ -28,6 +29,7 @@ function App() {
         <Route path={ROUTES.register.path} element={ROUTES.register.element} />
         <Route path={ROUTES.login.path} element={ROUTES.login.element} />
       </Routes>
+      <Footer />
     </div>
   );
 }

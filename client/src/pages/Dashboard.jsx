@@ -20,7 +20,6 @@ export default function Dashboard() {
         <div className='layout-grid'>
           <LeftSideBar onLogout={handleLogout} />
           <ContentPane />
-          <Footer />
         </div>
       </div>
     </RequireAuth>
