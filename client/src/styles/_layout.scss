@@ -23,6 +23,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
   gap: $layout-gap;
 
   .left-sidebar {

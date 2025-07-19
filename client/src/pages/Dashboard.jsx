@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ROUTES from '../routeConfig';
 import LeftSideBar from '../components/layout/LeftSideBar';
 import ContentPane from '../components/panes/ContentPane';
+import Footer from '../components/layout/Footer';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -19,7 +20,7 @@ export default function Dashboard() {
         <div className='layout-grid'>
           <LeftSideBar onLogout={handleLogout} />
           <ContentPane />
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </div>
     </RequireAuth>

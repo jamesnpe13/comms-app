@@ -1,13 +1,18 @@
-@use '../styles/variables' as *;
-@use '../styles/colours' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
-.layout-grid-container {
+.layout-grid {
   & > .footer {
     height: $footer-height;
     width: 100%;
     grid-row: 2 / 3;
     grid-column: 1 / -1;
-    background-color: $color_shade9;
+    background-color: $color_shade10;
     gap: $layout-gap;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    color: $color_offwhite;
   }
 }
