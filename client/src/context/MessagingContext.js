@@ -5,15 +5,8 @@ import { authApi } from '../api/axiosInstance';
 const MessagingContext = createContext();
 
 export function MessagingProvider({ children }) {
+  const [userGroups, setUserGroups] = useState([]);
   const [convos, setConvos] = useState([]);
-  const [groups, setGroups] = useState([]);
-  const [currentConvo, setCurrentConvo] = useState({});
-
-  // reset context state
-  const resetMessagingContext = () => {
-    setConvos([]);
-    setCurrentConvo({});
-  };
 
   // create group
   const createGroup = async () => {
@@ -23,11 +16,17 @@ export function MessagingProvider({ children }) {
 
     try {
       const res = await authApi.post('/messaging/groups', { name: name });
+      getUserGroups();
     } catch (error) {}
   };
 
-  // load groups
-  const createGroups = async () => {};
+  // get user groups
+  const getUserGroups = async () => {
+    try {
+      const res = await authApi.get('/messaging/usergroups');
+      setUserGroups(res.data);
+    } catch (error) {}
+  };
 
   // create conversation
   const createConvo = async () => {
@@ -37,14 +36,14 @@ export function MessagingProvider({ children }) {
 
     try {
       const res = await authApi.post('/messaging/convos', { name: name });
-      loadConvos();
+      getConvos();
     } catch (error) {
       throw new Error(handleError(error, 'Messaging'));
     }
   };
 
   // get conversations
-  const loadConvos = async () => {
+  const getConvos = async () => {
     try {
       const res = await authApi.get('/messaging/convos/created');
       const convosListReversed = res.data.convos.reverse();
@@ -53,17 +52,22 @@ export function MessagingProvider({ children }) {
       throw new Error(handleError(error, 'Messaging'));
     }
   };
-  // get conversation thread
-  // delete conversation
+
+  // reset context state
+  const resetMessagingContext = () => {
+    setConvos([]);
+  };
 
   return (
     <MessagingContext.Provider
       value={{
         convos,
-        loadConvos,
+        userGroups,
+        getConvos,
         createConvo,
         createGroup,
         resetMessagingContext,
+        getUserGroups,
       }}
     >
       {children}

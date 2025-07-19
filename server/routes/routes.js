@@ -111,10 +111,15 @@ router.post(
   authenticateToken,
   messagingController.createGroup
 );
+// router.get(
+//   '/messaging/groups',
+//   authenticateToken,
+//   messagingController.getGroups
+// );
 router.get(
-  '/messaging/groups',
+  '/messaging/usergroups',
   authenticateToken,
-  messagingController.getGroups
+  messagingController.getUserGroups
 );
 router.put(
   '/messaging/groups',

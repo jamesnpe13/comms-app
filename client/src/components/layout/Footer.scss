@@ -3,15 +3,16 @@
 
 .page-container {
   & > .footer {
+    box-sizing: border-box;
     height: $footer-height;
     width: 100%;
     background-color: $color_shade10;
-    gap: $layout-gap;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
     color: $color_offwhite;
     padding-inline: $gutter_s;
+    font-size: 0.7rem;
   }
 }

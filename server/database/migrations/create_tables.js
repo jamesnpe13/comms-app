@@ -39,8 +39,10 @@ const members = `
 	CREATE TABLE IF NOT EXISTS members (
 		id INT AUTO_INCREMENT PRIMARY KEY,	
 		group_parent INT NOT NULL,
+		user_id INT NOT NULL,
 		role VARCHAR(100) NOT NULL,
-		FOREIGN KEY (group_parent) REFERENCES convo_groups(id) ON DELETE CASCADE
+		FOREIGN KEY (group_parent) REFERENCES convo_groups(id) ON DELETE CASCADE,
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE  CASCADE
 	)
 `;
 

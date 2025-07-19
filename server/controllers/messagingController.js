@@ -6,7 +6,7 @@ const { newError } = require('../functions');
 // create group
 exports.createGroup = async (req, res, next) => {
   const cookieRefreshToken = req.cookies.refreshToken;
-  const { name } = req.body;
+  const { name, role = 'admin' } = req.body;
   const { id } = jwt.verify(
     cookieRefreshToken,
     process.env.REFRESH_TOKEN_SECRET
@@ -14,28 +14,68 @@ exports.createGroup = async (req, res, next) => {
   const sql = `
   INSERT INTO convo_groups (name, created_by)
   VALUES (?, ?)
-`;
+  `;
 
   if (!name) return next(newError('Please provide a group name'));
-
+  const connection = await db.getConnection(); // Assuming you use a pool
   try {
-    await db.execute(sql, [name, id]);
-    res.json({ message: 'Group created' });
+    await connection.beginTransaction();
+
+    // Step 1: Insert into convo_groups
+    const [groupResult] = await connection.execute(sql, [name, id]);
+
+    const groupId = groupResult.insertId;
+    console.log(groupResult);
+
+    // Step 2: Insert into members (add creator as a member)
+    await connection.execute(
+      `
+      INSERT INTO members (user_id, group_parent, role)
+      VALUES (?, ?, ?)
+    `,
+      [id, groupId, role]
+    );
+
+    await connection.commit();
+
+    res.status(201).json({ message: 'Group created', groupId });
   } catch (err) {
-    next(err);
+    await connection.rollback();
+    console.error('Error creating group:', err);
+    res.status(500).json({ error: 'Failed to create group' });
+  } finally {
+    connection.release();
   }
 };
 
-exports.getGroups = async (req, res, next) => {
+exports.getUserGroups = async (req, res, next) => {
   const cookieRefreshToken = req.cookies.refreshToken;
   const { id } = jwt.verify(
     cookieRefreshToken,
     process.env.REFRESH_TOKEN_SECRET
   );
-  // get joined table
+
+  // get all groups where user is a member
+  const sqlUserGroups = `
+    SELECT 
+	  convo_groups.id AS id,
+	  convo_groups.name AS group_name,     
+    member.username AS member_username,
+    creator.username AS group_creator,
+    members.role AS role
+    FROM convo_groups
+    JOIN members ON members.group_parent = convo_groups.id
+    JOIN users AS member ON member.id = members.user_id
+    JOIN users AS creator ON creator.id = convo_groups.created_by
+    WHERE member.id = ?;
+  `;
 
   try {
-  } catch (err) {}
+    const [groups] = await db.execute(sqlUserGroups, [id]);
+    res.json(groups);
+  } catch (err) {
+    res.json(err);
+  }
 };
 
 exports.updateGroup = async (req, res, next) => {

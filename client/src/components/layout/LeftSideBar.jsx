@@ -8,13 +8,15 @@ import ConvoTile from '../ui/ConvoTile';
 import NewConvo from '../ui/NewConvo';
 import { useMessaging } from '../../context/MessagingContext';
 import NewGroup from '../ui/NewGroup';
+import GroupTile from '../ui/GroupTile';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
-  const { convos, loadConvos } = useMessaging();
+  const { convos, userGroups, getConvos, getUserGroups } = useMessaging();
 
   useEffect(() => {
-    loadConvos();
+    getConvos();
+    getUserGroups();
   }, []);
 
   return (
@@ -62,8 +64,13 @@ export default function LeftSideBar({ onLogout }) {
       </form>
 
       <div className='main gutter_s'>
-        {convos &&
-          convos.map((convo) => <ConvoTile key={convo.id} data={convo} />)}
+        {/* {convos &&
+          convos.map((convo) => <ConvoTile key={convo.id} data={convo} />)} */}
+
+        {userGroups &&
+          userGroups.map((userGroup) => {
+            return <GroupTile key={userGroup.id} data={userGroup} />;
+          })}
       </div>
 
       <div className='gutter_s'>
