@@ -25,10 +25,6 @@ export default function GroupTile({ data, handleSetActiveGroup }) {
     getMembers();
   }, []);
 
-  useEffect(() => {
-    console.log(members);
-  }, [members]);
-
   return (
     <div
       className='group-tile'

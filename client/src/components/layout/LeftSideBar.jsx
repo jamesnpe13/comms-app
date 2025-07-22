@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { act, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
@@ -118,18 +118,20 @@ export default function LeftSideBar({ onLogout }) {
           </div>
         </div>
       </div>
+      {activeGroup && (
+        <div className='title-container'>
+          <div className='back-button' onClick={backToGroups}>
+            <ArrowBackIosIcon />
+          </div>
 
-      <div className='title-container'>
-        <div className='back-button' onClick={backToGroups}>
-          <ArrowBackIosIcon />
+          <div className='location'>
+            {activeGroup && <p>{activeGroup?.group_name}</p>}
+            {activeGroup && <p className='tiny italic'>{activeGroup?.role}</p>}
+          </div>
+
+          {renderMemberAddButton()}
         </div>
-
-        <div className='location'>
-          <p>{activeGroup ? activeGroup?.group_name : 'Groups'}</p>
-        </div>
-
-        {renderMemberAddButton()}
-      </div>
+      )}
       {/* {renderSearchbar()} */}
 
       <div className='main gutter_s'>{renderList()}</div>
