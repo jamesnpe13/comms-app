@@ -1,9 +1,4 @@
-import React, {
-  useDebugValue,
-  useEffect,
-  useState,
-  useSyncExternalStore,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,6 +11,7 @@ import GroupTile from '../ui/GroupTile';
 import ConvoTile from '../ui/ConvoTile';
 import ListEmpty from '../ui/ListEmpty';
 import GroupSidebarUtil from '../ui/GroupSidebarUtil';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -27,12 +23,25 @@ export default function LeftSideBar({ onLogout }) {
     getConvos,
     handleSetActiveGroup,
     setActiveGroup,
+    addGroupMembers,
   } = useMessaging();
 
   useEffect(() => {
     getUserGroups();
     getConvos();
   }, []);
+
+  const renderMemberAddButton = () => {
+    if (activeGroup?.role === 'admin') {
+      if (activeGroup) {
+        return (
+          <div className='add-member-button' onClick={addGroupMembers}>
+            <PersonAddIcon />
+          </div>
+        );
+      }
+    }
+  };
 
   const renderList = () => {
     if (!activeGroup) {
@@ -83,12 +92,6 @@ export default function LeftSideBar({ onLogout }) {
     }
   };
 
-  const renderGroupUtilBar = () => {
-    if (activeGroup) {
-      return <GroupSidebarUtil />;
-    }
-  };
-
   const backToGroups = () => {
     setActiveGroup(null);
   };
@@ -122,12 +125,12 @@ export default function LeftSideBar({ onLogout }) {
         </div>
 
         <div className='location'>
-          <h5>{activeGroup ? activeGroup?.group_name : 'Groups'}</h5>
-          {/* <p>{}</p> */}
+          <p>{activeGroup ? activeGroup?.group_name : 'Groups'}</p>
         </div>
+
+        {renderMemberAddButton()}
       </div>
       {/* {renderSearchbar()} */}
-      {renderGroupUtilBar()}
 
       <div className='main gutter_s'>{renderList()}</div>
 

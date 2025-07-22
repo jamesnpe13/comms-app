@@ -66,8 +66,8 @@ router.post(
   authenticateToken,
   messagingController.createMember
 );
-router.get(
-  '/messaging/groups/members',
+router.post(
+  '/messaging/groups/members/group',
   authenticateToken,
   messagingController.getMembers
 );

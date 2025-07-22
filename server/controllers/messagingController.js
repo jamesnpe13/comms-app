@@ -231,9 +231,18 @@ exports.createMember = async (req, res, next) => {
 };
 
 exports.getMembers = async (req, res, next) => {
+  const { id } = req.body;
+  const sql = `
+    SELECT * FROM members
+    WHERE group_parent = ?
+  `;
+
   try {
-  } catch (err) {
-    next(err);
+    const [members] = await db.execute(sql, [id]);
+    // res.json({ members: res });
+    res.json({ members: members });
+  } catch (error) {
+    console.log(error);
   }
 };
 

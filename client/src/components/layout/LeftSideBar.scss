@@ -71,7 +71,8 @@
     background-color: $color_shade8;
     display: flex;
 
-    .back-button {
+    .back-button,
+    .add-member-button {
       height: 100%;
       aspect-ratio: 1 / 1;
       display: flex;

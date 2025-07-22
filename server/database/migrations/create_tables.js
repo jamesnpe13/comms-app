@@ -42,7 +42,8 @@ const members = `
 		user_id INT NOT NULL,
 		role VARCHAR(100) NOT NULL,
 		FOREIGN KEY (group_parent) REFERENCES convo_groups(id) ON DELETE CASCADE,
-		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE  CASCADE
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+		UNIQUE (user_id, group_parent)
 	)
 `;
 
