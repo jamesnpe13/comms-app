@@ -9,6 +9,7 @@ export function MessagingProvider({ children }) {
   const [userGroups, setUserGroups] = useState([]);
   const [convos, setConvos] = useState([]);
   const [activeGroup, setActiveGroup] = useState(null);
+  const [activeConvo, setActiveConvo] = useState(null);
 
   // hande set active group
   const handleSetActiveGroup = (group) => {

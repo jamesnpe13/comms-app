@@ -17,7 +17,11 @@ export default function ContentPane() {
     <div className='content-pane'>
       <div className='header'></div>
       <div className='main'></div>
-      <form className='message-input gutter_l' onSubmit={handleSendMessage}>
+      <form
+        autoComplete='off'
+        className='message-input gutter_l'
+        onSubmit={handleSendMessage}
+      >
         <textarea
           name='message'
           placeholder='Write a message...'
