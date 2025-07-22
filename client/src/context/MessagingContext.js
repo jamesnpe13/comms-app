@@ -7,6 +7,12 @@ const MessagingContext = createContext();
 export function MessagingProvider({ children }) {
   const [userGroups, setUserGroups] = useState([]);
   const [convos, setConvos] = useState([]);
+  const [activeGroup, setActiveGroup] = useState(null);
+
+  // hande set active group
+  const handleSetActiveGroup = (group) => {
+    setActiveGroup(group);
+  };
 
   // create group
   const createGroup = async () => {
@@ -63,11 +69,14 @@ export function MessagingProvider({ children }) {
       value={{
         convos,
         userGroups,
+        activeGroup,
         getConvos,
         createConvo,
         createGroup,
         resetMessagingContext,
         getUserGroups,
+        handleSetActiveGroup,
+        setActiveGroup,
       }}
     >
       {children}

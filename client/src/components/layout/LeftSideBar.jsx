@@ -1,23 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useDebugValue,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import './LeftSideBar.scss';
-import ConvoTile from '../ui/ConvoTile';
-import NewConvo from '../ui/NewConvo';
 import { useMessaging } from '../../context/MessagingContext';
 import NewGroup from '../ui/NewGroup';
+import NewConvo from '../ui/NewConvo';
 import GroupTile from '../ui/GroupTile';
+import ConvoTile from '../ui/ConvoTile';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
-  const { convos, userGroups, getConvos, getUserGroups } = useMessaging();
+  const {
+    activeGroup,
+    userGroups,
+    getUserGroups,
+    convos,
+    getConvos,
+    handleSetActiveGroup,
+    setActiveGroup,
+  } = useMessaging();
 
   useEffect(() => {
-    getConvos();
     getUserGroups();
+    getConvos();
   }, []);
+
+  const renderList = () => {
+    if (!activeGroup) {
+      return userGroups.map((x) => (
+        <GroupTile
+          key={x.id}
+          data={x}
+          handleSetActiveGroup={handleSetActiveGroup}
+        />
+      ));
+    }
+    return convos
+      .filter((x) => x.group_parent === activeGroup.id)
+      .map((x) => <ConvoTile key={x.id} data={x} />);
+  };
+
+  const backToGroups = () => {
+    setActiveGroup(null);
+  };
 
   return (
     <div className='left-sidebar'>
@@ -43,13 +75,13 @@ export default function LeftSideBar({ onLogout }) {
       </div>
 
       <div className='title-container'>
-        <div className='back-button'>
+        <div className='back-button' onClick={backToGroups}>
           <ArrowBackIosIcon />
         </div>
 
         <div className='location'>
-          <h5 className=''>City Cross Link</h5>
-          <p>Music Team</p>
+          <h5>{activeGroup ? activeGroup?.group_name : 'Groups'}</h5>
+          {/* <p>{}</p> */}
         </div>
       </div>
 
@@ -63,15 +95,7 @@ export default function LeftSideBar({ onLogout }) {
         <button className='primary'>{<SearchIcon />}</button>
       </form>
 
-      <div className='main gutter_s'>
-        {/* {convos &&
-          convos.map((convo) => <ConvoTile key={convo.id} data={convo} />)} */}
-
-        {userGroups &&
-          userGroups.map((userGroup) => {
-            return <GroupTile key={userGroup.id} data={userGroup} />;
-          })}
-      </div>
+      <div className='main gutter_s'>{renderList()}</div>
 
       <div className='gutter_s'>
         <NewGroup />
