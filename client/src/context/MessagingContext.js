@@ -32,7 +32,7 @@ export function MessagingProvider({ children }) {
   const getUserGroups = async () => {
     try {
       const res = await authApi.get('/messaging/usergroups');
-      setUserGroups(res.data);
+      setUserGroups(res.data.reverse());
     } catch (error) {}
   };
 
@@ -60,8 +60,7 @@ export function MessagingProvider({ children }) {
   const getConvos = async () => {
     try {
       const res = await authApi.get('/messaging/convos');
-      const convosListReversed = res.data.convos.reverse();
-      setConvos(convosListReversed);
+      setConvos(res.data.convos.reverse());
     } catch (error) {
       throw new Error(handleError(error, 'Messaging'));
     }
