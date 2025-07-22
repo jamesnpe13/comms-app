@@ -47,6 +47,14 @@ export default function LeftSideBar({ onLogout }) {
       .map((x) => <ConvoTile key={x.id} data={x} />);
   };
 
+  const renderNewButtons = () => {
+    if (!activeGroup) {
+      return <NewGroup />;
+    }
+
+    return <NewConvo />;
+  };
+
   const backToGroups = () => {
     setActiveGroup(null);
   };
@@ -97,13 +105,7 @@ export default function LeftSideBar({ onLogout }) {
 
       <div className='main gutter_s'>{renderList()}</div>
 
-      <div className='gutter_s'>
-        <NewGroup />
-      </div>
-
-      <div className='footer gutter_s'>
-        <NewConvo />
-      </div>
+      <div className='footer gutter_s'>{renderNewButtons()}</div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ export default function NewGroup() {
   return (
     <button
       onClick={createGroup}
-      className='new-convo-btn'
+      className='new-convo-btn primary'
       title='Start a new group'
     >
       New group
