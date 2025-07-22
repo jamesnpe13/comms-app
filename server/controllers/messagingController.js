@@ -92,24 +92,27 @@ exports.deleteGroup = async (req, res, next) => {
 // create convo
 exports.createConvo = async (req, res, next) => {
   const cookieRefreshToken = req.cookies.refreshToken;
-  const { name, type = 'group' } = req.body;
+  const { name, type = 'group', group_parent } = req.body;
   const { id } = jwt.verify(
     cookieRefreshToken,
     process.env.REFRESH_TOKEN_SECRET
   );
+
   const sql = `
-		INSERT INTO convos (
-		name,
-		type,
-		created_by)
-		VALUES (?,?,?)`;
+    INSERT INTO convos (
+    name,
+    type,
+    group_parent,
+    created_by)
+    VALUES (?,?,?,?)
+  `;
 
   if (type !== 'private' && type !== 'group') {
     return next(newError('Convo type must be set to private or group'));
   }
 
   try {
-    await db.execute(sql, [name, type, id]);
+    await db.execute(sql, [name, type, group_parent, id]);
     res.json({ message: 'Convo created' });
   } catch (err) {
     next(err);

@@ -14,6 +14,7 @@ import NewGroup from '../ui/NewGroup';
 import NewConvo from '../ui/NewConvo';
 import GroupTile from '../ui/GroupTile';
 import ConvoTile from '../ui/ConvoTile';
+import ListEmpty from '../ui/ListEmpty';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -34,17 +35,27 @@ export default function LeftSideBar({ onLogout }) {
 
   const renderList = () => {
     if (!activeGroup) {
-      return userGroups.map((x) => (
-        <GroupTile
-          key={x.id}
-          data={x}
-          handleSetActiveGroup={handleSetActiveGroup}
-        />
-      ));
+      if (userGroups.length > 0) {
+        return userGroups.map((x) => (
+          <GroupTile
+            key={x.id}
+            data={x}
+            handleSetActiveGroup={handleSetActiveGroup}
+          />
+        ));
+      } else {
+        return <ListEmpty message='No groups available. Create a new group.' />;
+      }
     }
-    return convos
-      .filter((x) => x.group_parent === activeGroup.id)
-      .map((x) => <ConvoTile key={x.id} data={x} />);
+    if (convos.length > 0) {
+      return convos
+        .filter((x) => x.group_parent === activeGroup.id)
+        .map((x) => <ConvoTile key={x.id} data={x} />);
+    } else {
+      return (
+        <ListEmpty message='No conversations available. Create a new conversation.' />
+      );
+    }
   };
 
   const renderNewButtons = () => {
@@ -53,6 +64,22 @@ export default function LeftSideBar({ onLogout }) {
     }
 
     return <NewConvo />;
+  };
+
+  const renderSearchbar = () => {
+    if (activeGroup) {
+      return (
+        <form className='search-container' autoComplete='off'>
+          <input
+            type='text'
+            placeholder='Search conversation'
+            title='Search for a conversation'
+            name='conversation-search-input'
+          />
+          <button className='primary'>{<SearchIcon />}</button>
+        </form>
+      );
+    }
   };
 
   const backToGroups = () => {
@@ -92,16 +119,7 @@ export default function LeftSideBar({ onLogout }) {
           {/* <p>{}</p> */}
         </div>
       </div>
-
-      <form className='search-container' autoComplete='off'>
-        <input
-          type='text'
-          placeholder='Search conversation'
-          title='Search for a conversation'
-          name='conversation-search-input'
-        />
-        <button className='primary'>{<SearchIcon />}</button>
-      </form>
+      {renderSearchbar()}
 
       <div className='main gutter_s'>{renderList()}</div>
 

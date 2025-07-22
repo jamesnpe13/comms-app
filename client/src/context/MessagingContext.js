@@ -1,6 +1,7 @@
 import { useContext, createContext, useState } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
+import { storeLocalStorage } from '../utils/browserStorage';
 
 const MessagingContext = createContext();
 
@@ -37,11 +38,17 @@ export function MessagingProvider({ children }) {
   // create conversation
   const createConvo = async () => {
     const name = prompt('Conversation name');
+    const type = 'group';
+    const groupParent = activeGroup?.id;
 
     if (name === null || name.length == 0) return;
 
     try {
-      const res = await authApi.post('/messaging/convos', { name: name });
+      const res = await authApi.post('/messaging/convos', {
+        name: name,
+        type: type,
+        group_parent: groupParent,
+      });
       getConvos();
     } catch (error) {
       throw new Error(handleError(error, 'Messaging'));
@@ -51,7 +58,7 @@ export function MessagingProvider({ children }) {
   // get conversations
   const getConvos = async () => {
     try {
-      const res = await authApi.get('/messaging/convos/created');
+      const res = await authApi.get('/messaging/convos');
       const convosListReversed = res.data.convos.reverse();
       setConvos(convosListReversed);
     } catch (error) {
