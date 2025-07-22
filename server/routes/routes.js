@@ -14,6 +14,11 @@ const usersController = require('../controllers/usersController');
 const authController = require('../controllers/authController');
 const messagingController = require('../controllers/messagingController');
 
+// Authentication routes
+router.post('/auth/login', verifyPassword, authController.userLogin);
+router.post('/auth/logout/', authenticateToken, authController.userLogout);
+router.post('/auth/refresh', authController.refreshSessionTokens);
+
 // User routes
 router.get('/users/id/:id', authenticateToken, usersController.getUserById);
 router.get('/users/search', authenticateToken, usersController.searchUsers);
@@ -38,7 +43,41 @@ router.delete(
   usersController.deleteUserById
 );
 
-// Messaging routes
+// Group routes
+router.post(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.createGroup
+);
+router.get(
+  '/messaging/usergroups',
+  authenticateToken,
+  messagingController.getUserGroups
+);
+router.put(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.createGroup
+);
+
+// Group members routes
+router.post(
+  '/messaging/groups/members',
+  authenticateToken,
+  messagingController.createMember
+);
+router.get(
+  '/messaging/groups/members',
+  authenticateToken,
+  messagingController.getMembers
+);
+router.delete(
+  '/messaging/groups/members',
+  authenticateToken,
+  messagingController.deleteMember
+);
+
+// Convo routes
 router.post(
   '/messaging/convos',
   authenticateToken,
@@ -49,11 +88,6 @@ router.get(
   authenticateToken,
   messagingController.getAllConvos
 );
-// router.get(
-//   '/messaging/convos/partof',
-//   authenticateToken,
-//   messagingController.getConvosPartOf
-// );
 router.get(
   '/messaging/convos/created',
   authenticateToken,
@@ -69,6 +103,8 @@ router.delete(
   authenticateToken,
   messagingController.deleteConvo
 );
+
+// Convo participants routes
 router.post(
   '/messaging/participants',
   authenticateToken,
@@ -84,6 +120,8 @@ router.delete(
   authenticateToken,
   messagingController.deleteParticipant
 );
+
+// messages routes
 router.post(
   '/messaging/messages',
   authenticateToken,
@@ -104,32 +142,5 @@ router.delete(
   authenticateToken,
   messagingController.deleteMessages
 );
-
-// Group routes
-router.post(
-  '/messaging/groups',
-  authenticateToken,
-  messagingController.createGroup
-);
-// router.get(
-//   '/messaging/groups',
-//   authenticateToken,
-//   messagingController.getGroups
-// );
-router.get(
-  '/messaging/usergroups',
-  authenticateToken,
-  messagingController.getUserGroups
-);
-router.put(
-  '/messaging/groups',
-  authenticateToken,
-  messagingController.createGroup
-);
-
-// Authentication routes
-router.post('/auth/login', verifyPassword, authController.userLogin);
-router.post('/auth/logout/', authenticateToken, authController.userLogout);
-router.post('/auth/refresh', authController.refreshSessionTokens);
 
 module.exports = router;

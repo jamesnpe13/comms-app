@@ -212,8 +212,26 @@ exports.deleteConvo = async (req, res, next) => {
 // ========= MEMBERS =========== (group members)
 // create member
 exports.createMember = async (req, res, next) => {
+  const { username, group_parent } = req.body;
+  const getIdSql = `
+    SELECT id FROM users
+    WHERE username = ?
+  `;
+  const addMemberSql = `
+    INSERT INTO members (user_id, group_parent, role)
+    VALUES (?, ?, ?)
+  `;
   try {
-    res.json({ message: 'create member' });
+    const [result] = await db.execute(getIdSql, [username]);
+    const { id } = result[0];
+    const res = await db.execute(addMemberSql, [id, group_parent, 'member']);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getMembers = async (req, res, next) => {
+  try {
   } catch (err) {
     next(err);
   }

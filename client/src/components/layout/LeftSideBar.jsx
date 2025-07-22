@@ -15,6 +15,7 @@ import NewConvo from '../ui/NewConvo';
 import GroupTile from '../ui/GroupTile';
 import ConvoTile from '../ui/ConvoTile';
 import ListEmpty from '../ui/ListEmpty';
+import GroupSidebarUtil from '../ui/GroupSidebarUtil';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -82,6 +83,12 @@ export default function LeftSideBar({ onLogout }) {
     }
   };
 
+  const renderGroupUtilBar = () => {
+    if (activeGroup) {
+      return <GroupSidebarUtil />;
+    }
+  };
+
   const backToGroups = () => {
     setActiveGroup(null);
   };
@@ -119,7 +126,8 @@ export default function LeftSideBar({ onLogout }) {
           {/* <p>{}</p> */}
         </div>
       </div>
-      {renderSearchbar()}
+      {/* {renderSearchbar()} */}
+      {renderGroupUtilBar()}
 
       <div className='main gutter_s'>{renderList()}</div>
 

@@ -71,6 +71,28 @@ export function MessagingProvider({ children }) {
     setConvos([]);
   };
 
+  // add group members
+  const addGroupMembers = async () => {
+    let username;
+    try {
+      username = prompt("Enter person's username");
+      if (!username || username.length === 0)
+        throw new Error('Username cannot be empty');
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
+    try {
+      const res = await authApi.post('/messaging/groups/members', {
+        username: username,
+        group_parent: activeGroup.id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <MessagingContext.Provider
       value={{
@@ -84,6 +106,7 @@ export function MessagingProvider({ children }) {
         getUserGroups,
         handleSetActiveGroup,
         setActiveGroup,
+        addGroupMembers,
       }}
     >
       {children}
