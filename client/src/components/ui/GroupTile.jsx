@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './GroupTile.scss';
 import GroupIcon from '@mui/icons-material/Group';
-import PersonIcon from '@mui/icons-material/Person';
 import { useMessaging } from '../../context/MessagingContext';
 import { authApi } from '../../api/axiosInstance';
 
@@ -35,7 +34,10 @@ export default function GroupTile({ data, handleSetActiveGroup }) {
       {/* {typeIcon()} */}
       <div className='container'>
         <p className='sub'>{group_name}</p>
-        <p className='tiny italic'>{members.length} members</p>
+        <p className='tiny italic'>
+          {members.length}
+          <GroupIcon />
+        </p>
       </div>
     </div>
   );
