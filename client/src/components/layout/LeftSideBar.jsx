@@ -161,7 +161,7 @@ export default function LeftSideBar({ onLogout }) {
         <button
           className='refresh-groups-button transparent content util-button'
           onClick={handleRefreshGroups}
-          title='Add people to this group'
+          title='Refresh list'
         >
           <CachedIcon />
         </button>

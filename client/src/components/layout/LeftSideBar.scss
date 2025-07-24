@@ -67,11 +67,13 @@
   }
 
   .title-container {
+    z-index: 1;
     height: $header-height;
     background-color: $color_shade8;
     display: flex;
     align-items: center;
     padding-right: $gutter_s;
+    box-shadow: 0 5px 8px $color_shade10;
 
     .back-button {
       height: 100%;

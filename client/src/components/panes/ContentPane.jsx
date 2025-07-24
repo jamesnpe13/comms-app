@@ -5,6 +5,7 @@ import { useMessaging } from '../../context/MessagingContext';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { authApi } from '../../api/axiosInstance';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ReactComponent as Svg1 } from '../../assets/svg1.svg';
 
 export default function ContentPane() {
   const { activeConvo, activeGroup, deleteConvo, getConvos } = useMessaging();
@@ -89,7 +90,13 @@ export default function ContentPane() {
         )}
       </div>
 
-      <div className='main'></div>
+      <div className='main'>
+        {!activeConvo && (
+          <div className='no-active-messages'>
+            <h4>Organized messaging platform for your team</h4>
+          </div>
+        )}
+      </div>
 
       {activeConvo && (
         <form
