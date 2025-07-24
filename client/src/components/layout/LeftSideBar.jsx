@@ -43,6 +43,7 @@ export default function LeftSideBar({ onLogout }) {
 
     console.log('refreshing convos');
     getConvos();
+    getUserGroups();
   };
 
   const renderMemberAddButton = () => {
@@ -130,7 +131,7 @@ export default function LeftSideBar({ onLogout }) {
             onClick={onLogout}
             title='Log out user'
           >
-            {<LogoutIcon />}
+            <LogoutIcon />
           </div>
           <div className='profile-container'>
             <div className='profile-details'>

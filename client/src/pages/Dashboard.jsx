@@ -11,6 +11,7 @@ export default function Dashboard() {
 
   const handleLogout = (e) => {
     logout();
+    console.log('logging out');
   };
 
   return (
