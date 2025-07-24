@@ -70,9 +70,10 @@
     height: $header-height;
     background-color: $color_shade8;
     display: flex;
+    align-items: center;
+    padding-right: $gutter_s;
 
-    .back-button,
-    .add-member-button {
+    .back-button {
       height: 100%;
       aspect-ratio: 1 / 1;
       display: flex;
@@ -80,6 +81,23 @@
       justify-content: center;
       user-select: none;
       cursor: pointer;
+    }
+
+    .util-button {
+      height: 40px;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      border: none;
+      cursor: pointer;
+
+      &.refresh-groups-button {
+        svg {
+          color: $color_success;
+        }
+      }
     }
 
     .location {

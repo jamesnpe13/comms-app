@@ -59,6 +59,16 @@ router.put(
   authenticateToken,
   messagingController.createGroup
 );
+router.delete(
+  '/messaging/groups/:id',
+  authenticateToken,
+  messagingController.deleteGroup
+);
+router.put(
+  '/messaging/groups',
+  authenticateToken,
+  messagingController.createGroup
+);
 
 // Group members routes
 router.post(
@@ -84,6 +94,11 @@ router.post(
   messagingController.createConvo
 );
 router.get(
+  '/messaging/userConvos',
+  authenticateToken,
+  messagingController.getUserConvos
+);
+router.get(
   '/messaging/convos',
   authenticateToken,
   messagingController.getAllConvos
@@ -99,7 +114,7 @@ router.put(
   messagingController.updateConvo
 );
 router.delete(
-  '/messaging/convos',
+  '/messaging/convos/:id',
   authenticateToken,
   messagingController.deleteConvo
 );

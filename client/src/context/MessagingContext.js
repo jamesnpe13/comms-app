@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect, use } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
 import { storeLocalStorage } from '../utils/browserStorage';
@@ -16,6 +16,11 @@ export function MessagingProvider({ children }) {
     setActiveGroup(group);
   };
 
+  // handle set active convo
+  const handleSetActiveConvo = (convo) => {
+    setActiveConvo(convo);
+  };
+
   // create group
   const createGroup = async () => {
     const name = prompt('Group name');
@@ -28,11 +33,22 @@ export function MessagingProvider({ children }) {
     } catch (error) {}
   };
 
+  // delete group
+  const deleteGroup = async () => {
+    try {
+      await authApi.delete(`/messaging/groups/${activeGroup.id}`);
+      getUserGroups();
+      setActiveGroup(null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // get user groups
   const getUserGroups = async () => {
     try {
       const res = await authApi.get('/messaging/usergroups');
-      setUserGroups(res.data.reverse());
+      setUserGroups([...res.data].reverse());
     } catch (error) {}
   };
 
@@ -56,11 +72,24 @@ export function MessagingProvider({ children }) {
     }
   };
 
+  // delete conversation
+  const deleteConvo = async () => {
+    try {
+      const res = await authApi.delete(
+        `/messaging/convos/${activeConvo.convo_id}`
+      );
+      getConvos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // get conversations
   const getConvos = async () => {
     try {
-      const res = await authApi.get('/messaging/convos');
-      setConvos(res.data.convos.reverse());
+      const res = await authApi.get('/messaging/userConvos');
+      setConvos([...res.data.convos].reverse());
+      console.log('convos set');
     } catch (error) {
       throw new Error(handleError(error, 'Messaging'));
     }
@@ -99,6 +128,7 @@ export function MessagingProvider({ children }) {
         convos,
         userGroups,
         activeGroup,
+        activeConvo,
         getConvos,
         createConvo,
         createGroup,
@@ -107,6 +137,9 @@ export function MessagingProvider({ children }) {
         handleSetActiveGroup,
         setActiveGroup,
         addGroupMembers,
+        handleSetActiveConvo,
+        deleteConvo,
+        deleteGroup,
       }}
     >
       {children}

@@ -5,6 +5,21 @@
 .content-pane {
   .header {
     background-color: $color_shade8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: $gutter_l;
+
+    .content-pane-util {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .role {
+        color: $color_offwhite;
+      }
+    }
   }
 
   .main {

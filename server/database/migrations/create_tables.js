@@ -51,8 +51,11 @@ const participants = `
 	CREATE TABLE IF NOT EXISTS participants (
 		id INT AUTO_INCREMENT PRIMARY KEY,	
 		convo_id INT NOT NULL,
+		user_id INT NOT NULL,
 		role VARCHAR(100) NOT NULL,
-		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE
+		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE,
+		FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+		UNIQUE (user_id, convo_id)
 	)
 `;
 

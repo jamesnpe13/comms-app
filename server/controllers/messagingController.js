@@ -84,8 +84,15 @@ exports.updateGroup = async (req, res, next) => {
 };
 
 exports.deleteGroup = async (req, res, next) => {
+  const { id } = req.params;
+  const sql = `DELETE from convo_groups WHERE id = ?`;
   try {
-  } catch (err) {}
+    await db.execute(sql, [id]);
+
+    res.json({ message: 'Group deleted' });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // ========= CONVOS ===========
@@ -93,6 +100,7 @@ exports.deleteGroup = async (req, res, next) => {
 exports.createConvo = async (req, res, next) => {
   const cookieRefreshToken = req.cookies.refreshToken;
   const { name, type = 'group', group_parent } = req.body;
+  let convo_id;
   const { id } = jwt.verify(
     cookieRefreshToken,
     process.env.REFRESH_TOKEN_SECRET
@@ -106,17 +114,28 @@ exports.createConvo = async (req, res, next) => {
     created_by)
     VALUES (?,?,?,?)
   `;
+  const createParticipantSql = `
+    INSERT into participants (convo_id, user_id, role)
+    VALUES (?,?,?)
+  `;
 
   if (type !== 'private' && type !== 'group') {
     return next(newError('Convo type must be set to private or group'));
   }
 
   try {
-    await db.execute(sql, [name, type, group_parent, id]);
-    res.json({ message: 'Convo created' });
+    const [res] = await db.execute(sql, [name, type, group_parent, id]);
+    convo_id = res.insertId;
   } catch (err) {
     next(err);
   }
+
+  try {
+    const res = await db.execute(createParticipantSql, [convo_id, id, 'admin']);
+  } catch (error) {
+    console.log(error);
+  }
+  res.json({ message: 'Convo created' });
 };
 
 // get convo
@@ -191,6 +210,39 @@ exports.getAllConvos = async (req, res, next) => {
   }
 };
 
+exports.getUserConvos = async (req, res, next) => {
+  const cookieRefreshToken = req.cookies.refreshToken;
+  const { id } = jwt.verify(
+    cookieRefreshToken,
+    process.env.REFRESH_TOKEN_SECRET
+  );
+  const sql = `
+    SELECT
+    convos.id AS convo_id,
+    convos.name AS convo_name,
+    convos.type AS convo_type,
+    convos.group_parent AS group_parent_id,
+    convo_groups.name AS group_parent_name,
+    convos.created_by AS created_by_id,
+    convos.created_at AS created_at,
+    users.username AS participant_username,
+    users.id AS participant_id,
+    participants.role AS participant_role
+    FROM convos
+    JOIN participants ON participants.convo_id = convos.id
+    JOIN users ON participants.user_id = users.id
+    JOIN convo_groups ON convos.group_parent = convo_groups.id
+    WHERE users.id = ?
+  `;
+
+  try {
+    const [convos] = await db.execute(sql, [id]);
+    res.json({ convos: convos });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // update convo
 exports.updateConvo = async (req, res, next) => {
   try {
@@ -202,8 +254,11 @@ exports.updateConvo = async (req, res, next) => {
 
 // delete convo
 exports.deleteConvo = async (req, res, next) => {
+  const { id } = req.params;
+  const sql = `DELETE from convos WHERE id = ?`;
   try {
-    res.json({ message: 'delete convo' });
+    await db.execute(sql, [id]);
+    res.json({ message: 'convo deleted' });
   } catch (err) {
     next(err);
   }
@@ -239,6 +294,7 @@ exports.getMembers = async (req, res, next) => {
 
   try {
     const [members] = await db.execute(sql, [id]);
+    console.log(members);
     // res.json({ members: res });
     res.json({ members: members });
   } catch (error) {
@@ -258,11 +314,28 @@ exports.deleteMember = async (req, res, next) => {
 // ========= PARTICIPANTS =========== (convo participants)
 // create participant
 exports.createParticipant = async (req, res, next) => {
+  const { convo_id, username } = req.body;
+  let user_id;
+  const getUserIdSql = `SELECT id FROM users WHERE username = ?`;
+  const createParticipantSql = `
+    INSERT into participants (convo_id, user_id, role)
+    VALUES (?,?,?)
+  `;
+
   try {
-    res.json({ message: 'create participants' });
+    const [res] = await db.execute(getUserIdSql, [username]);
+    user_id = res[0]?.id;
   } catch (err) {
     next(err);
   }
+
+  try {
+    const res = await db.execute(createParticipantSql, [
+      convo_id,
+      user_id,
+      'member',
+    ]);
+  } catch (error) {}
 };
 
 // get participants

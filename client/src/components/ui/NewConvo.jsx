@@ -10,9 +10,9 @@ export default function NewConvo() {
     <button
       onClick={createConvo}
       className='primary new-convo-btn'
-      title='Start a new conversation'
+      title='Start a new chat'
     >
-      New conversation
+      New chat
       <ForumIcon />
     </button>
   );

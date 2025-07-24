@@ -1,25 +1,32 @@
-import React from 'react';
+import React, { use, useEffect } from 'react';
 import './ConvoTile.scss';
 import GroupIcon from '@mui/icons-material/Group';
 import PersonIcon from '@mui/icons-material/Person';
+import { useMessaging } from '../../context/MessagingContext';
 
 export default function ConvoTile({ data }) {
-  const { name, type } = data;
+  const { handleSetActiveConvo } = useMessaging();
+  const { convo_name, convo_type } = data;
 
   const typeIcon = () => {
-    if (type === 'group') return <GroupIcon />;
-    if (type === 'private') return <PersonIcon />;
+    if (convo_type === 'group') return <GroupIcon />;
+    if (convo_type === 'private') return <PersonIcon />;
   };
   const typeLabel = () => {
-    if (type === 'group') return 'Group';
-    if (type === 'private') return 'Private';
+    if (convo_type === 'group') return 'Group';
+    if (convo_type === 'private') return 'Private';
   };
 
   return (
-    <div className='convo-tile'>
+    <div
+      className='convo-tile'
+      onClick={() => {
+        handleSetActiveConvo(data);
+      }}
+    >
       {/* {typeIcon()} */}
       <div className='container'>
-        <p className='sub'>{name}</p>
+        <p className='sub'>{convo_name}</p>
         <div className='label-container'>
           <p className='type-label tiny italic'>{typeLabel()}</p>
           <p className='tiny italic'>0/10</p>

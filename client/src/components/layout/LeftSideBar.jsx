@@ -12,6 +12,8 @@ import ConvoTile from '../ui/ConvoTile';
 import ListEmpty from '../ui/ListEmpty';
 import GroupSidebarUtil from '../ui/GroupSidebarUtil';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CachedIcon from '@mui/icons-material/Cached';
 
 export default function LeftSideBar({ onLogout }) {
   const { user } = useAuth();
@@ -24,6 +26,7 @@ export default function LeftSideBar({ onLogout }) {
     handleSetActiveGroup,
     setActiveGroup,
     addGroupMembers,
+    deleteGroup,
   } = useMessaging();
 
   useEffect(() => {
@@ -31,13 +34,37 @@ export default function LeftSideBar({ onLogout }) {
     getConvos();
   }, []);
 
+  const handleRefreshGroups = () => {
+    if (!activeGroup) {
+      console.log('refreshing groups');
+      getUserGroups();
+      return;
+    }
+
+    console.log('refreshing convos');
+    getConvos();
+  };
+
   const renderMemberAddButton = () => {
     if (activeGroup?.role === 'admin') {
       if (activeGroup) {
         return (
-          <div className='add-member-button' onClick={addGroupMembers}>
-            <PersonAddIcon />
-          </div>
+          <>
+            <button
+              className='transparent content util-button'
+              onClick={addGroupMembers}
+              title='Add people to this group'
+            >
+              <PersonAddIcon />
+            </button>
+            <button
+              className='content destructive transparent util-button'
+              onClick={deleteGroup}
+              title='Delete group'
+            >
+              <DeleteIcon />
+            </button>
+          </>
         );
       }
     }
@@ -59,12 +86,10 @@ export default function LeftSideBar({ onLogout }) {
     }
     if (convos.length > 0) {
       return convos
-        .filter((x) => x.group_parent === activeGroup.id)
-        .map((x) => <ConvoTile key={x.id} data={x} />);
+        .filter((x) => x.group_parent_id === activeGroup.id)
+        .map((x) => <ConvoTile key={x.convo_id} data={x} />);
     } else {
-      return (
-        <ListEmpty message='No conversations available. Create a new conversation.' />
-      );
+      return <ListEmpty message='No chats available. Create a new chat.' />;
     }
   };
 
@@ -118,20 +143,29 @@ export default function LeftSideBar({ onLogout }) {
           </div>
         </div>
       </div>
-      {activeGroup && (
-        <div className='title-container'>
+
+      <div className='title-container'>
+        {activeGroup && (
           <div className='back-button' onClick={backToGroups}>
             <ArrowBackIosIcon />
           </div>
+        )}
 
-          <div className='location'>
-            {activeGroup && <p>{activeGroup?.group_name}</p>}
-            {activeGroup && <p className='tiny italic'>{activeGroup?.role}</p>}
-          </div>
-
-          {renderMemberAddButton()}
+        <div className='location'>
+          {activeGroup && <p className='sub'>{activeGroup?.group_name}</p>}
+          {activeGroup && <p className='tiny italic'>{activeGroup?.role}</p>}
         </div>
-      )}
+
+        {renderMemberAddButton()}
+        <button
+          className='refresh-groups-button transparent content util-button'
+          onClick={handleRefreshGroups}
+          title='Add people to this group'
+        >
+          <CachedIcon />
+        </button>
+      </div>
+
       {/* {renderSearchbar()} */}
 
       <div className='main gutter_s'>{renderList()}</div>
