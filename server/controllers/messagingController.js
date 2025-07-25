@@ -357,8 +357,16 @@ exports.deleteParticipant = async (req, res, next) => {
 // ========= MESSAGES ===========
 // create Message
 exports.createMessage = async (req, res, next) => {
+  const { id: sender_id } = req.user;
+  const { convo_id, message_content } = req.body;
+  const sql = `
+    INSERT INTO messages (sender_id, convo_id, message_content) 
+    VALUES (?, ?, ?)
+  `;
+
   try {
-    res.json({ message: 'create Message' });
+    const result = db.execute(sql, [sender_id, convo_id, message_content]);
+    res.json({ message: 'Message created' });
   } catch (err) {
     next(err);
   }

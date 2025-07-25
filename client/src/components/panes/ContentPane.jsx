@@ -9,13 +9,29 @@ import { ReactComponent as Svg1 } from '../../assets/svg1.svg';
 
 export default function ContentPane() {
   const { activeConvo, activeGroup, deleteConvo, getConvos } = useMessaging();
+  const messageInput = useRef(null);
   const currentMessage = useRef('');
 
-  const handleSendMessage = (e) => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); // prevent newline
+      handleSendMessage(e);
+      messageInput.current.value = ''; // clear textarea if needed
+    }
+  };
+
+  const handleSendMessage = async (e) => {
     e.preventDefault();
-    currentMessage.current = document.getElementById(
-      'message-input-field'
-    ).value;
+
+    try {
+      await authApi.post('/messaging/messages', {
+        convo_id: activeConvo?.convo_id,
+        message_content: messageInput.current.value,
+      });
+      messageInput.current.value = '';
+    } catch (error) {
+      alert('There was a problem sending your message');
+    }
   };
 
   const handleAddParticipants = async () => {
@@ -106,8 +122,11 @@ export default function ContentPane() {
         >
           <textarea
             name='message'
-            placeholder='Write a message...'
+            placeholder='Write a message (Shift + Enter for new line)'
             id='message-input-field'
+            autoComplete='off'
+            onKeyDown={handleKeyDown}
+            ref={messageInput}
           />
           <button type='submit' className='primary' id='send-message-btn'>
             Send message

@@ -62,8 +62,9 @@ const participants = `
 const messages = `
 	CREATE TABLE IF NOT EXISTS messages (
 		id INT AUTO_INCREMENT PRIMARY KEY,	
-		convo_id INT NOT NULL UNIQUE,
+		convo_id INT NOT NULL,
 		sender_id INT NOT NULL,
+		message_content TEXT NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		FOREIGN KEY (convo_id) REFERENCES convos(id) ON DELETE CASCADE,
 		FOREIGN KEY (sender_id) REFERENCES users(id)
