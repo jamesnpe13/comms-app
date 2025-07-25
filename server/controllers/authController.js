@@ -43,8 +43,6 @@ exports.refreshSessionTokens = async (req, res, next) => {
   try {
     decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-    console.log(decoded);
-
     if (decoded == null) return res.json({ error: 'Token invalid' });
 
     const [dbTokenResult] = await db.execute(sqlGetRefreshToken, [decoded.id]);

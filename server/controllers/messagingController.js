@@ -294,8 +294,6 @@ exports.getMembers = async (req, res, next) => {
 
   try {
     const [members] = await db.execute(sql, [id]);
-    console.log(members);
-    // res.json({ members: res });
     res.json({ members: members });
   } catch (error) {
     console.log(error);
