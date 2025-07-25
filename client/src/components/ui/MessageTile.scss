@@ -1,0 +1,52 @@
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
+@use '../../styles/typography' as *;
+
+.message-tile {
+  border: 1px solid $color_shade3;
+  background-color: $color_shade5;
+  padding: $gutter_s $gutter_l;
+  border-radius: $border-radius_s;
+  max-width: 100%;
+  width: max-content;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: baseline;
+    opacity: 0.5;
+
+    .sender-name {
+    }
+  }
+
+  &.sender {
+    background-color: $color_primary;
+    align-self: flex-end;
+  }
+
+  pre {
+    text-wrap: wrap;
+    word-wrap: break-word;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    opacity: 0.5;
+
+    .date {
+      text-align: end;
+    }
+
+    svg {
+      font-size: $font-size_l;
+    }
+  }
+}

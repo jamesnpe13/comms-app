@@ -6,11 +6,23 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { authApi } from '../../api/axiosInstance';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ReactComponent as Svg1 } from '../../assets/svg1.svg';
+import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import MessageTile from '../ui/MessageTile';
 
 export default function ContentPane() {
-  const { activeConvo, activeGroup, deleteConvo, getConvos } = useMessaging();
+  const {
+    activeConvo,
+    setActiveGroup,
+    setActiveConvo,
+    activeGroup,
+    deleteConvo,
+    getConvos,
+  } = useMessaging();
+  const { user } = useAuth();
   const messageInput = useRef(null);
-  const currentMessage = useRef('');
+  const bottomRef = useRef(null);
+  const [messages, setMessages] = useState([]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -29,8 +41,11 @@ export default function ContentPane() {
         message_content: messageInput.current.value,
       });
       messageInput.current.value = '';
+      loadMessages();
     } catch (error) {
       alert('There was a problem sending your message');
+      setActiveGroup(null);
+      setActiveConvo(null);
     }
   };
 
@@ -74,6 +89,26 @@ export default function ContentPane() {
     } catch (error) {}
   };
 
+  const loadMessages = async () => {
+    const res = await authApi.get(
+      `/messaging/messages/${activeConvo?.convo_id}`
+    );
+    setMessages(res.data.messages);
+    scrollToBottom();
+  };
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    loadMessages();
+  }, [activeConvo]);
+
   return (
     <div className='content-pane'>
       <div className='header'>
@@ -110,6 +145,17 @@ export default function ContentPane() {
         {!activeConvo && (
           <div className='no-active-messages'>
             <h4>Organized messaging platform for your team</h4>
+          </div>
+        )}
+        {activeConvo && (
+          <div className='messages-container'>
+            {messages.length === 0 && (
+              <p className='italic'>Send a message to start conversation.</p>
+            )}
+            {messages?.map((x) => (
+              <MessageTile key={x.id} data={x} loadMessages={loadMessages} />
+            ))}
+            <div ref={bottomRef} />
           </div>
         )}
       </div>

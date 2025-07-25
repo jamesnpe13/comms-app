@@ -38,8 +38,10 @@
   }
 
   .content-pane {
+    height: 100%;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 
     .header {
       height: $header-height;
@@ -47,6 +49,7 @@
 
     .main {
       flex: 1;
+      overflow-y: hidden;
     }
 
     .message-input {

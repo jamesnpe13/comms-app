@@ -143,7 +143,7 @@ router.post(
   messagingController.createMessage
 );
 router.get(
-  '/messaging/messages',
+  '/messaging/messages/:id',
   authenticateToken,
   messagingController.getMessages
 );
@@ -153,7 +153,7 @@ router.put(
   messagingController.updateMessages
 );
 router.delete(
-  '/messaging/messages',
+  '/messaging/messages/:id',
   authenticateToken,
   messagingController.deleteMessages
 );

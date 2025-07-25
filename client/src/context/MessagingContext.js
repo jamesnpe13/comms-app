@@ -136,6 +136,7 @@ export function MessagingProvider({ children }) {
         getUserGroups,
         handleSetActiveGroup,
         setActiveGroup,
+        setActiveConvo,
         addGroupMembers,
         handleSetActiveConvo,
         deleteConvo,

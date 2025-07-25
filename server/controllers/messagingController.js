@@ -363,19 +363,51 @@ exports.createMessage = async (req, res, next) => {
     INSERT INTO messages (sender_id, convo_id, message_content) 
     VALUES (?, ?, ?)
   `;
+  console.log(convo_id, sender_id, message_content);
 
   try {
-    const result = db.execute(sql, [sender_id, convo_id, message_content]);
+    const result = await db.execute(sql, [
+      sender_id,
+      convo_id,
+      message_content,
+    ]);
+    console.log('Message created');
     res.json({ message: 'Message created' });
   } catch (err) {
+    console.log('Connot create Message');
     next(err);
   }
 };
 
 // get Messages
 exports.getMessages = async (req, res, next) => {
+  const { id: convo_id } = req.params;
+  // const sql = `
+  //   SELECT * FROM messages WHERE convo_id = ?
+  // `;
+
+  const sql = `
+    SELECT 
+    messages.*,
+    users.first_name,
+    users.last_name,
+    users.email,
+    users.username,
+    convos.name
+
+    FROM messages
+
+    JOIN users ON users.id = sender_id
+    JOIN convos ON convos.id = convo_id
+    
+    WHERE convo_id = ?
+
+    ORDER BY messages.created_at ASC
+  `;
+
   try {
-    res.json({ message: 'get Messages' });
+    const [result] = await db.execute(sql, [convo_id]);
+    res.json({ messages: result });
   } catch (err) {
     next(err);
   }
@@ -392,8 +424,13 @@ exports.updateMessages = async (req, res, next) => {
 
 // delete Messages
 exports.deleteMessages = async (req, res, next) => {
+  const { id } = req.params;
+  const sql = `
+    DELETE FROM messages WHERE id = ?
+  `;
   try {
-    res.json({ message: 'delete Messages' });
+    const result = db.execute(sql, [id]);
+    res.json({ message: 'Message deleted' });
   } catch (err) {
     next(err);
   }
