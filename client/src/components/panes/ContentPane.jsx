@@ -35,6 +35,7 @@ export default function ContentPane() {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    const messageContentChached = messageInput.current.value.trim();
 
     // check if convo exists
     try {
@@ -52,7 +53,7 @@ export default function ContentPane() {
     try {
       await authApi.post('/messaging/messages', {
         convo_id: activeConvo?.convo_id,
-        message_content: messageInput.current.value,
+        message_content: messageContentChached,
       });
       messageInput.current.value = '';
       loadMessages();
