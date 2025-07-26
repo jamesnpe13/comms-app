@@ -6,12 +6,18 @@ const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 export const authApi = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // axios instance for public access - no auth
 export const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // request interceptor with attached token
