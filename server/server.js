@@ -9,6 +9,8 @@ const { errorHandler } = require('./middleware/errorHandler');
 const http = require('http');
 const { Server } = require('socket.io');
 
+const allowedOrigins = [process.env.CLIENT_ORIGIN];
+
 const port = process.env.SERVER_PORT || 5000;
 const app = express();
 
@@ -17,7 +19,13 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
