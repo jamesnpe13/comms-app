@@ -68,7 +68,7 @@ async function issueSessionTokens(
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
-    sameSite: 'Strict',
+    sameSite: 'None',
     maxAge: isSessionOnly ? null : ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
   });
 
