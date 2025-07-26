@@ -39,6 +39,7 @@ export function MessagingProvider({ children }) {
       await authApi.delete(`/messaging/groups/${activeGroup.id}`);
       getUserGroups();
       setActiveGroup(null);
+      setActiveConvo(null);
     } catch (error) {
       console.log(error);
     }
@@ -79,6 +80,7 @@ export function MessagingProvider({ children }) {
         `/messaging/convos/${activeConvo.convo_id}`
       );
       getConvos();
+      setActiveConvo(null);
     } catch (error) {
       console.log(error);
     }

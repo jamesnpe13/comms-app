@@ -363,7 +363,6 @@ exports.createMessage = async (req, res, next) => {
     INSERT INTO messages (sender_id, convo_id, message_content) 
     VALUES (?, ?, ?)
   `;
-  console.log(convo_id, sender_id, message_content);
 
   try {
     const result = await db.execute(sql, [

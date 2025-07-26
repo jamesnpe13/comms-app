@@ -6,11 +6,11 @@ const routes = require('./routes/routes');
 const db = require('./database/connection');
 const runMigrations = require('./database/migrations/create_tables');
 const { errorHandler } = require('./middleware/errorHandler');
+const http = require('http');
+const { Server } = require('socket.io');
 
 const port = process.env.SERVER_PORT || process.env.PORT;
 const app = express();
-
-//note
 
 // global middlewares
 app.use(express.json());

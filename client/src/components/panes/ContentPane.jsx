@@ -13,6 +13,7 @@ import MessageTile from '../ui/MessageTile';
 export default function ContentPane() {
   const {
     activeConvo,
+    convos,
     setActiveGroup,
     setActiveConvo,
     activeGroup,
@@ -34,6 +35,19 @@ export default function ContentPane() {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+
+    // check if convo exists
+    try {
+      console.log('getting convos for checking');
+      await getConvos();
+      console.log('Checking convo id exists');
+      if (!convos.filter((x) => x.convo_id === activeConvo.convo_id)) {
+        throw new Error('Convo has been deleted');
+      }
+      console.log('convo exists');
+    } catch (error) {
+      alert(error);
+    }
 
     try {
       await authApi.post('/messaging/messages', {
