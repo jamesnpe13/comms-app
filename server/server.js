@@ -9,7 +9,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 const http = require('http');
 const { Server } = require('socket.io');
 
-const port = process.env.SERVER_PORT || process.env.PORT;
+const port = process.env.SERVER_PORT || 5000;
 const app = express();
 
 // global middlewares
