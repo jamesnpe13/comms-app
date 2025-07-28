@@ -17,9 +17,7 @@ function App() {
       <Routes>
         <Route
           path={ROUTES.rootRedirect.path}
-          element={
-            isAuth() ? ROUTES.dashboard.element : ROUTES.rootRedirect.element
-          }
+          element={ROUTES.rootRedirect.element}
         />
         <Route
           path={ROUTES.dashboard.path}

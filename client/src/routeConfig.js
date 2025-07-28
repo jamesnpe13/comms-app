@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import { Navigate } from 'react-router-dom';
+import RootRedirect from './pages/RootRedirect';
 
 // route config factory
 const routeConfig = (path, element, requiresAuth = false) => {
@@ -15,7 +16,7 @@ const ROUTES = {
   dashboard: routeConfig('/dashboard', <Dashboard />, true),
   catchAll: routeConfig('*', <NotFound />, false),
   login: routeConfig('/login', <Login />, false),
-  rootRedirect: routeConfig('/', <Navigate to='/login' replace />, false),
+  rootRedirect: routeConfig('/', <RootRedirect />, false),
 };
 
 export default ROUTES;
