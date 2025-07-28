@@ -1,4 +1,4 @@
-import React, { act, useEffect, useState } from 'react';
+import React, { act, use, useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
@@ -16,7 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CachedIcon from '@mui/icons-material/Cached';
 
 export default function LeftSideBar({ onLogout }) {
-  const { user } = useAuth();
+  const { user, isAuth } = useAuth();
   const {
     activeGroup,
     userGroups,
