@@ -5,12 +5,9 @@ const { newError } = require('../functions');
 // ========= GROUPS
 // create group
 exports.createGroup = async (req, res, next) => {
-  const cookieRefreshToken = req.cookies.refreshToken;
+const {id} = req.user;
   const { name, role = 'admin' } = req.body;
-  const { id } = jwt.verify(
-    cookieRefreshToken,
-    process.env.REFRESH_TOKEN_SECRET
-  );
+
   const sql = `
   INSERT INTO convo_groups (name, created_by)
   VALUES (?, ?)
@@ -49,11 +46,7 @@ exports.createGroup = async (req, res, next) => {
 };
 
 exports.getUserGroups = async (req, res, next) => {
-  const cookieRefreshToken = req.cookies.refreshToken;
-  const { id } = jwt.verify(
-    cookieRefreshToken,
-    process.env.REFRESH_TOKEN_SECRET
-  );
+const {id} = req.user;
 
   // get all groups where user is a member
   const sqlUserGroups = `
@@ -98,13 +91,10 @@ exports.deleteGroup = async (req, res, next) => {
 // ========= CONVOS ===========
 // create convo
 exports.createConvo = async (req, res, next) => {
-  const cookieRefreshToken = req.cookies.refreshToken;
+
   const { name, type = 'group', group_parent } = req.body;
   let convo_id;
-  const { id } = jwt.verify(
-    cookieRefreshToken,
-    process.env.REFRESH_TOKEN_SECRET
-  );
+const {id} = req.user;
 
   const sql = `
     INSERT INTO convos (
@@ -211,11 +201,7 @@ exports.getAllConvos = async (req, res, next) => {
 };
 
 exports.getUserConvos = async (req, res, next) => {
-  const cookieRefreshToken = req.cookies.refreshToken;
-  const { id } = jwt.verify(
-    cookieRefreshToken,
-    process.env.REFRESH_TOKEN_SECRET
-  );
+const {id} = req.user;
   const sql = `
     SELECT
     convos.id AS convo_id,
