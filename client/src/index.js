@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
-import { NotifProvider } from './context/NotifContext';
 import { MessagingProvider } from './context/MessagingContext';
 import Modal from './components/ui/Modal';
 
@@ -13,13 +12,11 @@ root.render(
   <React.StrictMode>
     <MessagingProvider>
       <BrowserRouter>
-        <NotifProvider>
-          <AuthProvider>
-            <Modal>
-              <App />
-            </Modal>
-          </AuthProvider>
-        </NotifProvider>
+        <AuthProvider>
+          <Modal>
+            <App />
+          </Modal>
+        </AuthProvider>
       </BrowserRouter>
     </MessagingProvider>
   </React.StrictMode>

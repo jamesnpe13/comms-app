@@ -4,10 +4,33 @@ import { useAuth } from '../../context/AuthContext';
 import { formatDate } from '../../utils/dateFormater';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { authApi } from '../../api/axiosInstance';
+import { useModal } from './Modal';
+import CircularProgress from '@mui/material/CircularProgress';
+import { containerClasses } from '@mui/material/Container';
 
 export default function MessageTile({ data, loadMessages }) {
   const formatedDate = formatDate(data.created_at);
   const { user } = useAuth();
+  const { newModal, closeModal } = useModal();
+
+  const handleDeleteMessage = () => {
+    const content = 'Are you sure you want to delete this message?';
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          className='destructive'
+          onClick={() => {
+            deleteMessage();
+            closeModal();
+          }}
+        >
+          Yes, delete message
+        </button>
+      </>
+    );
+    newModal({ content: content, buttons: buttons });
+  };
 
   const deleteMessage = async () => {
     try {
@@ -37,7 +60,7 @@ export default function MessageTile({ data, loadMessages }) {
           <button
             title='Delete message'
             className='transparent content'
-            onClick={deleteMessage}
+            onClick={handleDeleteMessage}
           >
             <DeleteIcon />
           </button>
