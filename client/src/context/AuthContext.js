@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getLocalStorage, storeLocalStorage } from '../utils/browserStorage';
 import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,12 @@ import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
 import { ApiFunctions } from '../api/requests';
 import ROUTES from '../routeConfig';
 import { useMessaging } from './MessagingContext';
+import { useToast } from '../components/ui/Toast';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const { resetMessagingContext } = useMessaging();
+  const { newToast } = useToast();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState(null);
@@ -49,6 +51,7 @@ export function AuthProvider({ children }) {
       startSession(token);
       // navigate to dashboard
       navigate(ROUTES.dashboard.path);
+      newToast(`Login successful`, 'success');
     } catch (error) {
       alert(error.message);
     }
@@ -58,7 +61,7 @@ export function AuthProvider({ children }) {
     // call logout in api
     try {
       const res = await ApiFunctions.logout();
-      console.log(res);
+      newToast(`See you back soon!`, 'success');
     } catch (error) {
       alert(error.message);
     }

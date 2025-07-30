@@ -15,9 +15,11 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CachedIcon from '@mui/icons-material/Cached';
 import { useModal } from '../ui/Modal';
+import { useToast } from '../ui/Toast';
 
 export default function LeftSideBar({ onLogout }) {
   const { newModal, closeModal } = useModal();
+  const { newToast, removeToast } = useToast();
   const usernameInput = useRef();
   const { user, isAuth } = useAuth();
   const {

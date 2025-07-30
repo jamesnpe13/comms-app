@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import MessageTile from '../ui/MessageTile';
 import { useModal } from '../ui/Modal';
+import { useToast } from '../ui/Toast';
 
 export default function ContentPane() {
   const {
@@ -27,6 +28,7 @@ export default function ContentPane() {
   const bottomRef = useRef(null);
   const [messages, setMessages] = useState([]);
   const usernameInput = useRef();
+  const { newToast } = useToast();
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -84,10 +86,9 @@ export default function ContentPane() {
         const users = await authApi.get(`/users/id/${memberIds[i]}`);
         usernames.push(users.data.user.username);
       }
-
-      console.log(usernames);
     } catch (error) {
       console.log(error);
+      newToast('Failed to add member', 'destructive');
     }
 
     const header = 'Add chat member';
@@ -96,6 +97,7 @@ export default function ContentPane() {
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             addParticipant();
+            closeModal();
           }
         }}
         ref={usernameInput}
@@ -123,9 +125,11 @@ export default function ContentPane() {
     const addParticipant = async () => {
       const username = usernameInput.current.value;
       if (!usernames.includes(username)) {
-        alert(
-          `Cannot add ${username} as participant to this conversation as they are not a member of ${activeGroup.group_name}`
+        newToast(
+          `Cannot add ${username} as member to this chat because they are not a member of ${activeGroup.group_name}`,
+          'warning'
         );
+        closeModal();
         return;
       }
 
@@ -134,7 +138,12 @@ export default function ContentPane() {
           convo_id: convo_id,
           username: username,
         });
-      } catch (error) {}
+        newToast('Successfully added member to chat.', 'success');
+        closeModal();
+      } catch (error) {
+        newToast('Failed to add member', 'destructive');
+        closeModal();
+      }
     };
   };
 

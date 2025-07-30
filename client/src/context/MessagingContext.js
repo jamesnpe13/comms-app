@@ -2,11 +2,13 @@ import { useContext, createContext, useState, useEffect, use } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
 import { storeLocalStorage } from '../utils/browserStorage';
+import { useToast } from '../components/ui/Toast';
 
 const MessagingContext = createContext();
 
 export function MessagingProvider({ children }) {
   const [userGroups, setUserGroups] = useState([]);
+  const { newToast } = useToast();
   const [convos, setConvos] = useState([]);
   const [activeGroup, setActiveGroup] = useState(null);
   const [activeConvo, setActiveConvo] = useState(null);
@@ -30,7 +32,10 @@ export function MessagingProvider({ children }) {
     try {
       const res = await authApi.post('/messaging/groups', { name: name });
       getUserGroups();
-    } catch (error) {}
+      newToast('Group successfully created', 'success');
+    } catch (error) {
+      newToast('Failed to create group', 'destructive');
+    }
   };
 
   // delete group
@@ -40,8 +45,10 @@ export function MessagingProvider({ children }) {
       getUserGroups();
       setActiveGroup(null);
       setActiveConvo(null);
+      newToast('Group successfully deleted', 'success');
     } catch (error) {
       console.log(error);
+      newToast('Failed to delete group', 'destructive');
     }
   };
 
@@ -68,7 +75,9 @@ export function MessagingProvider({ children }) {
         group_parent: groupParent,
       });
       getConvos();
+      newToast('Chat successfully created', 'success');
     } catch (error) {
+      newToast('Failed to create chat', 'destructive');
       throw new Error(handleError(error, 'Messaging'));
     }
   };
@@ -81,8 +90,10 @@ export function MessagingProvider({ children }) {
       );
       getConvos();
       setActiveConvo(null);
+      newToast('Chat successfully deleted', 'success');
     } catch (error) {
       console.log(error);
+      newToast('Failed to delete chat', 'destructive');
     }
   };
 
@@ -104,39 +115,37 @@ export function MessagingProvider({ children }) {
 
   // add group members
   const addGroupMembers = async (username) => {
-    if (!username || username.length === 0) {
-      alert('Field cannot be empty');
+    if (!username || username.trim().length === 0) {
+      newToast('Field cannot be empty', 'warning');
       return;
     }
-    console.log(`>>> ${username}`);
 
     try {
-      const res = await authApi.post('/messaging/groups/members/group', {
+      // Check if user is already in group
+      const res1 = await authApi.post('/messaging/groups/members/group', {
         id: activeGroup.id,
       });
-      console.log(res.data.members);
-      console.log(activeGroup);
-      if (res.data.members.map((x) => x.username).includes(username)) {
-        console.log(
-          `${username} is already a member of ${activeGroup.group_name}`
+
+      const existingUsernames = res1.data.members.map((x) => x.username);
+      if (existingUsernames.includes(username)) {
+        newToast(
+          `${username} is already a member of ${activeGroup.group_name}`,
+          'warning'
         );
-        alert(`${username} is already a member of ${activeGroup.group_name}`);
         return;
       }
-    } catch (error) {
-      console.log(error);
-    }
 
-    return;
-
-    try {
-      const res = await authApi.post('/messaging/groups/members', {
+      // Add member to group
+      const res2 = await authApi.post('/messaging/groups/members', {
         username: username,
         group_parent: activeGroup.id,
       });
+
+      newToast('Member successfully added', 'success');
     } catch (error) {
       console.log(error);
-      alert('User not found');
+      console.error('Error adding group member:', error);
+      newToast('User not found or failed to add', 'destructive');
     }
   };
 

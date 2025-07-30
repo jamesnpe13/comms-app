@@ -262,9 +262,14 @@ exports.createMember = async (req, res, next) => {
     VALUES (?, ?, ?)
   `;
   try {
-    const [result] = await db.execute(getIdSql, [username]);
-    const { id } = result[0];
-    const res = await db.execute(addMemberSql, [id, group_parent, 'member']);
+    const [result1] = await db.execute(getIdSql, [username]);
+    const { id } = result1[0];
+    const result2 = await db.execute(addMemberSql, [
+      id,
+      group_parent,
+      'member',
+    ]);
+    res.json({ message: 'Created member' });
   } catch (err) {
     next(err);
   }
@@ -310,19 +315,22 @@ exports.createParticipant = async (req, res, next) => {
   `;
 
   try {
-    const [res] = await db.execute(getUserIdSql, [username]);
-    user_id = res[0]?.id;
+    const [response1] = await db.execute(getUserIdSql, [username]);
+    user_id = response1[0]?.id;
   } catch (err) {
     next(err);
   }
 
   try {
-    const res = await db.execute(createParticipantSql, [
+    const response2 = await db.execute(createParticipantSql, [
       convo_id,
       user_id,
       'member',
     ]);
-  } catch (error) {}
+    res.json({ message: 'Participant created' });
+  } catch (error) {
+    res.json({ error: error });
+  }
 };
 
 // get participants
