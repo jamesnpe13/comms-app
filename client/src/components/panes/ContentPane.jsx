@@ -9,6 +9,7 @@ import { ReactComponent as Svg1 } from '../../assets/svg1.svg';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import MessageTile from '../ui/MessageTile';
+import { useModal } from '../ui/Modal';
 
 export default function ContentPane() {
   const {
@@ -21,9 +22,11 @@ export default function ContentPane() {
     getConvos,
   } = useMessaging();
   const { user } = useAuth();
+  const { newModal, closeModal } = useModal();
   const messageInput = useRef(null);
   const bottomRef = useRef(null);
   const [messages, setMessages] = useState([]);
+  const usernameInput = useRef();
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -87,21 +90,52 @@ export default function ContentPane() {
       console.log(error);
     }
 
-    const username = prompt(`${usernames}`);
+    const header = 'Add chat member';
+    const content = (
+      <input
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            addParticipant();
+          }
+        }}
+        ref={usernameInput}
+        type='text'
+        placeholder='Enter username'
+      />
+    );
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          className='primary'
+          onClick={() => {
+            addParticipant();
+            closeModal();
+          }}
+        >
+          Add member
+        </button>
+      </>
+    );
 
-    if (!usernames.includes(username)) {
-      alert(
-        `Cannot add ${username} as participant to this conversation as they are not a member of ${activeGroup.group_name}`
-      );
-      return;
-    }
+    newModal({ header: header, content: content, buttons: buttons });
 
-    try {
-      const res = await authApi.post('/messaging/participants', {
-        convo_id: convo_id,
-        username: username,
-      });
-    } catch (error) {}
+    const addParticipant = async () => {
+      const username = usernameInput.current.value;
+      if (!usernames.includes(username)) {
+        alert(
+          `Cannot add ${username} as participant to this conversation as they are not a member of ${activeGroup.group_name}`
+        );
+        return;
+      }
+
+      try {
+        const res = await authApi.post('/messaging/participants', {
+          convo_id: convo_id,
+          username: username,
+        });
+      } catch (error) {}
+    };
   };
 
   const loadMessages = async () => {
@@ -114,6 +148,25 @@ export default function ContentPane() {
 
   const scrollToBottom = () => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleDeleteConvo = () => {
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          className='destructive'
+          onClick={() => {
+            deleteConvo();
+            closeModal();
+          }}
+        >
+          Yes, delete chat
+        </button>
+      </>
+    );
+    const content = 'Are you sure you want to delete this chat?';
+    newModal({ content: content, buttons: buttons });
   };
 
   useEffect(() => {
@@ -143,7 +196,7 @@ export default function ContentPane() {
                   <PersonAddIcon />
                 </button>
                 <button
-                  onClick={deleteConvo}
+                  onClick={handleDeleteConvo}
                   title='Delete chat'
                   className='content destructive'
                 >

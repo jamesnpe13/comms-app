@@ -6,6 +6,7 @@ import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { NotifProvider } from './context/NotifContext';
 import { MessagingProvider } from './context/MessagingContext';
+import Modal from './components/ui/Modal';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,9 @@ root.render(
       <BrowserRouter>
         <NotifProvider>
           <AuthProvider>
-            <App />
+            <Modal>
+              <App />
+            </Modal>
           </AuthProvider>
         </NotifProvider>
       </BrowserRouter>

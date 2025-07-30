@@ -22,8 +22,8 @@ export function MessagingProvider({ children }) {
   };
 
   // create group
-  const createGroup = async () => {
-    const name = prompt('Group name');
+  const createGroup = async (newGroupName) => {
+    const name = newGroupName;
 
     if (!name || name.length === 0) return;
 
@@ -54,8 +54,8 @@ export function MessagingProvider({ children }) {
   };
 
   // create conversation
-  const createConvo = async () => {
-    const name = prompt('Conversation name');
+  const createConvo = async (convoName) => {
+    const name = convoName;
     const type = 'group';
     const groupParent = activeGroup?.id;
 
@@ -103,16 +103,31 @@ export function MessagingProvider({ children }) {
   };
 
   // add group members
-  const addGroupMembers = async () => {
-    let username;
-    try {
-      username = prompt("Enter person's username");
-      if (!username || username.length === 0)
-        throw new Error('Username cannot be empty');
-    } catch (error) {
-      console.log(error);
+  const addGroupMembers = async (username) => {
+    if (!username || username.length === 0) {
+      alert('Field cannot be empty');
       return;
     }
+    console.log(`>>> ${username}`);
+
+    try {
+      const res = await authApi.post('/messaging/groups/members/group', {
+        id: activeGroup.id,
+      });
+      console.log(res.data.members);
+      console.log(activeGroup);
+      if (res.data.members.map((x) => x.username).includes(username)) {
+        console.log(
+          `${username} is already a member of ${activeGroup.group_name}`
+        );
+        alert(`${username} is already a member of ${activeGroup.group_name}`);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    return;
 
     try {
       const res = await authApi.post('/messaging/groups/members', {
@@ -121,6 +136,7 @@ export function MessagingProvider({ children }) {
       });
     } catch (error) {
       console.log(error);
+      alert('User not found');
     }
   };
 

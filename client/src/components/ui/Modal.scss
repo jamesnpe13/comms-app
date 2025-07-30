@@ -1,0 +1,70 @@
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
+
+.modal {
+  display: block;
+  position: absolute;
+  z-index: 100;
+  max-height: 100dvh;
+  max-width: 100dvw;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    margin: 20px;
+    background-color: $color_shade9;
+    border: 1px solid $color_shade5;
+    height: max-content;
+    max-width: 400px;
+    width: 100%;
+    z-index: inherit;
+    border-radius: $border_radius-l;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      background-color: $color_shade10;
+      text-align: center;
+      height: max-content;
+      height: 100%;
+      padding: $gutter_l;
+    }
+
+    .main {
+      flex: 1;
+      padding: $gutter_l;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+      min-height: 120px;
+    }
+
+    .footer {
+      background-color: $color_shade10;
+      padding: $gutter_l;
+
+      .button-container {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+
+  .backdrop {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.459);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}

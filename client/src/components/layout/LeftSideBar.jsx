@@ -1,4 +1,4 @@
-import React, { act, use, useEffect, useState } from 'react';
+import React, { act, use, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchIcon from '@mui/icons-material/Search';
@@ -14,8 +14,11 @@ import GroupSidebarUtil from '../ui/GroupSidebarUtil';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CachedIcon from '@mui/icons-material/Cached';
+import { useModal } from '../ui/Modal';
 
 export default function LeftSideBar({ onLogout }) {
+  const { newModal, closeModal } = useModal();
+  const usernameInput = useRef();
   const { user, isAuth } = useAuth();
   const {
     activeGroup,
@@ -46,6 +49,39 @@ export default function LeftSideBar({ onLogout }) {
     getUserGroups();
   };
 
+  const handleAddMembers = () => {
+    const header = 'Add group member';
+    const content = (
+      <input
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            addGroupMembers(usernameInput.current.value);
+            closeModal();
+          }
+        }}
+        ref={usernameInput}
+        type='text'
+        placeholder='Enter username'
+      />
+    );
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          className='primary'
+          onClick={() => {
+            addGroupMembers(usernameInput.current.value);
+            closeModal();
+          }}
+        >
+          Add member
+        </button>
+      </>
+    );
+
+    newModal({ header: header, content: content, buttons: buttons });
+  };
+
   const renderMemberAddButton = () => {
     if (activeGroup?.role === 'admin') {
       if (activeGroup) {
@@ -53,14 +89,14 @@ export default function LeftSideBar({ onLogout }) {
           <>
             <button
               className='transparent content util-button'
-              onClick={addGroupMembers}
+              onClick={handleAddMembers}
               title='Add people to this group'
             >
               <PersonAddIcon />
             </button>
             <button
               className='content destructive transparent util-button'
-              onClick={deleteGroup}
+              onClick={handleDeleteGroup}
               title='Delete group'
             >
               <DeleteIcon />
@@ -69,6 +105,27 @@ export default function LeftSideBar({ onLogout }) {
         );
       }
     }
+  };
+
+  const handleDeleteGroup = () => {
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          className='destructive'
+          onClick={() => {
+            closeModal();
+            deleteGroup();
+          }}
+        >
+          Yes, delete group
+        </button>
+      </>
+    );
+    newModal({
+      content: 'Are you sure you want to delete this group?',
+      buttons: buttons,
+    });
   };
 
   const renderList = () => {
@@ -122,13 +179,34 @@ export default function LeftSideBar({ onLogout }) {
     setActiveGroup(null);
   };
 
+  const handleLogoutClick = () => {
+    const buttons = (
+      <>
+        <button onClick={closeModal}>Cancel</button>
+        <button
+          onClick={() => {
+            closeModal();
+            onLogout();
+          }}
+          className='primary'
+        >
+          Logout
+        </button>
+      </>
+    );
+    newModal({
+      content: 'Are you sure you want to log out?',
+      buttons: buttons,
+    });
+  };
+
   return (
     <div className='left-sidebar'>
       <div className='header'>
         <div className='container'>
           <div
             className='logout-button'
-            onClick={onLogout}
+            onClick={handleLogoutClick}
             title='Log out user'
           >
             <LogoutIcon />

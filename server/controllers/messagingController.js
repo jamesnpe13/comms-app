@@ -5,7 +5,7 @@ const { newError } = require('../functions');
 // ========= GROUPS
 // create group
 exports.createGroup = async (req, res, next) => {
-const {id} = req.user;
+  const { id } = req.user;
   const { name, role = 'admin' } = req.body;
 
   const sql = `
@@ -46,7 +46,7 @@ const {id} = req.user;
 };
 
 exports.getUserGroups = async (req, res, next) => {
-const {id} = req.user;
+  const { id } = req.user;
 
   // get all groups where user is a member
   const sqlUserGroups = `
@@ -91,10 +91,9 @@ exports.deleteGroup = async (req, res, next) => {
 // ========= CONVOS ===========
 // create convo
 exports.createConvo = async (req, res, next) => {
-
   const { name, type = 'group', group_parent } = req.body;
   let convo_id;
-const {id} = req.user;
+  const { id } = req.user;
 
   const sql = `
     INSERT INTO convos (
@@ -201,7 +200,7 @@ exports.getAllConvos = async (req, res, next) => {
 };
 
 exports.getUserConvos = async (req, res, next) => {
-const {id} = req.user;
+  const { id } = req.user;
   const sql = `
     SELECT
     convos.id AS convo_id,
@@ -274,8 +273,12 @@ exports.createMember = async (req, res, next) => {
 exports.getMembers = async (req, res, next) => {
   const { id } = req.body;
   const sql = `
-    SELECT * FROM members
-    WHERE group_parent = ?
+  SELECT 
+  members.*,
+  users.username  
+  FROM members  
+  JOIN users ON users.id = members.user_id
+  WHERE group_parent = ?
   `;
 
   try {
