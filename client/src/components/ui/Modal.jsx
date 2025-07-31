@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const ModalContext = createContext();
 
-export default function Modal({ children }) {
+export default function ModalProvider({ children }) {
   const [modalHeader, setModalHeader] = useState(null);
   const [modalText, setModalText] = useState(null);
   const [isOpen, setIsOpen] = useState(false);

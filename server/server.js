@@ -1,34 +1,42 @@
 require('dotenv').config();
-const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes/routes');
-const db = require('./database/connection');
 const runMigrations = require('./database/migrations/create_tables');
 const { errorHandler } = require('./middleware/errorHandler');
-const http = require('http');
+const express = require('express');
+const { createServer } = require('http');
 const { Server } = require('socket.io');
 
+// variables
 const allowedOrigins = [process.env.CLIENT_ORIGIN];
-
 const port = process.env.SERVER_PORT || 5000;
+const corsConfig = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+// express instance
 const app = express();
+
+// socket.io
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { corsConfig } });
+
+io.on('connection', (socket) => {
+  console.log('socket connection established. socket_id:', socket.id);
+});
 
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  })
-);
+app.use(cors(corsConfig));
 
 // express middleware mount points
 app.use('/', routes);
@@ -48,7 +56,7 @@ async function startServer() {
 }
 
 function serverListen() {
-  app.listen(port, '0.0.0.0', (err) => {
+  httpServer.listen(port, '0.0.0.0', (err) => {
     if (err) console.log(err);
     console.log(`Main_server running on port ${port}`);
   });

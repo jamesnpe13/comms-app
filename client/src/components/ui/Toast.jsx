@@ -4,7 +4,7 @@ import ToastTile from './ToastTile';
 
 const ToastContext = createContext();
 
-export default function Toast({ children }) {
+export default function ToastProvider({ children }) {
   const toastCounter = useRef(0);
   const [toastStack, setToastStack] = useState([]);
   const toastDuration = 8000;

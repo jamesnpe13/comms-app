@@ -4,9 +4,10 @@ import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
 import ROUTES from './routeConfig';
 import Footer from './components/layout/Footer';
+import socket from './socket';
 
 function App() {
-  const { restoreSession, isAuth } = useAuth();
+  const { restoreSession } = useAuth();
 
   useEffect(() => {
     restoreSession();

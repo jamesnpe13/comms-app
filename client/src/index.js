@@ -5,22 +5,25 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
 import { MessagingProvider } from './context/MessagingContext';
-import Modal from './components/ui/Modal';
-import Toast from './components/ui/Toast';
+import { SocketProvider } from './context/SocketContext';
+import ModalProvider from './components/ui/Modal';
+import ToastProvider from './components/ui/Toast';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Toast>
-      <MessagingProvider>
-        <BrowserRouter>
-          <AuthProvider>
-            <Modal>
-              <App />
-            </Modal>
-          </AuthProvider>
-        </BrowserRouter>
-      </MessagingProvider>
-    </Toast>
+    <SocketProvider>
+      <ToastProvider>
+        <MessagingProvider>
+          <BrowserRouter>
+            <AuthProvider>
+              <ModalProvider>
+                <App />
+              </ModalProvider>
+            </AuthProvider>
+          </BrowserRouter>
+        </MessagingProvider>
+      </ToastProvider>
+    </SocketProvider>
   </React.StrictMode>
 );
