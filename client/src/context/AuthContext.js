@@ -7,6 +7,7 @@ import { ApiFunctions } from '../api/requests';
 import ROUTES from '../routeConfig';
 import { useMessaging } from './MessagingContext';
 import { useToast } from '../components/ui/Toast';
+import socket from '../socket';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
@@ -49,13 +50,16 @@ export function AuthProvider({ children }) {
       const token = res.data.accessToken;
       // set access token and call login in auth
       startSession(token);
-      // navigate to dashboard
       navigate(ROUTES.dashboard.path);
       newToast(`Login successful`, 'success');
     } catch (error) {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    if (user) socket.emit('register', user);
+  }, [user]);
 
   const logout = async () => {
     // call logout in api

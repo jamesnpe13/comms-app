@@ -18,9 +18,11 @@ export default function ToastProvider({ children }) {
 
     setToastStack([...toastStack, newToast]);
 
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       removeToast(newToast.id);
     }, toastDuration);
+
+    return () => clearTimeout(timeout);
   };
 
   const removeToast = (toastId) => {

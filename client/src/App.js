@@ -10,6 +10,9 @@ function App() {
   const { restoreSession } = useAuth();
 
   useEffect(() => {
+    socket.on('test', (arg1) => {
+      console.log(arg1);
+    });
     restoreSession();
   }, []);
 

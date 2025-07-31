@@ -11,6 +11,7 @@ const { Server } = require('socket.io');
 // variables
 const allowedOrigins = [process.env.CLIENT_ORIGIN];
 const port = process.env.SERVER_PORT || 5000;
+const userSockets = new Map();
 const corsConfig = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -28,10 +29,6 @@ const app = express();
 // socket.io
 const httpServer = createServer(app);
 const io = new Server(httpServer, { cors: { corsConfig } });
-
-io.on('connection', (socket) => {
-  console.log('socket connection established. socket_id:', socket.id);
-});
 
 // global middlewares
 app.use(express.json());
@@ -54,6 +51,17 @@ async function startServer() {
     console.log('Failed to start server due to migration error');
   }
 }
+
+io.on('connection', (socket) => {
+  console.log('socket connection established. socket_id:', socket.id);
+
+  socket.emit('test', 'Broadcast: Hello to all clients!');
+
+  socket.on('register', (user) => {
+    userSockets.set(user.id, socket.id);
+    console.log(userSockets);
+  });
+});
 
 function serverListen() {
   httpServer.listen(port, '0.0.0.0', (err) => {
