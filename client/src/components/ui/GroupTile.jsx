@@ -6,23 +6,6 @@ import { authApi } from '../../api/axiosInstance';
 
 function GroupTile({ data, handleSetActiveGroup }) {
   const { group_name } = data;
-  const [members, setMembers] = useState([]);
-
-  const getMembers = async () => {
-    try {
-      const res = await authApi.post('/messaging/groups/members/group', {
-        id: data.id,
-      });
-
-      setMembers(res.data.members);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getMembers();
-  }, []);
 
   return (
     <div
@@ -35,7 +18,7 @@ function GroupTile({ data, handleSetActiveGroup }) {
       <div className='container'>
         <p className='sub'>{group_name}</p>
         <p className='tiny italic'>
-          {members.length}
+          {data.participants.length}
           <GroupIcon />
         </p>
       </div>

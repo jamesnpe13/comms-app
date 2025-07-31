@@ -16,6 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CachedIcon from '@mui/icons-material/Cached';
 import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
+import { authApi } from '../../api/axiosInstance';
 
 function LeftSideBar({ onLogout }) {
   const { newModal, closeModal } = useModal();
@@ -201,6 +202,18 @@ function LeftSideBar({ onLogout }) {
       buttons: buttons,
     });
   };
+
+  // const getMembers = async (id) => {
+  //   try {
+  //     const res = await authApi.post('/messaging/groups/members/group', {
+  //       id: id,
+  //     });
+
+  //     setMembers(res.data.members);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className='left-sidebar'>

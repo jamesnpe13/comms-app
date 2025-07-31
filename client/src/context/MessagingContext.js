@@ -55,9 +55,29 @@ export function MessagingProvider({ children }) {
   // get user groups
   const getUserGroups = async () => {
     try {
-      const res = await authApi.get('/messaging/usergroups');
-      setUserGroups([...res.data].reverse());
-    } catch (error) {}
+      let res1 = await authApi.get('/messaging/usergroups');
+      console.log(res1.data);
+
+      let array = [];
+
+      for (let group of res1.data) {
+        const groupId = group.id;
+
+        const res2 = await authApi.post('/messaging/groups/members/group', {
+          id: groupId,
+        });
+
+        const { members: participants } = res2.data;
+
+        group = { ...group, participants };
+
+        array.push(group);
+      }
+
+      setUserGroups(array);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // create conversation
@@ -140,7 +160,7 @@ export function MessagingProvider({ children }) {
         username: username,
         group_parent: activeGroup.id,
       });
-
+      getUserGroups();
       newToast('Member successfully added', 'success');
     } catch (error) {
       console.log(error);
