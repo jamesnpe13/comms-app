@@ -12,7 +12,7 @@ import MessageTile from '../ui/MessageTile';
 import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
 
-export default function ContentPane() {
+function ContentPane() {
   const {
     activeConvo,
     convos,
@@ -260,3 +260,5 @@ export default function ContentPane() {
     </div>
   );
 }
+
+export default React.memo(ContentPane);

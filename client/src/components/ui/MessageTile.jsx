@@ -8,7 +8,7 @@ import { useModal } from './Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { containerClasses } from '@mui/material/Container';
 
-export default function MessageTile({ data, loadMessages }) {
+function MessageTile({ data, loadMessages }) {
   const formatedDate = formatDate(data.created_at);
   const { user } = useAuth();
   const { newModal, closeModal } = useModal();
@@ -69,3 +69,5 @@ export default function MessageTile({ data, loadMessages }) {
     </div>
   );
 }
+
+export default React.memo(MessageTile);

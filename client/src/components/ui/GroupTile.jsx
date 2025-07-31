@@ -4,7 +4,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import { useMessaging } from '../../context/MessagingContext';
 import { authApi } from '../../api/axiosInstance';
 
-export default function GroupTile({ data, handleSetActiveGroup }) {
+function GroupTile({ data, handleSetActiveGroup }) {
   const { group_name } = data;
   const [members, setMembers] = useState([]);
 
@@ -42,3 +42,5 @@ export default function GroupTile({ data, handleSetActiveGroup }) {
     </div>
   );
 }
+
+export default React.memo(GroupTile);

@@ -4,7 +4,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import PersonIcon from '@mui/icons-material/Person';
 import { useMessaging } from '../../context/MessagingContext';
 
-export default function ConvoTile({ data }) {
+function ConvoTile({ data }) {
   const { handleSetActiveConvo } = useMessaging();
   const { convo_name, convo_type } = data;
 
@@ -36,3 +36,5 @@ export default function ConvoTile({ data }) {
     </div>
   );
 }
+
+export default React.memo(ConvoTile);
