@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import ROUTES from '../routeConfig';
 import RequireAuth from '../hooks/useRequireAuth';
 import BG from '../assets/oakywood-r0GOOPc_EBI-unsplash.jpg';
+import { useToast } from '../components/ui/Toast';
 
 export default function Registration() {
+  const { newToast } = useToast();
   const navigate = useNavigate();
   const formData = useRef({});
   const password1Input = useRef(null);
@@ -42,11 +44,10 @@ export default function Registration() {
     // api request
     try {
       const res = await register(formData.current);
-      console.log(res);
-      alert('User created');
+      newToast('User created', 'success');
       navigate(ROUTES.login.path);
     } catch (error) {
-      alert(error.message);
+      newToast(error.message, 'destructive');
     }
   };
 

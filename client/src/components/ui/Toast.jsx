@@ -16,23 +16,17 @@ export default function ToastProvider({ children }) {
   const newToast = (message, type) => {
     const newToast = toast(message, type);
 
-    setToastStack([...toastStack, newToast]);
+    setToastStack((prev) => [...prev, newToast]);
 
-    const timeout = setTimeout(() => {
+    setTimeout(() => {
       removeToast(newToast.id);
     }, toastDuration);
-
-    return () => clearTimeout(timeout);
   };
 
   const removeToast = (toastId) => {
     // remove toast from stack
     setToastStack((prev) => prev.filter((toast) => toast.id !== toastId));
   };
-
-  useEffect(() => {
-    console.log(toastStack);
-  }, [toastStack]);
 
   return (
     <ToastContext.Provider value={{ newToast, removeToast, toastStack }}>

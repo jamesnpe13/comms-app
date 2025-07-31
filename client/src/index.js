@@ -12,8 +12,8 @@ import ToastProvider from './components/ui/Toast';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SocketProvider>
-      <ToastProvider>
+    <ToastProvider>
+      <SocketProvider>
         <MessagingProvider>
           <BrowserRouter>
             <AuthProvider>
@@ -23,7 +23,7 @@ root.render(
             </AuthProvider>
           </BrowserRouter>
         </MessagingProvider>
-      </ToastProvider>
-    </SocketProvider>
+      </SocketProvider>
+    </ToastProvider>
   </React.StrictMode>
 );

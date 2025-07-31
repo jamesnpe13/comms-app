@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
       navigate(ROUTES.dashboard.path);
       newToast(`Login successful`, 'success');
     } catch (error) {
-      alert(error.message);
+      newToast(`${error.message}`, 'destructive');
     }
   };
 
@@ -67,7 +67,7 @@ export function AuthProvider({ children }) {
       const res = await ApiFunctions.logout();
       newToast(`See you back soon!`, 'success');
     } catch (error) {
-      alert(error.message);
+      newToast('There was a problem logging out', 'Destructive');
     }
     endSession();
     navigate(ROUTES.login.path);
@@ -100,7 +100,6 @@ export function AuthProvider({ children }) {
       return;
     }
     // // process access token
-    console.log('Session restored');
     startSession(localStorage_accessToken);
   };
 
@@ -120,7 +119,7 @@ export function AuthProvider({ children }) {
       const res = await ApiFunctions.refreshToken();
       startSession(res.data.accessToken);
     } catch (error) {
-      alert(error.message);
+      newToast(error.message);
       endSession();
     }
   };

@@ -367,7 +367,6 @@ exports.createMessage = async (req, res, next) => {
       convo_id,
       message_content,
     ]);
-    console.log('Message created');
     res.json({ message: 'Message created' });
   } catch (err) {
     console.log('Connot create Message');

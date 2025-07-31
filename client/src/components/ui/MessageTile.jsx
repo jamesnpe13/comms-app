@@ -8,7 +8,7 @@ import { useModal } from './Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { containerClasses } from '@mui/material/Container';
 
-function MessageTile({ data, loadMessages }) {
+function MessageTile({ data }) {
   const formatedDate = formatDate(data.created_at);
   const { user } = useAuth();
   const { newModal, closeModal } = useModal();
@@ -35,7 +35,7 @@ function MessageTile({ data, loadMessages }) {
   const deleteMessage = async () => {
     try {
       const res = await authApi.delete(`/messaging/messages/${data.id}`);
-      loadMessages();
+      // loadMessages();
     } catch (error) {
       console.log(error);
     }

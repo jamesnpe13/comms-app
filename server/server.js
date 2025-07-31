@@ -52,14 +52,19 @@ async function startServer() {
   }
 }
 
+// socket events
 io.on('connection', (socket) => {
   console.log('socket connection established. socket_id:', socket.id);
 
-  socket.emit('test', 'Broadcast: Hello to all clients!');
-
+  // user.id -> socket.id mapping
   socket.on('register', (user) => {
     userSockets.set(user.id, socket.id);
-    console.log(userSockets);
+  });
+
+  socket.on('send_message', (data) => {
+    console.log('Message received:', data);
+
+    io.emit('receive_message', data);
   });
 });
 

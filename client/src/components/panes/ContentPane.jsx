@@ -11,6 +11,7 @@ import { useAuth } from '../../context/AuthContext';
 import MessageTile from '../ui/MessageTile';
 import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
+import socket from '../../socket';
 
 function ContentPane() {
   const {
@@ -30,6 +31,16 @@ function ContentPane() {
   const usernameInput = useRef();
   const { newToast } = useToast();
 
+  useEffect(() => {
+    const handleReceiveMessage = (data) => {
+      loadMessages();
+    };
+    socket.on('receive_message', handleReceiveMessage);
+    return () => {
+      socket.off('receive_message', handleReceiveMessage);
+    };
+  }, [activeConvo]);
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault(); // prevent newline
@@ -48,11 +59,11 @@ function ContentPane() {
       await getConvos();
       console.log('Checking convo id exists');
       if (!convos.filter((x) => x.convo_id === activeConvo.convo_id)) {
-        throw new Error('Convo has been deleted');
+        throw new Error('Chat has been deleted');
       }
       console.log('convo exists');
     } catch (error) {
-      alert(error);
+      newToast('Chat does not exist');
     }
 
     try {
@@ -60,10 +71,10 @@ function ContentPane() {
         convo_id: activeConvo?.convo_id,
         message_content: messageContentChached,
       });
+      socket.emit('send_message', messageContentChached);
       messageInput.current.value = '';
-      loadMessages();
     } catch (error) {
-      alert('There was a problem sending your message');
+      newToast('There was a problem sending your message', 'destructive');
       setActiveGroup(null);
       setActiveConvo(null);
     }
@@ -230,7 +241,7 @@ function ContentPane() {
               <p className='italic'>Send a message to start conversation.</p>
             )}
             {messages?.map((x) => (
-              <MessageTile key={x.id} data={x} loadMessages={loadMessages} />
+              <MessageTile key={x.id} data={x} />
             ))}
             <div ref={bottomRef} />
           </div>

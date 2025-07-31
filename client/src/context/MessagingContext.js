@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect, use } from 'react';
+import { useContext, createContext, useState } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
 import { storeLocalStorage } from '../utils/browserStorage';
@@ -56,7 +56,6 @@ export function MessagingProvider({ children }) {
   const getUserGroups = async () => {
     try {
       let res1 = await authApi.get('/messaging/usergroups');
-      console.log(res1.data);
 
       let array = [];
 
@@ -122,7 +121,6 @@ export function MessagingProvider({ children }) {
     try {
       const res = await authApi.get('/messaging/userConvos');
       setConvos([...res.data.convos].reverse());
-      console.log('convos set');
     } catch (error) {
       throw new Error(handleError(error, 'Messaging'));
     }
