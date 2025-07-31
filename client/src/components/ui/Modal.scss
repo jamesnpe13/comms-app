@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+ 
 
   .content {
     margin: 20px;
@@ -24,7 +25,8 @@
     border-radius: $border_radius-l;
     display: flex;
     flex-direction: column;
-
+    overflow: hidden;
+    
     .header {
       background-color: $color_shade10;
       text-align: center;
