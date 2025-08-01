@@ -10,7 +10,7 @@ const {
 exports.userLogin = async (req, res, next) => {
   const { id } = req.user;
   const { user } = req;
-  const { session_only } = req.body;
+  const session_only = false;
 
   clearRefreshTokenCookie(res);
   issueSessionTokens(id, user, res, session_only);
@@ -38,12 +38,13 @@ exports.refreshSessionTokens = async (req, res, next) => {
   const sqlGetUserById = `SELECT * FROM users WHERE id = ?`;
   let decoded;
 
-  if (cookieRefreshToken == null) return next(newError('Session expired', 401));
+  if (cookieRefreshToken === null)
+    return next(newError('Session expired', 401));
 
   try {
     decoded = jwt.verify(cookieRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-    if (decoded == null) return res.json({ error: 'Token invalid' });
+    if (decoded === null) return res.json({ error: 'Token invalid' });
 
     const [dbTokenResult] = await db.execute(sqlGetRefreshToken, [decoded.id]);
     const dbToken = dbTokenResult[0]?.token;

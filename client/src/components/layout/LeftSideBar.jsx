@@ -69,7 +69,7 @@ function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
           }}
           ref={usernameInput}
           type='text'
-          placeholder='Search user'
+          placeholder='Search username'
         />
 
         {/* list members */}
