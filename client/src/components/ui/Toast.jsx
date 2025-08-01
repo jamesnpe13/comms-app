@@ -7,7 +7,7 @@ const ToastContext = createContext();
 export default function ToastProvider({ children }) {
   const toastCounter = useRef(0);
   const [toastStack, setToastStack] = useState([]);
-  const toastDuration = 8000;
+  const toastDuration = 5 * 1000;
 
   const toast = (message, type = 'default') => {
     return { type: type, message: message, id: ++toastCounter.current };

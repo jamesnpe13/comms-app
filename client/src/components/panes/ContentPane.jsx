@@ -31,6 +31,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
   const [messages, setMessages] = useState([]);
   const usernameInput = useRef();
   const { newToast } = useToast();
+  const [sendButtonIsActive, setSendButtonIsActive] = useState(true);
 
   useEffect(() => {
     const handleReceiveMessage = (data) => {
@@ -62,7 +63,10 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     const messageContentChached = messageInput.current.value.trim();
-
+    if (!sendButtonIsActive) return;
+    if (messageContentChached.length === 0) return;
+    console.log('HEre');
+    setSendButtonIsActive(false);
     // check if convo exists
     try {
       console.log('getting convos for checking');
@@ -71,12 +75,6 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
       if (!convos.filter((x) => x.convo_id === activeConvo.convo_id)) {
         throw new Error('Chat has been deleted');
       }
-      console.log('convo exists');
-    } catch (error) {
-      newToast('Chat does not exist');
-    }
-
-    try {
       await authApi.post('/messaging/messages', {
         convo_id: activeConvo?.convo_id,
         message_content: messageContentChached,
@@ -87,6 +85,8 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
       newToast('There was a problem sending your message', 'destructive');
       setActiveGroup(null);
       setActiveConvo(null);
+    } finally {
+      setSendButtonIsActive(true);
     }
   };
 
@@ -280,9 +280,22 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
             onKeyDown={handleKeyDown}
             ref={messageInput}
           />
-          <button type='submit' className='primary' id='send-message-btn'>
-            Send message
-            {<SendIcon />}
+          <button
+            type='submit'
+            className={`${sendButtonIsActive ? 'primary' : ''}`}
+            id='send-message-btn'
+          >
+            {sendButtonIsActive && (
+              <>
+                <span>Send message</span>
+                <SendIcon />
+              </>
+            )}
+            {!sendButtonIsActive && (
+              <>
+                <span>Sending...</span>
+              </>
+            )}
           </button>
         </form>
       )}

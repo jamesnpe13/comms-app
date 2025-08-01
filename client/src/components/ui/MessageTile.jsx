@@ -8,8 +8,10 @@ import { useModal } from './Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { containerClasses } from '@mui/material/Container';
 import socket from '../../socket';
+import { useToast } from './Toast';
 
 function MessageTile({ data }) {
+  const { newToast } = useToast();
   const formatedDate = formatDate(data.created_at);
   const { user } = useAuth();
   const { newModal, closeModal } = useModal();
@@ -37,8 +39,9 @@ function MessageTile({ data }) {
     try {
       const res = await authApi.delete(`/messaging/messages/${data.id}`);
       socket.emit('delete_message');
+      newToast('Successfully deleted message', 'success');
     } catch (error) {
-      console.log(error);
+      newToast('Failed to delete message', 'destructive');
     }
   };
   return (
