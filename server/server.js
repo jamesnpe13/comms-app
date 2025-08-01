@@ -66,6 +66,12 @@ io.on('connection', (socket) => {
 
     io.emit('receive_message', data);
   });
+
+  socket.on('delete_message', (data) => {
+    console.log('Message delete:');
+
+    io.emit('refresh_convo', data);
+  });
 });
 
 function serverListen() {

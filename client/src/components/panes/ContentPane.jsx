@@ -12,8 +12,9 @@ import MessageTile from '../ui/MessageTile';
 import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
 import socket from '../../socket';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
-function ContentPane() {
+function ContentPane({ sidebarToggle, setSidebarToggle }) {
   const {
     activeConvo,
     convos,
@@ -35,9 +36,16 @@ function ContentPane() {
     const handleReceiveMessage = (data) => {
       loadMessages();
     };
+
+    const handleRefresh = (data) => {
+      console.log('refershingconvo');
+      loadMessages();
+    };
     socket.on('receive_message', handleReceiveMessage);
+    socket.on('refresh_convo', handleRefresh);
     return () => {
       socket.off('receive_message', handleReceiveMessage);
+      socket.off('delete_message', handleRefresh);
     };
   }, [activeConvo]);
 
@@ -200,6 +208,14 @@ function ContentPane() {
   return (
     <div className='content-pane'>
       <div className='header'>
+        <div
+          className={`sidebar-button ${sidebarToggle ? 'active' : 'inactive'}`}
+          onClick={() => {
+            setSidebarToggle(!sidebarToggle);
+          }}
+        >
+          <MenuOpenIcon />
+        </div>
         {activeConvo && (
           <>
             <p>{activeConvo?.convo_name}</p>

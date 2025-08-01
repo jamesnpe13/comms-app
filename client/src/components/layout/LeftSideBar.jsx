@@ -17,8 +17,9 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
 import { authApi } from '../../api/axiosInstance';
+import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
-function LeftSideBar({ onLogout }) {
+function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
   const { newModal, closeModal } = useModal();
   const { newToast, removeToast } = useToast();
   const usernameInput = useRef();
@@ -216,25 +217,31 @@ function LeftSideBar({ onLogout }) {
   // };
 
   return (
-    <div className='left-sidebar'>
+    <div className={`left-sidebar ${sidebarToggle ? 'expanded' : 'collapsed'}`}>
       <div className='header'>
-        <div className='container'>
-          <div
-            className='logout-button'
-            onClick={handleLogoutClick}
-            title='Log out user'
-          >
-            <LogoutIcon />
+        <div
+          className='sidebar-button button'
+          onClick={() => {
+            setSidebarToggle(!sidebarToggle);
+          }}
+        >
+          <MenuOpenIcon />
+        </div>
+        <div className='profile-details'>
+          <p className='sub profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
+          <p className='tiny profile-email italic'>{user?.email}</p>
+        </div>
+        <div className='profile-pic'>
+          <div>
+            <p className='tiny'>DP</p>
           </div>
-          <div className='profile-container'>
-            <div className='profile-details'>
-              <p className='sub profile-name'>{`${user?.first_name} ${user?.last_name}`}</p>
-              <p className='tiny profile-email italic'>{user?.email}</p>
-            </div>
-            <div className='profile-pic'>
-              <p className='tiny'>DP</p>
-            </div>
-          </div>
+        </div>
+        <div
+          className='logout-button button'
+          onClick={handleLogoutClick}
+          title='Log out user'
+        >
+          <LogoutIcon />
         </div>
       </div>
 

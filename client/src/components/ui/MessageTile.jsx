@@ -7,6 +7,7 @@ import { authApi } from '../../api/axiosInstance';
 import { useModal } from './Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { containerClasses } from '@mui/material/Container';
+import socket from '../../socket';
 
 function MessageTile({ data }) {
   const formatedDate = formatDate(data.created_at);
@@ -35,7 +36,7 @@ function MessageTile({ data }) {
   const deleteMessage = async () => {
     try {
       const res = await authApi.delete(`/messaging/messages/${data.id}`);
-      // loadMessages();
+      socket.emit('delete_message');
     } catch (error) {
       console.log(error);
     }

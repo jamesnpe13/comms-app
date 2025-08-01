@@ -51,6 +51,7 @@ export function AuthProvider({ children }) {
       // set access token and call login in auth
       startSession(token);
       navigate(ROUTES.dashboard.path);
+      resetMessagingContext();
       newToast(`Login successful`, 'success');
     } catch (error) {
       newToast(`${error.message}`, 'destructive');

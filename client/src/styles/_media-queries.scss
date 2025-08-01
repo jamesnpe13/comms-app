@@ -1,0 +1,14 @@
+@use './variables' as *;
+
+// breakpoints
+$breakpoints: (
+  'mobile': 992px,
+  'mobile-small': $sidebar-width,
+);
+
+// mixin
+@mixin respond($breakpoint) {
+  @media (max-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}

@@ -1,6 +1,7 @@
 @use '../../styles/variables' as *;
 @use '../../styles/colours' as *;
 @use '../../styles/typography' as *;
+@use '../../styles/media-queries' as *;
 
 .content-pane {
   .header {
@@ -8,8 +9,19 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: $gutter_l;
+    // padding: $gutter_l;
     // box-shadow: 0 5px 8px $color_shade10;
+
+    .sidebar-button {
+      display: grid;
+      place-content: center;
+      height: 100%;
+      aspect-ratio: 1 / 1;
+
+      &.active {
+        display: none;
+      }
+    }
 
     .content-pane-util {
       margin-left: auto;

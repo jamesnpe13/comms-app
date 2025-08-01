@@ -1,66 +1,69 @@
 @use '../../styles/variables' as *;
 @use '../../styles/colours' as *;
 @use '../../styles/typography' as *;
+@use '../../styles/media-queries' as *;
 
 .left-sidebar {
   width: $sidebar-width;
+  background-color: $background-color_default;
+  z-index: 5;
+
+  @include respond(mobile-small) {
+    width: 100%;
+  }
 
   .header {
+    width: 100%;
+    max-width: 100%;
     height: $header-height;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
     background-color: $color_shade9;
-    width: 100%;
 
-    .container {
-      display: flex;
+    .button {
       height: 100%;
-      width: 100%;
-      justify-content: space-between;
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-content: center;
+      place-content: center;
+      cursor: pointer;
+      flex: 0;
+    }
 
-      .profile-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%;
-        padding: $gutter_s;
-        width: 100%;
+    .profile-details {
+      min-width: 0;
+      padding: $gutter_s;
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
 
-        .profile-pic {
-          height: 100%;
-          aspect-ratio: 1 / 1;
-          border-radius: 100%;
-          background-color: $color_shade6;
-          display: grid;
-          place-content: center;
-        }
-
-        .profile-details {
-          width: 200px;
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-
-          .profile-name {
-            color: $color_white;
-          }
-
-          .profile-name,
-          .profile-email {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-        }
+      .profile-name {
+        color: $color_white;
       }
 
-      .logout-button {
-        height: 100%;
-        aspect-ratio: 1 / 1;
+      .profile-name,
+      .profile-email {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .profile-pic {
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      padding: $gutter_s;
+      flex: 0;
+
+      div {
+        background-color: $color_shade6;
         display: grid;
         place-content: center;
-        cursor: pointer;
+        border-radius: 100%;
+        height: 100%;
+        width: 100%;
       }
     }
   }

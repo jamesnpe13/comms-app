@@ -1,5 +1,6 @@
 @use '../styles/variables' as *;
 @use '../styles/colours' as *;
+@use '../styles/media-queries' as *;
 
 #dashboard-page {
   background-color: $color_shade7;

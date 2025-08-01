@@ -129,6 +129,8 @@ export function MessagingProvider({ children }) {
   // reset context state
   const resetMessagingContext = () => {
     setConvos([]);
+    setActiveConvo(null);
+    setActiveGroup(null);
   };
 
   // add group members
