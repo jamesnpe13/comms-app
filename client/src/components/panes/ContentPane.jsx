@@ -191,7 +191,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
             closeModal();
           }}
         >
-          Yes, delete chat
+          Delete chat
         </button>
       </>
     );
