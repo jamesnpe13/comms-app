@@ -26,7 +26,7 @@ function MessageTile({ data }) {
             closeModal();
           }}
         >
-          Yes, delete message
+          Delete message
         </button>
       </>
     );

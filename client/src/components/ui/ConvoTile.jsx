@@ -8,10 +8,10 @@ function ConvoTile({ data, setSidebarToggle }) {
   const { handleSetActiveConvo } = useMessaging();
   const { convo_name, convo_type } = data;
 
-  const typeIcon = () => {
-    if (convo_type === 'group') return <GroupIcon />;
-    if (convo_type === 'private') return <PersonIcon />;
-  };
+  // const typeIcon = () => {
+  //   if (convo_type === 'group') return <GroupIcon />;
+  //   if (convo_type === 'private') return <PersonIcon />;
+  // };
   const typeLabel = () => {
     if (convo_type === 'group') return 'Group';
     if (convo_type === 'private') return 'Private';

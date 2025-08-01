@@ -41,11 +41,13 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
       console.log('refershingconvo');
       loadMessages();
     };
+
     socket.on('receive_message', handleReceiveMessage);
     socket.on('refresh_convo', handleRefresh);
+
     return () => {
       socket.off('receive_message', handleReceiveMessage);
-      socket.off('delete_message', handleRefresh);
+      socket.off('refresh_convo', handleRefresh);
     };
   }, [activeConvo]);
 
