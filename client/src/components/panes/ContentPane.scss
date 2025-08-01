@@ -10,7 +10,15 @@
     align-items: center;
     gap: 10px;
     padding: $gutter_l;
+    min-width: 0;
     // box-shadow: 0 5px 8px $color_shade10;
+
+    p:first-of-type {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
     .sidebar-button {
       display: grid;

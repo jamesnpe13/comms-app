@@ -13,6 +13,7 @@ import { useModal } from '../ui/Modal';
 import { useToast } from '../ui/Toast';
 import socket from '../../socket';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import ForumIcon from '@mui/icons-material/Forum';
 
 function ContentPane({ sidebarToggle, setSidebarToggle }) {
   const {
@@ -224,7 +225,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
 
             {activeConvo?.participant_role == 'admin' && (
               <div className='content-pane-util'>
-                {/* <p className='italic role'>{activeConvo?.participant_role}</p> */}
+                <p className='italic role'>{activeConvo?.participant_role}</p>
                 <button
                   title='Add group members to this chat'
                   onClick={handleAddParticipants}
