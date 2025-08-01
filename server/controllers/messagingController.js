@@ -53,7 +53,7 @@ exports.getUserGroups = async (req, res, next) => {
     SELECT 
 	  convo_groups.id AS id,
 	  convo_groups.name AS group_name,     
-    member.username AS member_username,
+    member.username AS member_username, 
     creator.username AS group_creator,
     members.role AS role
     FROM convo_groups
@@ -280,7 +280,9 @@ exports.getMembers = async (req, res, next) => {
   const sql = `
   SELECT 
   members.*,
-  users.username  
+  users.username,
+  users.first_name,
+  users.last_name  
   FROM members  
   JOIN users ON users.id = members.user_id
   WHERE group_parent = ?
@@ -297,7 +299,14 @@ exports.getMembers = async (req, res, next) => {
 // delete member
 exports.deleteMember = async (req, res, next) => {
   try {
-    res.json({ message: 'Delete member' });
+    const { user_id, group_id } = req.params;
+    const sql = `
+      DELETE FROM members 
+      WHERE user_id = ? AND group_parent = ?;    
+    `;
+
+    await db.execute(sql, [user_id, group_id]);
+    res.json({ message: 'Member deleted' });
   } catch (err) {
     next(err);
   }

@@ -230,3 +230,26 @@ svg.MuiSvgIcon-root {
 svg.svg-image {
   width: 250px;
 }
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  .member-tile {
+    display: flex;
+    // border: 1px solid $color_shade2;
+    background-color: $color_shade10;
+    padding: $gutter_s;
+    border-radius: $border-radius_s;
+    align-items: center;
+    justify-content: space-between;
+
+    .remove {
+      width: max-content;
+      justify-content: space-between;
+      margin-left: auto;
+      color: $color_destructive;
+    }
+  }
+}

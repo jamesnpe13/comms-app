@@ -82,7 +82,7 @@ router.post(
   messagingController.getMembers
 );
 router.delete(
-  '/messaging/groups/members',
+  '/messaging/groups/members/:user_id/:group_id',
   authenticateToken,
   messagingController.deleteMember
 );

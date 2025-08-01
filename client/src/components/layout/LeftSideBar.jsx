@@ -33,6 +33,7 @@ function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
     handleSetActiveGroup,
     setActiveGroup,
     addGroupMembers,
+    removeGroupMember,
     deleteGroup,
   } = useMessaging();
 
@@ -54,19 +55,50 @@ function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
   };
 
   const handleAddMembers = () => {
-    const header = 'Add group member';
+    const header = 'Group member settings';
     const content = (
-      <input
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            addGroupMembers(usernameInput.current.value);
-            closeModal();
-          }
-        }}
-        ref={usernameInput}
-        type='text'
-        placeholder='Enter username'
-      />
+      <>
+        {/* add member */}
+        <p>Add new member</p>
+        <input
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              addGroupMembers(usernameInput.current.value);
+              closeModal();
+            }
+          }}
+          ref={usernameInput}
+          type='text'
+          placeholder='Search user'
+        />
+
+        {/* list members */}
+        <p>Group members</p>
+        <div className='members-list'>
+          {activeGroup.participants.map((x) => (
+            <div key={x.id} className='member-tile'>
+              <div className='user-details'>
+                <p className='tiny'>
+                  {x.first_name} {x.last_name}
+                </p>
+                <p className='tiny italic'>@{x.username}</p>
+              </div>
+              {x.role !== 'admin' && (
+                <span
+                  onClick={() => {
+                    console.log(x);
+                    removeGroupMember(x.user_id, x.group_parent);
+                    closeModal();
+                  }}
+                  className='remove text-button destructive'
+                >
+                  Remove
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </>
     );
     const buttons = (
       <>
@@ -122,7 +154,7 @@ function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
             deleteGroup();
           }}
         >
-          Yes, delete group
+          Delete group
         </button>
       </>
     );

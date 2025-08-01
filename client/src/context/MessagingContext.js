@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
 import { storeLocalStorage } from '../utils/browserStorage';
@@ -133,8 +133,22 @@ export function MessagingProvider({ children }) {
     setActiveGroup(null);
   };
 
+  const removeGroupMember = async (userId, groupId) => {
+    try {
+      const res1 = await authApi.delete(
+        `/messaging/groups/members/${userId}/${groupId}`
+      );
+      getUserGroups();
+      newToast('Member successfully removed', 'success');
+    } catch (error) {
+      console.log(error);
+      newToast('There was a problem removing member', 'destructive');
+    }
+  };
+
   // add group members
   const addGroupMembers = async (username) => {
+    const temp = activeGroup.id;
     if (!username || username.trim().length === 0) {
       newToast('Field cannot be empty', 'warning');
       return;
@@ -160,6 +174,7 @@ export function MessagingProvider({ children }) {
         username: username,
         group_parent: activeGroup.id,
       });
+
       getUserGroups();
       newToast('Member successfully added', 'success');
     } catch (error) {
@@ -168,6 +183,12 @@ export function MessagingProvider({ children }) {
       newToast('User not found or failed to add', 'destructive');
     }
   };
+
+  useEffect(() => {
+    const prevId = activeGroup?.id;
+    const newActiveGroup = userGroups?.find((x) => x.id === prevId);
+    setActiveGroup(newActiveGroup);
+  }, [userGroups]);
 
   return (
     <MessagingContext.Provider
@@ -188,6 +209,7 @@ export function MessagingProvider({ children }) {
         handleSetActiveConvo,
         deleteConvo,
         deleteGroup,
+        removeGroupMember,
       }}
     >
       {children}
