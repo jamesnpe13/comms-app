@@ -7,7 +7,8 @@
   width: max-content;
   height: max-content;
   bottom: 0;
-  right: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -20,6 +21,7 @@
     min-height: 50px;
     height: max-content;
     width: 300px;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.206);
 
     background-color: $color_primary;
     display: flex;
