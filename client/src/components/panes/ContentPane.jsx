@@ -228,7 +228,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
                   onClick={handleAddParticipants}
                   className='content'
                 >
-                  Add members
+                  <span>Add members</span>
                   <PersonAddIcon />
                 </button>
                 <button
@@ -236,7 +236,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
                   title='Delete chat'
                   className='content destructive'
                 >
-                  Delete chat
+                  <span>Delete chat</span>
                   <DeleteIcon />
                 </button>
               </div>
@@ -248,7 +248,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
       <div className='main'>
         {!activeConvo && (
           <div className='no-active-messages'>
-            <h4>Organized messaging platform for your team</h4>
+            <p>Organized messaging platform for your team</p>
           </div>
         )}
         {activeConvo && (
@@ -272,7 +272,7 @@ function ContentPane({ sidebarToggle, setSidebarToggle }) {
         >
           <textarea
             name='message'
-            placeholder='Write a message (Shift + Enter for new line)'
+            placeholder='Write a message...'
             id='message-input-field'
             autoComplete='off'
             onKeyDown={handleKeyDown}

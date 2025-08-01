@@ -4,7 +4,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import PersonIcon from '@mui/icons-material/Person';
 import { useMessaging } from '../../context/MessagingContext';
 
-function ConvoTile({ data }) {
+function ConvoTile({ data, setSidebarToggle }) {
   const { handleSetActiveConvo } = useMessaging();
   const { convo_name, convo_type } = data;
 
@@ -22,6 +22,7 @@ function ConvoTile({ data }) {
       className='convo-tile'
       onClick={() => {
         handleSetActiveConvo(data);
+        setSidebarToggle();
       }}
     >
       {/* {typeIcon()} */}

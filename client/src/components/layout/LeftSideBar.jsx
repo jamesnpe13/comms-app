@@ -149,7 +149,13 @@ function LeftSideBar({ onLogout, sidebarToggle, setSidebarToggle }) {
     if (convos.length > 0) {
       return convos
         .filter((x) => x.group_parent_id === activeGroup.id)
-        .map((x) => <ConvoTile key={x.convo_id} data={x} />);
+        .map((x) => (
+          <ConvoTile
+            key={x.convo_id}
+            data={x}
+            setSidebarToggle={setSidebarToggle}
+          />
+        ));
     } else {
       return <ListEmpty message='No chats available. Create a new chat.' />;
     }
