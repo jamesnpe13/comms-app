@@ -85,6 +85,7 @@
       justify-content: center;
       user-select: none;
       cursor: pointer;
+      flex: 0;
     }
 
     .util-button {
@@ -96,7 +97,7 @@
       user-select: none;
       border: none;
       cursor: pointer;
-
+      flex: 0;
       &.refresh-groups-button {
         svg {
           color: $color_success;
@@ -110,11 +111,19 @@
 
     .location {
       padding: $gutter_s;
-      // aspect-ratio: 1 / 1;
+      flex: 1;
       gap: 3px;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      min-width: 0;
+
+      p {
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 
