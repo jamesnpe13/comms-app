@@ -7,6 +7,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
+const path = require('path');
 
 // variables
 const allowedOrigins = [process.env.CLIENT_ORIGIN];
@@ -25,6 +26,7 @@ const corsConfig = {
 
 // express instance
 const app = express();
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // socket.io
 const httpServer = createServer(app);
@@ -33,10 +35,16 @@ const io = new Server(httpServer, { cors: { corsConfig } });
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors(corsConfig));
+// app.use(cors(corsConfig));
 
 // express middleware mount points
 app.use('/', routes);
+
+app.get('/{*any}', (req, res) => {
+  res.sendFile(
+    path.join(path.join(__dirname, '../client/build', 'index.html'))
+  );
+});
 
 // global error handler
 app.use(errorHandler);
@@ -73,6 +81,20 @@ io.on('connection', (socket) => {
     io.emit('refresh_convo', data);
   });
 });
+
+// This code makes sure that any request that does not matches a static file
+// in the build folder, will just serve index.html. Client side routing is
+// going to make sure that the correct content will be loaded.
+// app.use((req, res, next) => {
+//   if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
+//     next();
+//   } else {
+//     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+//     res.header('Expires', '-1');
+//     res.header('Pragma', 'no-cache');
+//     res.sendFile(path.join(path.join(__dirname, '../client/build')));
+//   }
+// });
 
 function serverListen() {
   httpServer.listen(port, '0.0.0.0', (err) => {
