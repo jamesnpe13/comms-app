@@ -75,10 +75,16 @@ io.on('connection', (socket) => {
 });
 
 function serverListen() {
-  httpServer.listen(port, '0.0.0.0', (err) => {
+  app.listen(port, '0.0.0.0', (err) => {
     if (err) console.log(err);
     console.log(`Main_server running on port ${port}`);
   });
 }
+// function serverListen() {
+//   httpServer.listen(port, '0.0.0.0', (err) => {
+//     if (err) console.log(err);
+//     console.log(`Main_server running on port ${port}`);
+//   });
+// }
 
 startServer();
