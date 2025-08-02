@@ -4,8 +4,8 @@ const ms = require('ms');
 const db = require('./database/connection');
 
 const refreshTokenCookieConfig = {
-  // httpOnly: true,
-  // secure: true,
+  httpOnly: true,
+  secure: true,
   sameSite: 'None',
   path: '/',
   maxAge: ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
