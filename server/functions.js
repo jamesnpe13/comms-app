@@ -3,6 +3,13 @@ const jwt = require('jsonwebtoken');
 const ms = require('ms');
 const db = require('./database/connection');
 
+const refreshTokenCookieConfig = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'None',
+  maxAge: ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
+};
+
 // Compare function object A and object B keys
 function checkKeys(a, b) {
   const keysA = Object.keys(a);
@@ -58,12 +65,7 @@ async function issueSessionTokens(userId, userObject, res) {
   }
 
   // save refresh token to cookie
-  res.cookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'None',
-    maxAge: ms(process.env.REFRESH_TOKEN_EXPIRES_IN),
-  });
+  res.cookie('refreshToken', refreshToken, refreshTokenCookieConfig);
 
   // return a new access token to res.json
   return res.status(200).json({
@@ -84,12 +86,7 @@ function setError(err, message, status = null) {
 }
 
 function clearRefreshTokenCookie(res) {
-  res.clearCookie('refreshToken', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // set secure flag only in production
-    sameSite: 'Strict', // adjust as needed (e.g. 'Lax' or 'None' if cross-site)
-    path: '/', // ensure the path matches the cookie path when set
-  });
+  res.clearCookie('refreshToken', refreshTokenCookieConfig);
 }
 
 module.exports = {
