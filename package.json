@@ -1,0 +1,13 @@
+{
+  "name": "comms-app",
+  "version": "1.0.0",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "cd server && npm run dev",
+    "start": "cd server && npm run start",
+    "build": "cd client && npm run build"
+  },
+  "dependencies": {
+    "concurrently": "^8.0.0"
+  }
+}
