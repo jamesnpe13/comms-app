@@ -26,7 +26,7 @@ const corsConfig = {
 
 // express instance
 const app = express();
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 // socket.io
 const httpServer = createServer(app);
@@ -41,9 +41,7 @@ app.use(cookieParser());
 app.use('/', routes);
 
 app.get('/{*any}', (req, res) => {
-  res.sendFile(
-    path.join(path.join(__dirname, '../client/build', 'index.html'))
-  );
+  res.sendFile(path.join(path.join(__dirname, 'build', 'index.html')));
 });
 
 // global error handler
