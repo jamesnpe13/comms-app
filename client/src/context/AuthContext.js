@@ -138,6 +138,7 @@ export function AuthProvider({ children }) {
         logout,
         login,
         isAuth,
+        refreshToken,
       }}
     >
       {children}

@@ -8,6 +8,14 @@ import socket from './socket';
 
 function App() {
   const { restoreSession } = useAuth();
+  const auth = useAuth();
+
+  // for debugging
+  useEffect(() => {
+    // 👇 expose to window for console access
+    window.auth = auth;
+  }, [auth]);
+  //----
 
   useEffect(() => {
     socket.on('test', (arg1) => {
