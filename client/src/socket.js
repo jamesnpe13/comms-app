@@ -1,9 +1,8 @@
 import { io } from 'socket.io-client';
 
 // const apiBaseUrl = 'http://localhost:5000';
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-const socket = io(apiBaseUrl, {
+const socket = io('https://comms-app-api.up.railway.app', {
   transports: ['websocket', 'polling'],
   withCredentials: true,
 });
