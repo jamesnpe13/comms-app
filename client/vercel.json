@@ -2,12 +2,12 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://comms-app-api.up.railway.app/:match*"
+      "destination": "https://comms-app-api.up.railway.app/api/:match*"
     },
-    { "source": "/(.*)", "destination": "/" },
     {
       "source": "/socket.io/:path*",
       "destination": "https://comms-app-api.up.railway.app/socket.io/:path*"
-    }
+    },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }

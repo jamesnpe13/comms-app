@@ -5,6 +5,7 @@ import { useAuth } from './context/AuthContext';
 import ROUTES from './routeConfig';
 import Footer from './components/layout/Footer';
 import socket from './socket';
+const apiBaseUrl = process.env.REACT_APP_API_URL;
 
 function App() {
   const { restoreSession } = useAuth();
@@ -13,6 +14,7 @@ function App() {
   // for debugging
   useEffect(() => {
     // 👇 expose to window for console access
+    window.apiBaseUrl = apiBaseUrl;
     window.auth = auth;
   }, [auth]);
   //----

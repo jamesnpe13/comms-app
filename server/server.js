@@ -36,7 +36,7 @@ app.use(cookieParser());
 app.use(cors(corsConfig));
 
 // express middleware mount points
-app.use('/', routes);
+app.use('/api', routes);
 
 // global error handler
 app.use(errorHandler);

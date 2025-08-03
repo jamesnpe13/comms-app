@@ -158,7 +158,7 @@ router.delete(
   messagingController.deleteMessages
 );
 
-router.get('/api/health', (req, res) => {
+router.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 

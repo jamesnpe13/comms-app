@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getLocalStorage } from '../utils/browserStorage';
-const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+const apiBaseUrl = process.env.REACT_APP_API_URL;
 
 // axios instance with api base url and withCredentials
 export const authApi = axios.create({
@@ -13,7 +13,7 @@ export const authApi = axios.create({
 
 // axios instance for public access - no auth
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: 'http://localhost:5000/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
