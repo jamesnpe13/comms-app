@@ -33,7 +33,7 @@ const io = new Server(httpServer, { cors: { corsConfig } });
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors(corsConfig));
+app.use(cors(corsConfig));
 
 // express middleware mount points
 app.use('/', routes);
