@@ -9,17 +9,11 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 // variables
-const allowedOrigins = [process.env.CLIENT_ORIGIN];
+const allowedOrigin = process.env.CLIENT_ORIGIN;
 const port = process.env.SERVER_PORT || 5000;
 const userSockets = new Map();
 const corsConfig = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigin,
   credentials: true,
 };
 
