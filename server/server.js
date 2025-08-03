@@ -12,28 +12,28 @@ const { Server } = require('socket.io');
 const allowedOrigins = [process.env.CLIENT_ORIGIN];
 const port = process.env.SERVER_PORT || 5000;
 const userSockets = new Map();
-// const corsConfig = {
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
-// };
+const corsConfig = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
 
 // express instance
 const app = express();
 
 // socket.io
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, { cors: { corsConfig } });
 
 // global middlewares
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors(corsConfig));
+app.use(cors(corsConfig));
 
 // express middleware mount points
 app.use('/', routes);
