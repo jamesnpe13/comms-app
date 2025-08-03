@@ -1,5 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { getLocalStorage, storeLocalStorage } from '../utils/browserStorage';
+import {
+  getLocalStorage,
+  getSessionStorage,
+  storeLocalStorage,
+} from '../utils/browserStorage';
 import { decodeToken } from '../utils/decodeToken';
 import { useNavigate } from 'react-router-dom';
 import useAutoRefreshToken from '../hooks/useAutoRefreshToken';
@@ -11,7 +15,7 @@ import socket from '../socket';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const { resetMessagingContext } = useMessaging();
+  const { resetMessagingContext, activeConvo, activeGroup } = useMessaging();
   const { newToast } = useToast();
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(null);
@@ -38,6 +42,10 @@ export function AuthProvider({ children }) {
     if (getLocalStorage('accessToken')) {
       localStorage.removeItem('accessToken');
     }
+
+    sessionStorage.removeItem('activeGroup');
+    sessionStorage.removeItem('activeConvo');
+
     // clear memory
     setAccessToken(null);
     setUser(null);

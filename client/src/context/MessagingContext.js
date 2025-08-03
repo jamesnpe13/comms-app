@@ -1,17 +1,42 @@
 import { useContext, createContext, useState, useEffect } from 'react';
 import { handleError } from '../utils/errorhandler';
 import { authApi } from '../api/axiosInstance';
-import { storeLocalStorage } from '../utils/browserStorage';
+import {
+  getSessionStorage,
+  storeSessionStorage,
+} from '../utils/browserStorage';
 import { useToast } from '../components/ui/Toast';
+import { useAuth } from './AuthContext';
 
 const MessagingContext = createContext();
+
+const getFromSession = (key) => {
+  try {
+    return JSON.parse(sessionStorage.getItem(key));
+  } catch {
+    return null;
+  }
+};
 
 export function MessagingProvider({ children }) {
   const [userGroups, setUserGroups] = useState([]);
   const { newToast } = useToast();
   const [convos, setConvos] = useState([]);
-  const [activeGroup, setActiveGroup] = useState(null);
-  const [activeConvo, setActiveConvo] = useState(null);
+  const [activeGroup, setActiveGroup] = useState(getFromSession('activeGroup'));
+  const [activeConvo, setActiveConvo] = useState(getFromSession('activeConvo'));
+
+  // Save to sessionStorage on state change
+  useEffect(() => {
+    if (activeGroup !== null) {
+      sessionStorage.setItem('activeGroup', JSON.stringify(activeGroup));
+    }
+  }, [activeGroup]);
+
+  useEffect(() => {
+    if (activeConvo !== null) {
+      sessionStorage.setItem('activeConvo', JSON.stringify(activeConvo));
+    }
+  }, [activeConvo]);
 
   // hande set active group
   const handleSetActiveGroup = (group) => {
