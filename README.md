@@ -1,3 +1,5 @@
+![Mockup](./mockup.png 'Optional title')
+
 # Comms-App
 
 A real-time messaging web application built with React, Express, and MySQL, leveraging Socket.IO for instant communication and JWT for secure authentication.
